@@ -1,0 +1,27 @@
+dependencies:
+  espressif/bh1750:
+    component_hash: c8cae6dca70fd5fdf5943ae37efbbea6cc41bcb784506e61ea301b3e94dce74b
+    source:
+      service_url: https://api.components.espressif.com/
+      type: service
+    version: 1.0.3
+  espressif/esp_modem:
+    component_hash: 7287509ca06bb75f36f144c7984c65eb6c4ce5540a16c7806757331dd3377b4f
+    source:
+      service_url: https://api.components.espressif.com/
+      type: service
+    version: 0.1.25
+  espressif/mpu6050:
+    component_hash: 18ac32fa4ed8517adbb84ca0d2e585403c3a4df379d67b83f7fe73c6c2435b4c
+    source:
+      service_url: https://api.components.espressif.com/
+      type: service
+    version: 1.1.1
+  idf:
+    component_hash: null
+    source:
+      type: idf
+    version: 5.0.0
+manifest_hash: f92c83c81c87d31ce78ce5b8c5d2c5a56fa2d63feb91edb61c25e133b44047fd
+target: esp32
+version: 1.0.0
