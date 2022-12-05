@@ -38,6 +38,9 @@ vector3d_t smooth_acc(vector3d_t src) {
 	vector3d_t result;
 	node_t* node;
 
+	// Data approximation (to reduce noise)
+	src = approx(src, CONFIG_ICARUS_APPROXIMATION_DIGITS);
+
 	enqueue(&acc_queue, src);
 	acc_sum = icarus_add(acc_sum, src);
 	node = dequeue(&acc_queue);
@@ -53,6 +56,9 @@ vector3d_t smooth_acc(vector3d_t src) {
 vector3d_t smooth_gyro(vector3d_t src) {
 	vector3d_t result;
 	node_t* node;
+
+	// Data approximation (to reduce noise)
+	src = approx(src, CONFIG_ICARUS_APPROXIMATION_DIGITS);
 
 	enqueue(&gyro_queue, src);
 	gyro_sum = icarus_add(gyro_sum, src);

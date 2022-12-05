@@ -32,8 +32,10 @@ extern bool icarus_equals_vectors(vector3d_t a, vector3d_t b);
 
 // Timestamp
 extern void print_timestamp();
+extern unsigned long icarus_micros();
 
 // Delays
-extern void icarus_delay(long millis);
+extern void icarus_delay(unsigned long ms);
+extern void icarus_delay_micros(unsigned long us);
 
 #endif //! UTILS_H

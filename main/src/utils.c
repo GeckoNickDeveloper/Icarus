@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <esp_sntp.h>
 #include <sys/time.h>
+#include <esp_timer.h>
 
 
 // Trigonometry
@@ -117,7 +118,23 @@ void print_timestamp() {
 
 
 
+
+unsigned long icarus_micros() {
+	return (unsigned long) esp_timer_get_time();
+};
+
 // Delays
-void icarus_delay(long millis) {
-	vTaskDelay(millis / portTICK_PERIOD_MS);
+void icarus_delay(unsigned long ms) {
+	vTaskDelay(ms / portTICK_PERIOD_MS);
+};
+
+void icarus_delay_micros(unsigned long us) {
+	unsigned long m = esp_timer_get_time();
+    if(us){
+		unsigned long e = (m + us);
+		if(m > e){ //overflow
+			while(esp_timer_get_time() > e);
+		}
+		while(esp_timer_get_time() < e);
+    }
 };
