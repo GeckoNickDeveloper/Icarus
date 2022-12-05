@@ -113,6 +113,7 @@ menu "Icarus Configuration"
 		endif
 	endmenu
 
+	# Sensors Config
 	menu "Icarus sensors"
 		menu "SP04"
 			config ICARUS_TERRAIN_TRIGGER
@@ -169,5 +170,81 @@ menu "Icarus Configuration"
 			#	#	int "400kbit/s"
 			#endchoice
 		endmenu
+	endmenu
+
+	# Actuator Config
+	menu "Icarus Actuator"
+		config ICARUS_UAV_USE_FLAPS
+			bool "Use flaps"
+			default true
+			help
+				Smoothing queue size.
+
+		if (ICARUS_UAV_USE_FLAPS)
+			config ICARUS_UAV_FLAP_RX_PIN
+				int "Flap Rx pin"
+				default 1
+				help
+					UAV flap rx pin.
+			
+			config ICARUS_UAV_FLAP_SX_PIN
+				int "Flap Sx pin"
+				default 2
+				help
+					UAV flap sx pin.
+		endif
+
+		#config ICARUS_UAV_TWO_TAILS
+		#	bool "UAV tails"
+		#	default false
+		#	help
+		#		UAV Tails (true = 2, false = 1).
+		
+		# Ailerons Config
+		config ICARUS_UAV_AILERON_RX_PIN
+			int "Aileron Rx pin"
+			default 3
+			help
+				UAV Aileron rx pin.
+		
+		config ICARUS_UAV_AILERON_SX_PIN
+			int "Aileron Sx pin"
+			default 4
+			help
+				UAV Aileron sx pin.
+		
+		# Elevators Config
+		config ICARUS_UAV_HAS_ELEVATORS
+			bool "Has elevators"
+			default true
+			help
+				Smoothing queue size.
+
+		if (ICARUS_UAV_HAS_ELEVATORS)
+			config ICARUS_UAV_FLAP_RX_PIN
+				int "Flap Rx pin"
+				default 5
+				help
+					UAV flap rx pin.
+			
+			config ICARUS_UAV_FLAP_SX_PIN
+				int "Flap Sx pin"
+				default 6
+				help
+					UAV flap sx pin.
+			
+			config ICARUS_UAV_SYMMETRICAL_ELEVATORS
+				bool "Elevators movement si symmetrical"
+				default true
+				help
+					Smoothing queue size.
+		endif
+		
+		# Rudders config
+		config ICARUS_UAV_RUDDER_PIN
+			int "Rudder pin"
+			default 7
+			help
+				UAV rudder pin.
 	endmenu
 endmenu
