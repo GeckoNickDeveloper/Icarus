@@ -2,10 +2,14 @@
 #define ACTUATOR_H
 
 #include "../include/shared.h"
-//#include <servo.h>
+// Palesemente rubato
+#include "../include/iot_servo.h"
+
+
 
 extern void icarus_init_actuator();
 
+// Actuator
 extern void icarus_apply_command(command_t cmd);
 
 // Thread worker
