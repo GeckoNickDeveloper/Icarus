@@ -48,7 +48,7 @@ static void icarus_gravity_init() {
 	int i;
 	for (i = 0; i < CONFIG_ICARUS_QUEUE_SIZE + CONFIG_ICARUS_THERM_SAMPLES; ++i) {
 		approximated = icarus_get_acceleration();
-		vec = approx(smooth_acc(approximated), 3);
+		vec = approx(smooth_acc(approximated), CONFIG_ICARUS_APPROXIMATION_DIGITS);
 		//ESP_LOGW(TAG, "Vec [%f, %f, %f]", vec.x, vec.y, vec.z);
 	}
 
@@ -60,6 +60,7 @@ static void icarus_gravity_init() {
 	// Init gravity
 	gravity.x = gravity.y = 0.0;
 	gravity.z = icarus_length(vec);
+	gravity = approx(gravity, CONFIG_ICARUS_APPROXIMATION_DIGITS);
 	ESP_LOGI(TAG, "Gravity [%f, %f, %f]", gravity.x, gravity.y, gravity.z);
 };
 
@@ -197,7 +198,7 @@ void* icarus_proximity_worker(void* args) {
 
 	while(1) {
 		prev = esp_timer_get_time();
-		gpio_get_level(CONFIG_ICARUS_TERRAIN_TRIGGER, 1);
+		gpio_set_level(CONFIG_ICARUS_TERRAIN_TRIGGER, 1);
 		while(gpio_get_level(CONFIG_ICARUS_TERRAIN_ECHO));
 		delta = (float) (esp_timer_get_time() - prev) / 1000000.0;
 
