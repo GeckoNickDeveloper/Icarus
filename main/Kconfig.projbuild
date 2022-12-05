@@ -57,17 +57,26 @@ menu "Icarus Configuration"
 		help
 			PIN to unlock the SIM.
 
-	config ICARUS_QUEUE_SIZE
-		int "Queue size"
-		default 5
-		help
-			Smoothing queue size.
-	
-	config ICARUS_THERM_SAMPLES
-		int "Queue size"
-		default 10
-		help
-			Smoothing queue size.
+	# Smoother Config
+	menu "Icarus Smoother"
+		config ICARUS_QUEUE_SIZE
+			int "Queue size"
+			default 5
+			help
+				Smoothing queue size.
+		
+		config ICARUS_THERM_SAMPLES
+			int "Queue size"
+			default 10
+			help
+				Smoothing queue size.
+		
+		config ICARUS_APPROXIMATION_DIGITS
+			int "Queue size"
+			default 3
+			help
+				Smoothing queue size.
+	endmenu
 	
 	# MQTT Config
 	menu "Icarus MQTT Configuration"
