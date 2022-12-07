@@ -140,7 +140,7 @@ float icarus_get_luminosity() {
 	return lux;
 };
 
-
+/*
 // Thread worker
 void* icarus_sensor_worker(void* args) {
 	long long prev = 0;
@@ -209,3 +209,5 @@ void* icarus_proximity_worker(void* args) {
 	
 	return NULL;
 };
+
+*/

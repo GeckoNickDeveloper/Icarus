@@ -36,7 +36,7 @@ static servo_config_t servo_cfg = {
 };
 
 void icarus_init_actuator() {
-	ESP_LOGW(TAG, "TODO: INIT ACTUATOR");
+	ESP_LOGW(TAG, "TODO: EDIT INIT ACTUATOR");
 
 	iot_servo_init(LEDC_LOW_SPEED_MODE, &servo_cfg);
 
@@ -58,7 +58,7 @@ void icarus_apply_command(command_t cmd) {
 
 
 
-
+/*
 // Thread worker
 void* icarus_actuator_worker(void* args) {
 	command_t cmd;
@@ -84,3 +84,4 @@ void* icarus_actuator_worker(void* args) {
 	
 	return NULL;
 }
+*/

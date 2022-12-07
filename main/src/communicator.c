@@ -98,7 +98,7 @@ void icarus_publish_telemetry(telemetry_t current) {
 };
 
 
-
+/*
 // Thread worker
 void* icarus_communication_worker(void* args) {
 	telemetry_t tlm;
@@ -112,3 +112,4 @@ void* icarus_communication_worker(void* args) {
 
 	return NULL;
 };
+*/

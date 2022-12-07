@@ -7,6 +7,7 @@ set(srcs ${platform_srcs}
 	"src/network.c"
 	"src/queue.c"
 	"src/smoother.c"
+	"src/workers.c"
 	"src/main.c"
 
 	# Rubatissimo a causa di problemi di import

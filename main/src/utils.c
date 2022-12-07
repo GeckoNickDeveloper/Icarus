@@ -9,10 +9,10 @@
 
 // Trigonometry
 float rad2deg(float angle) {
-	return (angle * 57.2958);//(angle * (PI / 180.0));
+	return (angle * 57.2958);//(angle * (180.0 / PI));
 };
 float deg2rad(float angle) {
-	return (angle * 0.0174533);//(angle * (180.0 / PI));
+	return (angle * 0.0174533);//(angle * (PI / 180.0));
 };
 
 // Vector3D
