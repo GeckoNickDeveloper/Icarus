@@ -140,6 +140,33 @@ float icarus_get_luminosity() {
 	return lux;
 };
 
+// TODO add timeout
+// if timeout return -1
+float icarus_get_proximity() {
+	float distance;
+
+	unsigned long t0;
+	unsigned long t1;
+	float delta;
+
+	// Trigger sensor
+	gpio_set_level(CONFIG_ICARUS_TERRAIN_TRIGGER, 1);
+	icarus_delay_micros(10);
+	gpio_set_level(CONFIG_ICARUS_TERRAIN_TRIGGER, 0);
+	t0 = icarus_micros();
+	
+	// Wait for echo
+	while(gpio_get_level(CONFIG_ICARUS_TERRAIN_ECHO));
+
+	// Calculate distance
+	t1 = icarus_micros();
+	delta = (float) (t1 - t0) / 1000000.0; // us -> s
+	distance = delta * SOUND_SPEED * 0.5;
+	
+	ESP_LOGI(TAG_SENSORS, "Distance [%f]", distance);
+
+	return distance;
+};
 /*
 // Thread worker
 void* icarus_sensor_worker(void* args) {
