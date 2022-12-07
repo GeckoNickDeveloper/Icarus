@@ -129,12 +129,7 @@ void icarus_delay(unsigned long ms) {
 };
 
 void icarus_delay_micros(unsigned long us) {
-	unsigned long m = esp_timer_get_time();
-    if(us){
-		unsigned long e = (m + us);
-		if(m > e){ //overflow
-			while(esp_timer_get_time() > e);
-		}
-		while(esp_timer_get_time() < e);
-    }
+	unsigned long start = esp_timer_get_time();
+    
+	while((icarus_micros() - start) < us);
 };

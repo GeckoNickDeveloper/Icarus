@@ -1,6 +1,8 @@
 #include "../include/workers.h"
 
+#include <esp_timer.h>
 
+#define TAG "Icarus Workers"
 
 // Sensors
 void* icarus_sensor_worker(void* args) {
@@ -31,7 +33,7 @@ void* icarus_sensor_worker(void* args) {
 		// Linear acceleration
 		ESP_LOGW(TAG, "SMOOTH [%f, %f, %f]", acc.x, acc.y, acc.z);
 		acc = icarus_rotate(acc, tlm.orientation.x, tlm.orientation.y, tlm.orientation.z);
-		acc = icarus_subtract(acc, gravity);
+		//acc = icarus_subtract(acc, gravity);
 		ESP_LOGI(TAG, "LINEAR [%f, %f, %f]", acc.x, acc.y, acc.z);
 
 		// Moto unif. acc.
