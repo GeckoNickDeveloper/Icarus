@@ -18,8 +18,6 @@ extern float icarus_get_luminosity();
 
 extern float icarus_get_proximity();
 
-// Thread worker
-//extern void* icarus_sensor_worker(void* args);
-//extern void* icarus_proximity_worker(void* args);
+
 
 #endif //! SENSORS_H

@@ -6,8 +6,8 @@
 
 // Sensors
 void* icarus_sensor_worker(void* args) {
-	long long prev = 0;
-	long long now;
+	unsigned long prev = 0;
+	unsigned long now;
 	float delta;
 	vector3d_t acc;
 	vector3d_t gyro;
@@ -18,7 +18,7 @@ void* icarus_sensor_worker(void* args) {
 		
 		acc = smooth_acc(icarus_get_acceleration());
 		gyro = smooth_gyro(icarus_get_rotation());
-		now =  esp_timer_get_time(); // microsecons
+		now =  icarus_micros(); // microsecons
 
 		if (prev == 0)
 			delta = 0.0;
@@ -28,14 +28,11 @@ void* icarus_sensor_worker(void* args) {
 		// error free gyro/acc
 
 		// Orientation update
-		//tlm.orientation = icarus_add(tlm.orientation, icarus_multiply(gyro, delta));
+		tlm.orientation = icarus_add(tlm.orientation, icarus_multiply(gyro, delta));
 		
 		// Linear acceleration
-		ESP_LOGW(TAG_SENSORS, "SMOOTH [%f, %f, %f]", acc.x, acc.y, acc.z);
 		acc = icarus_rotate(acc, tlm.orientation.x, tlm.orientation.y, tlm.orientation.z);
 		//acc = icarus_subtract(acc, gravity);
-		ESP_LOGI(TAG_SENSORS, "LINEAR [%f, %f, %f]", acc.x, acc.y, acc.z);
-
 		// Moto unif. acc.
 		tlm.velocity =	icarus_add(tlm.velocity, icarus_multiply(acc, delta));
 		tlm.position =	icarus_add(tlm.position,		// x(t) = x +
@@ -44,10 +41,6 @@ void* icarus_sensor_worker(void* args) {
 
 		icarus_set_shared_telemetry(tlm);
 		prev = now;
-
-		ESP_LOGE(TAG_SENSORS, "POSITION [%f, %f, %f]", tlm.position.x, tlm.position.y, tlm.position.z);
-		ESP_LOGE(TAG_SENSORS, "VELOCITY [%f, %f, %f]", tlm.velocity.x, tlm.velocity.y, tlm.velocity.z);
-		ESP_LOGE(TAG_SENSORS, "ORIENTATION [%f, %f, %f]\r\n", tlm.orientation.x, tlm.orientation.y, tlm.orientation.z);
 	}
 	
 	return NULL;

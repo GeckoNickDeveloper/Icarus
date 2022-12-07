@@ -54,34 +54,3 @@ void icarus_apply_command(command_t cmd) {
 	else
 		iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 0, 0);
 };
-
-
-
-
-/*
-// Thread worker
-void* icarus_actuator_worker(void* args) {
-	command_t cmd;
-	command_t prev_cmd;
-	int i = 0;
-
-	while(1) {
-		cmd = icarus_get_shared_command();
-
-		if (i % 2 == 0)
-			cmd.pitch = 0x01;
-		else
-			cmd.pitch = 0x00;
-
-		if (!icarus_equals_commands(cmd, prev_cmd))
-			icarus_apply_command(cmd);
-	
-		prev_cmd = cmd;
-
-		icarus_delay(3000);
-		i++;
-	}
-	
-	return NULL;
-}
-*/

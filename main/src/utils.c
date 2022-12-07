@@ -5,6 +5,7 @@
 #include <esp_sntp.h>
 #include <sys/time.h>
 #include <esp_timer.h>
+#include <esp_log.h>
 
 
 // Trigonometry
@@ -101,23 +102,9 @@ bool icarus_equals_vectors(vector3d_t a, vector3d_t b) {
 
 
 // Timestamp
-void print_timestamp() {
-	struct timeval tv;
-	time_t nowtime;
-	struct tm *nowtm;
-	char tmbuf[64], buf[64];
-
-	//sntp_sync_time(NULL);
-	gettimeofday(&tv, NULL);
-	nowtime = tv.tv_sec;
-	nowtm = localtime(&nowtime);
-	strftime(tmbuf, sizeof tmbuf, "%Y-%m-%d %H:%M:%S", nowtm);
-	printf("[%s.%06ld]", tmbuf, tv.tv_usec);
-	//snprintf(buf, sizeof buf, "[%s%ld]", tmbuf, tv.tv_usec % 1000000);
+unsigned long icarus_millis() {
+	return (unsigned long) esp_log_timestamp();
 };
-
-
-
 
 unsigned long icarus_micros() {
 	return (unsigned long) esp_timer_get_time();

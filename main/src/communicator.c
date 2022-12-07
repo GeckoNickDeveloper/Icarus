@@ -48,7 +48,6 @@ void icarus_mqtt_handler(void* args, esp_event_base_t base, int32_t event_id, vo
 
 
 			if (strncmp(event->topic, "/icarus/echo", strlen("/icarus/echo")) != 0) {
-				print_timestamp();
 				msg_id = esp_mqtt_client_publish(client, "/icarus/echo", event->data, event->data_len, 0, 0);
 				printf("ECHO\r\n");
 			}
@@ -94,20 +93,3 @@ void icarus_publish_telemetry(telemetry_t current) {
 	if (err == -1)
 		ESP_LOGE(TAG_COMMUNICATION, "Telemetry not send due to disconnected client");	
 };
-
-
-/*
-// Thread worker
-void* icarus_communication_worker(void* args) {
-	telemetry_t tlm;
-
-	while(1) {
-		tlm = icarus_get_shared_telemetry();
-
-		icarus_publish_telemetry(tlm);
-		icarus_delay(1000);
-	}
-
-	return NULL;
-};
-*/
