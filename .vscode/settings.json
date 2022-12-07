@@ -80,7 +80,8 @@
 		"freertos.h": "c",
 		"utils.h": "c",
 		"actuator.h": "c",
-		"esp_timer.h": "c"
+		"esp_timer.h": "c",
+		"sntp.h": "c"
 	},
 	"idf.portWin": "COM3",
 	"idf.flashType": "UART"

@@ -111,6 +111,12 @@ menu "Icarus Configuration"
 				help
 					Specify if the connection is secure.
 		endif
+
+		config ICARUS_COMMUNICATION_FREQUENCY
+			int "Update telemetry frequency (Hz)"
+			default 1
+			help
+				Communication worker publish frequency.
 	endmenu
 
 	# Sensors Config
@@ -124,6 +130,12 @@ menu "Icarus Configuration"
 				int "Echo pin"
 				default 26
 		endmenu
+
+		config ICARUS_SENSOR_SAMPLING_FREQUENCY
+			int "Sampling frequency (Hz)"
+			default 50
+			help
+				Broker port for MQTT connection.
 
 		menu "Icarus I2C Configuration"
 			config ICARUS_I2C_PORT
@@ -174,6 +186,12 @@ menu "Icarus Configuration"
 
 	# Actuator Config
 	menu "Icarus Actuator"
+		config ICARUS_ACTUATOR_FREQUENCY
+			int "Apply commands frequency (Hz)"
+			default 10
+			help
+				Communication worker publish frequency.
+
 		config ICARUS_UAV_USE_FLAPS
 			bool "Use flaps"
 			default true
