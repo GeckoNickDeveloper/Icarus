@@ -2,7 +2,7 @@
 #include "../include/utils.h"
 #include <esp_log.h>
 
-static const char* TAG = "Icarus Actuator";
+//static const char* TAG_ACTUATOR = "Icarus Actuator";
 
 static servo_config_t servo_cfg = {
 	.max_angle = 180,
@@ -36,7 +36,7 @@ static servo_config_t servo_cfg = {
 };
 
 void icarus_init_actuator() {
-	ESP_LOGW(TAG, "TODO: EDIT INIT ACTUATOR");
+	ESP_LOGW(TAG_ACTUATOR, "TODO: EDIT INIT ACTUATOR");
 
 	iot_servo_init(LEDC_LOW_SPEED_MODE, &servo_cfg);
 
@@ -47,7 +47,7 @@ void icarus_init_actuator() {
 
 void icarus_apply_command(command_t cmd) {
 	// TODO
-	ESP_LOGI(TAG, "Applying command: [%x%x%x%x%x]", cmd.pitch, cmd.roll, cmd.yaw, cmd.throttle, cmd.aux);
+	ESP_LOGI(TAG_ACTUATOR, "Applying command: [%x%x%x%x%x]", cmd.pitch, cmd.roll, cmd.yaw, cmd.throttle, cmd.aux);
 	
 	if (cmd.pitch == 0x01)
 		iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 0, 180);

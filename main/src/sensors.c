@@ -6,7 +6,7 @@
 #include <esp_timer.h>
 #include <driver/gpio.h>
 
-static const char* TAG = "Icarus Sensors";
+//static const char* TAG_SENSORS = "Icarus Sensors";
 
 static mpu6050_handle_t mpu6050;
 static bh1750_handle_t bh1750;
@@ -49,7 +49,7 @@ static void icarus_gravity_init() {
 	for (i = 0; i < CONFIG_ICARUS_QUEUE_SIZE + CONFIG_ICARUS_THERM_SAMPLES; ++i) {
 		approximated = icarus_get_acceleration();
 		vec = approx(smooth_acc(approximated), CONFIG_ICARUS_APPROXIMATION_DIGITS);
-		//ESP_LOGW(TAG, "Vec [%f, %f, %f]", vec.x, vec.y, vec.z);
+		//ESP_LOGW(TAG_SENSORS, "Vec [%f, %f, %f]", vec.x, vec.y, vec.z);
 	}
 
 	// orientation
@@ -61,7 +61,7 @@ static void icarus_gravity_init() {
 	gravity.x = gravity.y = 0.0;
 	gravity.z = icarus_length(vec);
 	gravity = approx(gravity, CONFIG_ICARUS_APPROXIMATION_DIGITS);
-	ESP_LOGI(TAG, "Gravity [%f, %f, %f]", gravity.x, gravity.y, gravity.z);
+	ESP_LOGI(TAG_SENSORS, "Gravity [%f, %f, %f]", gravity.x, gravity.y, gravity.z);
 };
 
 void icarus_init_sensors() {
@@ -89,7 +89,7 @@ void icarus_init_sensors() {
 	icarus_gravity_init();
 
 	//vector3d_t rot = icarus_get_rotation();
-	//ESP_LOGE(TAG, "Rot [%f, %f, %f]", rot.x, rot.y, rot.z);
+	//ESP_LOGE(TAG_SENSORS, "Rot [%f, %f, %f]", rot.x, rot.y, rot.z);
 };
 
 
@@ -103,7 +103,7 @@ vector3d_t icarus_get_acceleration() {
 	acc.y = raw.acce_y;
 	acc.z = raw.acce_z;
 	//acc = approx(acc, 3);
-	//ESP_LOGE(TAG, "Acce [%f, %f, %f]", acc.x, acc.y, acc.z);
+	//ESP_LOGE(TAG_SENSORS, "Acce [%f, %f, %f]", acc.x, acc.y, acc.z);
 
 	acc = icarus_multiply(acc, G);
 
@@ -168,10 +168,10 @@ void* icarus_sensor_worker(void* args) {
 		//tlm.orientation = icarus_add(tlm.orientation, icarus_multiply(gyro, delta));
 		
 		// Linear acceleration
-		ESP_LOGW(TAG, "SMOOTH [%f, %f, %f]", acc.x, acc.y, acc.z);
+		ESP_LOGW(TAG_SENSORS, "SMOOTH [%f, %f, %f]", acc.x, acc.y, acc.z);
 		acc = icarus_rotate(acc, tlm.orientation.x, tlm.orientation.y, tlm.orientation.z);
 		acc = icarus_subtract(acc, gravity);
-		ESP_LOGI(TAG, "LINEAR [%f, %f, %f]", acc.x, acc.y, acc.z);
+		ESP_LOGI(TAG_SENSORS, "LINEAR [%f, %f, %f]", acc.x, acc.y, acc.z);
 
 		// Moto unif. acc.
 		tlm.velocity =	icarus_add(tlm.velocity, icarus_multiply(acc, delta));
@@ -182,9 +182,9 @@ void* icarus_sensor_worker(void* args) {
 		icarus_set_shared_telemetry(tlm);
 		prev = now;
 
-		ESP_LOGE(TAG, "POSITION [%f, %f, %f]", tlm.position.x, tlm.position.y, tlm.position.z);
-		ESP_LOGE(TAG, "VELOCITY [%f, %f, %f]", tlm.velocity.x, tlm.velocity.y, tlm.velocity.z);
-		ESP_LOGE(TAG, "ORIENTATION [%f, %f, %f]\r\n", tlm.orientation.x, tlm.orientation.y, tlm.orientation.z);
+		ESP_LOGE(TAG_SENSORS, "POSITION [%f, %f, %f]", tlm.position.x, tlm.position.y, tlm.position.z);
+		ESP_LOGE(TAG_SENSORS, "VELOCITY [%f, %f, %f]", tlm.velocity.x, tlm.velocity.y, tlm.velocity.z);
+		ESP_LOGE(TAG_SENSORS, "ORIENTATION [%f, %f, %f]\r\n", tlm.orientation.x, tlm.orientation.y, tlm.orientation.z);
 	}
 	
 	return NULL;
@@ -204,7 +204,7 @@ void* icarus_proximity_worker(void* args) {
 
 		distance = SOUND_SPEED * delta * 0.5;
 
-		ESP_LOGI(TAG, "Distance [%f]", distance);
+		ESP_LOGI(TAG_SENSORS, "Distance [%f]", distance);
 	}
 	
 	return NULL;

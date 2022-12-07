@@ -6,6 +6,8 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 
+#define TAG_UTILS "Icarus Utils"
+
 // Constants
 #define PI 3.14159265359
 #define G 9.80665			// m/s^2

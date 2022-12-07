@@ -31,10 +31,10 @@ void* icarus_sensor_worker(void* args) {
 		//tlm.orientation = icarus_add(tlm.orientation, icarus_multiply(gyro, delta));
 		
 		// Linear acceleration
-		ESP_LOGW(TAG, "SMOOTH [%f, %f, %f]", acc.x, acc.y, acc.z);
+		ESP_LOGW(TAG_SENSORS, "SMOOTH [%f, %f, %f]", acc.x, acc.y, acc.z);
 		acc = icarus_rotate(acc, tlm.orientation.x, tlm.orientation.y, tlm.orientation.z);
 		//acc = icarus_subtract(acc, gravity);
-		ESP_LOGI(TAG, "LINEAR [%f, %f, %f]", acc.x, acc.y, acc.z);
+		ESP_LOGI(TAG_SENSORS, "LINEAR [%f, %f, %f]", acc.x, acc.y, acc.z);
 
 		// Moto unif. acc.
 		tlm.velocity =	icarus_add(tlm.velocity, icarus_multiply(acc, delta));
@@ -45,9 +45,9 @@ void* icarus_sensor_worker(void* args) {
 		icarus_set_shared_telemetry(tlm);
 		prev = now;
 
-		ESP_LOGE(TAG, "POSITION [%f, %f, %f]", tlm.position.x, tlm.position.y, tlm.position.z);
-		ESP_LOGE(TAG, "VELOCITY [%f, %f, %f]", tlm.velocity.x, tlm.velocity.y, tlm.velocity.z);
-		ESP_LOGE(TAG, "ORIENTATION [%f, %f, %f]\r\n", tlm.orientation.x, tlm.orientation.y, tlm.orientation.z);
+		ESP_LOGE(TAG_SENSORS, "POSITION [%f, %f, %f]", tlm.position.x, tlm.position.y, tlm.position.z);
+		ESP_LOGE(TAG_SENSORS, "VELOCITY [%f, %f, %f]", tlm.velocity.x, tlm.velocity.y, tlm.velocity.z);
+		ESP_LOGE(TAG_SENSORS, "ORIENTATION [%f, %f, %f]\r\n", tlm.orientation.x, tlm.orientation.y, tlm.orientation.z);
 	}
 	
 	return NULL;
@@ -67,7 +67,7 @@ void* icarus_proximity_worker(void* args) {
 
 		distance = SOUND_SPEED * delta * 0.5;
 
-		ESP_LOGI(TAG, "Distance [%f]", distance);
+		ESP_LOGI(TAG_SENSORS, "Distance [%f]", distance);
 	}
 	
 	return NULL;

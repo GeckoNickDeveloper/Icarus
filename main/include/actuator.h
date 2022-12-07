@@ -5,7 +5,7 @@
 // Palesemente rubato
 #include "../include/iot_servo.h"
 
-
+#define TAG_ACTUATOR "Icarus Actuator"
 
 extern void icarus_init_actuator();
 

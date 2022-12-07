@@ -10,6 +10,8 @@
 #include "queue.h"
 #include "smoother.h"
 
+#define TAG_WORKERS "Icarus Workers"
+
 // Sensors
 extern void* icarus_sensor_worker(void* args);
 extern void* icarus_proximity_worker(void* args);
