@@ -47,10 +47,5 @@ void icarus_init_actuator() {
 
 void icarus_apply_command(command_t cmd) {
 	// TODO
-	ESP_LOGI(TAG_ACTUATOR, "Applying command: [%x%x%x%x%x]", cmd.pitch, cmd.roll, cmd.yaw, cmd.throttle, cmd.aux);
-	
-	if (cmd.pitch == 0x01)
-		iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 0, 180);
-	else
-		iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 0, 0);
+	ESP_LOGI(TAG_ACTUATOR, "Applying command: [%x %x %x %x %x]", cmd.pitch, cmd.roll, cmd.yaw, cmd.throttle, cmd.aux);
 };

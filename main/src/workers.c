@@ -6,6 +6,11 @@
 
 // Sensors
 void* icarus_sensor_worker(void* args) {
+	int dt = 1000 / CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY;
+	unsigned long current_cycle;
+
+	int i=0;
+
 	unsigned long prev = 0;
 	unsigned long now;
 	float delta;
@@ -14,53 +19,78 @@ void* icarus_sensor_worker(void* args) {
 	telemetry_t tlm;
 
 	while(1) {
+		current_cycle = icarus_millis();
+
+		// ========== START
 		tlm = icarus_get_shared_telemetry();
 		
 		acc = smooth_acc(icarus_get_acceleration());
-		gyro = smooth_gyro(icarus_get_rotation());
+		gyro = smooth_gyro(icarus_remove_gyro_offset(icarus_get_rotation()));
 		now =  icarus_micros(); // microsecons
 
 		if (prev == 0)
 			delta = 0.0;
 		else
 			delta = (float) (now - prev) / 1000000.0; // micros to sec
+		prev = now;
 
 		// error free gyro/acc
+		
 
 		// Orientation update
 		tlm.orientation = icarus_add(tlm.orientation, icarus_multiply(gyro, delta));
 		
 		// Linear acceleration
-		acc = icarus_rotate(acc, tlm.orientation.x, tlm.orientation.y, tlm.orientation.z);
+		//acc = icarus_rotate(acc, tlm.orientation.x, tlm.orientation.y, tlm.orientation.z);
 		//acc = icarus_subtract(acc, gravity);
+		
 		// Moto unif. acc.
-		tlm.velocity =	icarus_add(tlm.velocity, icarus_multiply(acc, delta));
-		tlm.position =	icarus_add(tlm.position,		// x(t) = x +
-							icarus_add(tlm.velocity,	// V * t +
-								icarus_multiply(acc, 0.5 * delta * delta))); // 0.5 * a * t^2
+		//tlm.velocity =	icarus_add(tlm.velocity, icarus_multiply(acc, delta));
+		//tlm.position =	icarus_add(tlm.position,		// x(t) = x +
+		//					icarus_add(tlm.velocity,	// V * t +
+		//						icarus_multiply(acc, 0.5 * delta * delta))); // 0.5 * a * t^2
 
 		icarus_set_shared_telemetry(tlm);
-		prev = now;
+
+		// LOG
+		//if ((i % (CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY * 300)) == 0)
+		//	ESP_LOGE(TAG_SENSORS, "Orientation [%f, %f, %f]", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), tlm.orientation.z);
+		//i++;
+
+		// ========== END
+
+		// Speed limiter to stick with sample rate
+		icarus_delay(dt - (icarus_millis() - current_cycle));
 	}
 	
 	return NULL;
 };
 
-
+// TODO handle timeout
 void* icarus_proximity_worker(void* args) {
+	unsigned long dt = 1000 / 1; // Temporary
+	unsigned long current_cycle;
+
 	float distance;
 	long long prev = 0;
 	float delta;
 
 	while(1) {
-		prev = esp_timer_get_time();
+		current_cycle = icarus_millis();
+
+		// ========== START
+		prev = icarus_micros();
 		gpio_set_level(CONFIG_ICARUS_TERRAIN_TRIGGER, 1);
 		while(gpio_get_level(CONFIG_ICARUS_TERRAIN_ECHO));
-		delta = (float) (esp_timer_get_time() - prev) / 1000000.0;
+		delta = (float) (icarus_micros() - prev) / 1000000.0;
 
 		distance = SOUND_SPEED * delta * 0.5;
 
 		ESP_LOGI(TAG_SENSORS, "Distance [%f]", distance);
+		// ========== END
+		
+		// Speed limiter to stick with sample rate
+		icarus_delay(dt - (icarus_millis() - current_cycle));
 	}
 	
 	return NULL;
@@ -69,13 +99,22 @@ void* icarus_proximity_worker(void* args) {
 
 // Communication
 void* icarus_communication_worker(void* args) {
+	unsigned long dt = 1000 / CONFIG_ICARUS_COMMUNICATION_FREQUENCY;
+	unsigned long current_cycle;
+
 	telemetry_t tlm;
 
 	while(1) {
+		current_cycle = icarus_millis();
+
+		// ========== START
 		tlm = icarus_get_shared_telemetry();
 
 		icarus_publish_telemetry(tlm);
-		icarus_delay(1000);
+		// ========== END
+		
+		// Speed limiter to stick with sample rate
+		icarus_delay(dt - (icarus_millis() - current_cycle));
 	}
 
 	return NULL;
@@ -83,25 +122,26 @@ void* icarus_communication_worker(void* args) {
 
 // Actuator
 void* icarus_actuator_worker(void* args) {
+	unsigned long dt = 1000 / CONFIG_ICARUS_ACTUATOR_FREQUENCY;
+	unsigned long current_cycle;
+
 	command_t cmd;
 	command_t prev_cmd;
-	int i = 0;
 
 	while(1) {
-		cmd = icarus_get_shared_command();
+		current_cycle = icarus_millis();
 
-		if (i % 2 == 0)
-			cmd.pitch = 0x01;
-		else
-			cmd.pitch = 0x00;
+		// ========== START
+		cmd = icarus_get_shared_command();
 
 		if (!icarus_equals_commands(cmd, prev_cmd))
 			icarus_apply_command(cmd);
 	
 		prev_cmd = cmd;
-
-		icarus_delay(3000);
-		i++;
+		// ========== END
+		
+		// Speed limiter to stick with sample rate
+		icarus_delay(dt - (icarus_millis() - current_cycle));
 	}
 	
 	return NULL;

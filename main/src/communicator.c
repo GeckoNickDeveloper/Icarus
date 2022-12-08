@@ -4,6 +4,24 @@
 
 static esp_mqtt_client_handle_t client;
 
+void icarus_mqtt_callback_selector(esp_mqtt_event_handle_t event) {
+	// Extract topic from event
+	char* topic = (char*) calloc(event->topic_len + 1, sizeof(char));
+	strncpy(topic, event->topic, event->topic_len);
+
+	// Print the topic
+	ESP_LOGI(TAG_COMMUNICATION, "Topic [%s]", topic);
+
+	// Actual selector
+	if (strcmp(topic, "/icarus/command") == 0) {
+		command_t cmd;
+		memcpy(&cmd, (void*) event->data, sizeof(command_t));
+		icarus_set_shared_command(cmd);
+	}
+
+	free(topic);
+};
+
 void icarus_mqtt_handler(void* args, esp_event_base_t base, int32_t event_id, void *event_data) {
 	ESP_LOGD(TAG_MQTT, "Event dispatched from event loop base=%s, event_id=%ld", base, event_id);
 	esp_mqtt_event_handle_t event = event_data;
@@ -16,8 +34,9 @@ void icarus_mqtt_handler(void* args, esp_event_base_t base, int32_t event_id, vo
 			//msg_id = esp_mqtt_client_publish(client, "/topic/qos1", "data_3", 0, 1, 0);
 			//ESP_LOGI(TAG, "sent publish successful, msg_id=%d", msg_id);
 
-			msg_id = esp_mqtt_client_subscribe(client, "/command", 0);
-			msg_id = esp_mqtt_client_subscribe(client, "/icarus/echo", 0);
+			msg_id = esp_mqtt_client_subscribe(client, "/icarus/command", 0);
+			msg_id = esp_mqtt_client_subscribe(client, "/icarus/#", 0);
+			//msg_id = esp_mqtt_client_subscribe(client, "/icarus/echo", 0);
 			ESP_LOGI(TAG_MQTT, "sent subscribe successful, msg_id=%d", msg_id);
 
 			//msg_id = esp_mqtt_client_subscribe(client, "/topic/qos1", 1);
@@ -45,15 +64,16 @@ void icarus_mqtt_handler(void* args, esp_event_base_t base, int32_t event_id, vo
 		case MQTT_EVENT_DATA:
 			ESP_LOGI(TAG_MQTT, "MQTT_EVENT_DATA");
 
-
-
-			if (strncmp(event->topic, "/icarus/echo", strlen("/icarus/echo")) != 0) {
-				msg_id = esp_mqtt_client_publish(client, "/icarus/echo", event->data, event->data_len, 0, 0);
-				printf("ECHO\r\n");
-			}
-
-			printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
-			printf("DATA=%.*s\r\n", event->data_len, event->data);
+			icarus_mqtt_callback_selector(event);
+//			 
+// 
+//			 if (strncmp(event->topic, "/icarus/echo", strlen("/icarus/echo")) != 0) {
+//			 	msg_id = esp_mqtt_client_publish(client, "/icarus/echo", event->data, event->data_len, 0, 0);
+//			 	printf("ECHO\r\n");
+//			 }
+// 
+//			 printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
+//			printf("DATA=%.*s\r\n", event->data_len, event->data);
 			break;
 		case MQTT_EVENT_ERROR:
 			ESP_LOGE(TAG_MQTT, "MQTT_EVENT_ERROR");
