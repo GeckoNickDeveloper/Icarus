@@ -134,6 +134,7 @@ vector3d_t icarus_get_rotation() {
 	rot.x = deg2rad(raw.gyro_x);
 	rot.y = deg2rad(raw.gyro_y);
 	rot.z = deg2rad(raw.gyro_z);
+	rot = approx(rot, CONFIG_ICARUS_APPROXIMATION_DIGITS);
 
 	return rot;
 };
