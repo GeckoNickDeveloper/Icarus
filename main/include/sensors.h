@@ -16,6 +16,8 @@ extern vector3d_t icarus_get_rotation();
 extern float icarus_get_temperature();
 extern float icarus_get_luminosity();
 
+extern vector3d_t icarus_get_gyro_offset();
+
 extern float icarus_get_proximity();
 
 
