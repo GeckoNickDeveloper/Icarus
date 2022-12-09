@@ -38,4 +38,7 @@ extern unsigned long icarus_micros();
 extern void icarus_delay(unsigned long ms);
 extern void icarus_delay_micros(unsigned long us);
 
+// Math
+long icarus_map(long x, long in_min, long in_max, long out_min, long out_max);
+
 #endif //! UTILS_H
