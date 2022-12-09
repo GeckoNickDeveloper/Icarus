@@ -10,3 +10,9 @@ Directory contenente i test effettuati con il sensore in posizione immobile.
 - Smoothed -> Gyro values without the offset
 - 20Hz sampling freq
 - Log Print = 1 second
+
+### s_ofst_s_g_wo_ofst_50hz_1s_lp.log
+- Smoothed Offset calucaltion
+- Smoothed -> Gyro values without the offset
+- 50Hz sampling freq
+- Log Print = 1 second

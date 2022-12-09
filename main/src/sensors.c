@@ -80,6 +80,8 @@ static void icarus_gyro_offset_init() {
 	icarus_set_shared_telemetry(tlm);
 
 	gyro_offset = icarus_divide(sum, i);
+
+	ESP_LOGE(TAG_SENSORS, "GOffset [%f, %f, %f]", rad2deg(gyro_offset.x), rad2deg(gyro_offset.y), rad2deg(gyro_offset.z));
 };
 
 void icarus_init_sensors() {
