@@ -47,16 +47,16 @@ static void icarus_gyro_offset_init() {
 	unsigned long current_cycle;
 
 	vector3d_t raw;
-	vector3d_t sum;
+	vector3d_t sum = {0.0, 0.0, 0.0};
 	
 	int i;
 
 	// Filling the queue
-	for (i = 0; i < CONFIG_ICARUS_QUEUE_SIZE; ++i) {
-		current_cycle = icarus_millis();
-		smooth_gyro(icarus_get_acceleration());
-		icarus_delay(dt - (icarus_millis() - current_cycle));
-	}
+	//for (i = 0; i < CONFIG_ICARUS_QUEUE_SIZE; ++i) {
+	//	current_cycle = icarus_millis();
+	//	smooth_gyro(icarus_get_acceleration());
+	//	icarus_delay(dt - (icarus_millis() - current_cycle));
+	//}
 
 	// Actual evaluation
 	for (i = 0; i < CONFIG_ICARUS_THERM_SAMPLES; ++i) {
@@ -64,7 +64,7 @@ static void icarus_gyro_offset_init() {
 
 		// Start
 		
-		raw = icarus_get_acceleration();
+		raw = icarus_get_rotation();
 		sum = icarus_add(sum, raw);
 		//ESP_LOGW(TAG_SENSORS, "Vec [%f, %f, %f]", vec.x, vec.y, vec.z);
 		
