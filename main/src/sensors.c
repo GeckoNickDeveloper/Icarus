@@ -131,9 +131,9 @@ vector3d_t icarus_get_rotation() {
 	mpu6050_gyro_value_t raw;
 
 	mpu6050_get_gyro(mpu6050, &raw);
-	rot.x = deg2rad(raw.gyro_x);
-	rot.y = deg2rad(raw.gyro_y);
-	rot.z = deg2rad(raw.gyro_z);
+	rot.x = (raw.gyro_x);
+	rot.y = (raw.gyro_y);
+	rot.z = (raw.gyro_z);
 	rot = approx(rot, CONFIG_ICARUS_APPROXIMATION_DIGITS);
 
 	return rot;
