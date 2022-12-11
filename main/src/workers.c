@@ -26,8 +26,8 @@ void* icarus_sensor_worker(void* args) {
 		// ========== START
 		tlm = icarus_get_shared_telemetry();
 		
-		//acc = smooth_acc(icarus_get_acceleration());
-		gyro = smooth_gyro(icarus_subtract(icarus_get_rotation(), icarus_get_gyro_offset()));
+		acc = approx(smooth_acc(icarus_get_acceleration()), CONFIG_ICARUS_APPROXIMATION_DIGITS);
+		gyro = approx(smooth_gyro(icarus_subtract(icarus_get_rotation(), icarus_get_gyro_offset())), CONFIG_ICARUS_APPROXIMATION_DIGITS);
 		now =  icarus_micros(); // microsecons
 
 		if (prev == 0)
@@ -58,7 +58,9 @@ void* icarus_sensor_worker(void* args) {
 		if ((i % (CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY * 601)) == 0) // 10m logs (before)
 			ESP_LOGI(TAG_SENSORS, "LOG END");
 		else if ((i % (CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY * 1)) == 0)
-			ESP_LOGE(TAG_SENSORS, "Orientation [%f, %f, %f]", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), rad2deg(tlm.orientation.z));
+			//ESP_LOGE(TAG_SENSORS, "Orientation [%f, %f, %f]", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), rad2deg(tlm.orientation.z));
+			ESP_LOGE(TAG_SENSORS, "Acc [%f, %f, %f]", acc.x, acc.y, acc.z);
+		
 		i++;
 
 		// ========== END

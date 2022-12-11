@@ -93,7 +93,7 @@ void icarus_init_sensors() {
 	// MPU6050 Config
 	mpu6050 = mpu6050_create(I2C_NUM_0, MPU6050_I2C_ADDRESS);
 	error = mpu6050_wake_up(mpu6050);
-	error = mpu6050_config(mpu6050, ACCE_FS_16G, GYRO_FS_500DPS, LOWPASS_BANDWIDTH_5);
+	error = mpu6050_config(mpu6050, ACCE_FS_4G, GYRO_FS_500DPS, LOWPASS_BANDWIDTH_10, MPU6050_HIGHPASS_5_HZ);
 
 	// BH1750 Config
 	bh1750 = bh1750_create(I2C_NUM_0, BH1750_I2C_ADDRESS_DEFAULT);
@@ -118,7 +118,7 @@ vector3d_t icarus_get_acceleration() {
 	acc.x = raw.acce_x;
 	acc.y = raw.acce_y;
 	acc.z = raw.acce_z;
-	//acc = approx(acc, 3);
+	acc = approx(acc, CONFIG_ICARUS_APPROXIMATION_DIGITS);
 	//ESP_LOGE(TAG_SENSORS, "Acce [%f, %f, %f]", acc.x, acc.y, acc.z);
 
 	acc = icarus_multiply(acc, G);

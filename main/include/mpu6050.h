@@ -59,6 +59,7 @@ typedef struct {
 } mpu6050_temp_value_t;
 
 
+// CUSTOM
 typedef enum {
     LOWPASS_BANDWIDTH_260	= 0, // 260
     LOWPASS_BANDWIDTH_184	= 1, // 260
@@ -69,6 +70,16 @@ typedef enum {
     LOWPASS_BANDWIDTH_5		= 6, // 260
 } mpu6050_bandwidth_t;
 
+typedef enum {
+  MPU6050_HIGHPASS_DISABLE,
+  MPU6050_HIGHPASS_5_HZ,
+  MPU6050_HIGHPASS_2_5_HZ,
+  MPU6050_HIGHPASS_1_25_HZ,
+  MPU6050_HIGHPASS_0_63_HZ,
+  MPU6050_HIGHPASS_UNUSED,
+  MPU6050_HIGHPASS_HOLD,
+} mpu6050_highpass_t;
+//////////////////////////////////////
 
 typedef struct {
     float roll;
@@ -141,7 +152,11 @@ esp_err_t mpu6050_sleep(mpu6050_handle_t sensor);
  *     - ESP_OK Success
  *     - ESP_FAIL Fail
  */
-esp_err_t mpu6050_config(mpu6050_handle_t sensor, const mpu6050_acce_fs_t acce_fs, const mpu6050_gyro_fs_t gyro_fs, const mpu6050_bandwidth_t bw);
+esp_err_t mpu6050_config(mpu6050_handle_t sensor,
+							const mpu6050_acce_fs_t acce_fs,
+							const mpu6050_gyro_fs_t gyro_fs,
+							const mpu6050_bandwidth_t bw,
+							const mpu6050_highpass_t hp);
 
 /**
  * @brief Get accelerometer sensitivity
