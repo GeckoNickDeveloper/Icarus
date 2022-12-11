@@ -58,7 +58,7 @@ void* icarus_sensor_worker(void* args) {
 		if ((i % (CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY * 601)) == 0) // 10m logs (before)
 			ESP_LOGI(TAG_SENSORS, "LOG END");
 		else if ((i % (CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY * 1)) == 0)
-			ESP_LOGE(TAG_SENSORS, "Orientation [%f, %f, %f]", (tlm.orientation.x), (tlm.orientation.y), (tlm.orientation.z));
+			ESP_LOGE(TAG_SENSORS, "Orientation [%f, %f, %f]", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), rad2deg(tlm.orientation.z));
 		i++;
 
 		// ========== END

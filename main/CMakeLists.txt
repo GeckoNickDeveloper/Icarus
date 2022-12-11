@@ -12,6 +12,7 @@ set(srcs ${platform_srcs}
 
 	# Rubatissimo a causa di problemi di import
 	"src/iot_servo.c"
+	"src/mpu6050.c"
 )
 
 set(include_dirs "include")

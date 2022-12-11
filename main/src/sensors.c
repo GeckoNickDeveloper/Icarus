@@ -93,7 +93,7 @@ void icarus_init_sensors() {
 	// MPU6050 Config
 	mpu6050 = mpu6050_create(I2C_NUM_0, MPU6050_I2C_ADDRESS);
 	error = mpu6050_wake_up(mpu6050);
-	error = mpu6050_config(mpu6050, ACCE_FS_16G, GYRO_FS_500DPS);
+	error = mpu6050_config(mpu6050, ACCE_FS_16G, GYRO_FS_500DPS, LOWPASS_BANDWIDTH_5);
 
 	// BH1750 Config
 	bh1750 = bh1750_create(I2C_NUM_0, BH1750_I2C_ADDRESS_DEFAULT);
@@ -134,6 +134,11 @@ vector3d_t icarus_get_rotation() {
 	rot.x = (raw.gyro_x);
 	rot.y = (raw.gyro_y);
 	rot.z = (raw.gyro_z);
+	
+	rot = approx(rot, CONFIG_ICARUS_APPROXIMATION_DIGITS);
+	rot.x = deg2rad(rot.x);
+	rot.y = deg2rad(rot.y);
+	rot.z = deg2rad(rot.z);
 	rot = approx(rot, CONFIG_ICARUS_APPROXIMATION_DIGITS);
 
 	return rot;
