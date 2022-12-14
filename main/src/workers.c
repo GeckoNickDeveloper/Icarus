@@ -81,6 +81,7 @@ void* icarus_sensor_worker(void* args) {
 			//ESP_LOGE(TAG_SENSORS, "Acc [%f, %f, %f]", acc.x, acc.y, acc.z);
 			printf("%f, %f, %f\r\n", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), rad2deg(tlm.orientation.z));
 		}
+		//ESP_LOGW(TAG_SENSORS, "Gyro [%f, %f, %f]", gyro.x, gyro.y, gyro.z);
 
 		i++;
 
@@ -106,12 +107,7 @@ void* icarus_proximity_worker(void* args) {
 		current_cycle = icarus_millis();
 
 		// ========== START
-		prev = icarus_micros();
-		gpio_set_level(CONFIG_ICARUS_TERRAIN_TRIGGER, 1);
-		while(gpio_get_level(CONFIG_ICARUS_TERRAIN_ECHO));
-		delta = (float) (icarus_micros() - prev) / 1000000.0;
-
-		distance = SOUND_SPEED * delta * 0.5;
+		distance = icarus_get_proximity();
 
 		ESP_LOGI(TAG_SENSORS, "Distance [%f]", distance);
 		// ========== END
