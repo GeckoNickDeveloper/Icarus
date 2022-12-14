@@ -9,7 +9,7 @@ vector3d_t icarus_lp_filter(vector3d_t* prev, const vector3d_t next, const float
 
 	// Filter
 	vector3d_t filtered;
-	filtered =	icarus_add(prev,
+	filtered =	icarus_add(*prev,
 					icarus_multiply(
 						icarus_subtract(next, *prev),
 						alpha));
@@ -28,7 +28,7 @@ vector3d_t icarus_hp_filter(vector3d_t* prev_f, vector3d_t* prev_r, const vector
 	// Filter
 	vector3d_t filtered;
 	filtered =	icarus_multiply(
-					icarus_add(prev_f,
+					icarus_add(*prev_f,
 						icarus_subtract(next, *prev_r)),
 					alpha);
 

@@ -12,15 +12,24 @@
 
 extern void icarus_init_sensors();
 
+// MPU6050 wrapped
 extern vector3d_t icarus_get_acceleration();
 extern vector3d_t icarus_get_rotation();
 extern float icarus_get_temperature();
-extern float icarus_get_luminosity();
 
+// MPU6050 filtered
+//extern vector3d_t icarus_get_linear_rotation();
+//extern vector3d_t icarus_get_linear_acceleration();
+
+// MPU6050 Aux
 extern vector3d_t icarus_get_gyro_offset();
 
-extern float icarus_get_proximity();
+// BH1750 wrapped
+extern float icarus_get_luminosity();
 
+
+// SR04
+extern float icarus_get_proximity();
 
 
 #endif //! SENSORS_H

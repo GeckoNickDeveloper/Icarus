@@ -1,6 +1,7 @@
 #ifndef DPS_H
 #define DPS_H
 
+#include "shared.h"
 //extern float icarus_lp_filter(const float prev, const float next, const float cutoff);
 //extern float icarus_hp_filter(const float prev, const float next, const float cutoff);
 

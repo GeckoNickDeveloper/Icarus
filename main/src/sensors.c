@@ -1,5 +1,6 @@
 #include "../include/sensors.h"
 #include "../include/smoother.h"
+#include "../include/dsp.h"
 #include "../include/utils.h"
 #include <math.h>
 #include <esp_log.h>
@@ -11,6 +12,13 @@
 static mpu6050_handle_t mpu6050;
 static bh1750_handle_t bh1750;
 
+// Gyro filter support
+//static vector3d_t g_lp_prev_f; // (LP)
+
+// Acc filter support
+//static vector3d_t a_lp_prev_f; // (LP)
+
+// Offsets
 static vector3d_t gyro_offset;
 
 static esp_err_t icarus_i2c_master_init() {
@@ -93,6 +101,7 @@ void icarus_init_sensors() {
 	// MPU6050 Config
 	mpu6050 = mpu6050_create(I2C_NUM_0, MPU6050_I2C_ADDRESS);
 	error = mpu6050_wake_up(mpu6050);
+	//error = mpu6050_config(mpu6050, ACCE_FS_4G, GYRO_FS_500DPS);
 	error = mpu6050_config(mpu6050, ACCE_FS_4G, GYRO_FS_500DPS, LOWPASS_BANDWIDTH_10, MPU6050_HIGHPASS_5_HZ);
 
 	// BH1750 Config
@@ -106,6 +115,10 @@ void icarus_init_sensors() {
 
 	// Auxilary Init
 	icarus_gyro_offset_init();
+
+	// Low Pass Filters Init
+	g_lp_prev_f = icarus_get_rotation();
+	a_lp_prev_f = icarus_get_acceleration();
 };
 
 
@@ -166,6 +179,44 @@ float icarus_get_luminosity() {
 vector3d_t icarus_get_gyro_offset() {
 	return gyro_offset;
 };
+
+
+
+// MPU6050 filtered
+/*vector3d_t icarus_get_linear_rotation() {
+	vector3d_t linear;
+	
+	vector3d_t filtered;
+	vector3d_t raw;
+
+	raw = icarus_get_rotation(); // get rotation
+	
+	// filter with low pass
+	filtered = icarus_lp_filter(&g_lp_prev_f, raw, CONFIG_ICARUS_LP_CUTOFF_GYRO);
+	
+	linear = icarus_subtract(raw, gyro_offset);// remove offset
+	return linear; 
+};
+
+vector3d_t icarus_get_linear_acceleration() {
+	vector3d_t linear;
+	
+	vector3d_t gravity;
+	vector3d_t raw;
+
+	raw = icarus_get_acceleration();
+
+	// filter with low pass
+	gravity = icarus_lp_filter(&a_lp_prev_f, raw, CONFIG_ICARUS_LP_CUTOFF_GYRO);
+	
+	linear = icarus_subtract(raw, gravity);
+
+	return linear;
+};*/
+
+
+
+
 
 
 // TODO add timeout
