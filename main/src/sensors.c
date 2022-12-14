@@ -17,6 +17,7 @@ static bh1750_handle_t bh1750;
 
 // Acc filter support
 //static vector3d_t a_lp_prev_f; // (LP)
+static vector3d_t gravity;
 
 // Offsets
 static vector3d_t gyro_offset;
@@ -98,11 +99,64 @@ void icarus_init_sensors() {
 	// I2C Config
 	ESP_ERROR_CHECK(icarus_i2c_master_init());
 
+	// Custom config
+	mpu6050_acce_fs_t acc_scale; 
+	mpu6050_gyro_fs_t gyro_scale; 
+	mpu6050_bandwidth_t bw;
+
+	// acc config
+#if CONFIG_ICARUS_SENSOR_MPU6050_ACCELEROMETER_RANGE_2G
+	acc_scale = ACCE_FS_2G;
+#elif CONFIG_ICARUS_SENSOR_MPU6050_ACCELEROMETER_RANGE_4G
+	acc_scale = ACCE_FS_4G;
+#elif CONFIG_ICARUS_SENSOR_MPU6050_ACCELEROMETER_RANGE_8G
+	acc_scale = ACCE_FS_8G;
+#elif CONFIG_ICARUS_SENSOR_MPU6050_ACCELEROMETER_RANGE_16G
+	acc_scale = ACCE_FS_16G;
+#else
+	acc_scale = ACCE_FS_4G;
+#endif
+
+	// gyro config
+#if CONFIG_ICARUS_SENSOR_MPU6050_GYROSCOPE_RANGE_250DEG
+	gyro_scale = GYRO_FS_250DPS;
+#elif CONFIG_ICARUS_SENSOR_MPU6050_GYROSCOPE_RANGE_500DEG
+	gyro_scale = GYRO_FS_500DPS;
+#elif CONFIG_ICARUS_SENSOR_MPU6050_GYROSCOPE_RANGE_1000DEG
+	gyro_scale = GYRO_FS_1000DPS;
+#elif CONFIG_ICARUS_SENSOR_MPU6050_GYROSCOPE_RANGE_2000DEG
+	gyro_scale = GYRO_FS_2000DPS;
+#else
+	gyro_scale = GYRO_FS_500DPS;
+#endif
+
+	// Lowpass config
+#if CONFIG_ICARUS_SENSOR_MPU6050_LOWPASS_FILTER_5HZ
+	bw = LOWPASS_BANDWIDTH_5;
+#elif CONFIG_ICARUS_SENSOR_MPU6050_LOWPASS_FILTER_10HZ
+	bw = LOWPASS_BANDWIDTH_10;
+#elif CONFIG_ICARUS_SENSOR_MPU6050_LOWPASS_FILTER_21HZ
+	bw = LOWPASS_BANDWIDTH_21;
+#elif CONFIG_ICARUS_SENSOR_MPU6050_LOWPASS_FILTER_44HZ
+	bw = LOWPASS_BANDWIDTH_44;
+#elif CONFIG_ICARUS_SENSOR_MPU6050_LOWPASS_FILTER_94HZ
+	bw = LOWPASS_BANDWIDTH_94;
+#elif CONFIG_ICARUS_SENSOR_MPU6050_LOWPASS_FILTER_184HZ
+	bw = LOWPASS_BANDWIDTH_184;
+#elif CONFIG_ICARUS_SENSOR_MPU6050_LOWPASS_FILTER_260HZ
+	bw = LOWPASS_BANDWIDTH_260;
+#else
+	bw = LOWPASS_BANDWIDTH_260;
+#endif
+
+	// Log test
+	//ESP_LOGI("CONFIG", "%d, %d, %d", acc_scale, gyro_scale, bw);
+
 	// MPU6050 Config
 	mpu6050 = mpu6050_create(I2C_NUM_0, MPU6050_I2C_ADDRESS);
 	error = mpu6050_wake_up(mpu6050);
 	//error = mpu6050_config(mpu6050, ACCE_FS_4G, GYRO_FS_500DPS);
-	error = mpu6050_config(mpu6050, ACCE_FS_4G, GYRO_FS_500DPS, LOWPASS_BANDWIDTH_10, MPU6050_HIGHPASS_5_HZ);
+	error = mpu6050_config(mpu6050, acc_scale, gyro_scale, bw, MPU6050_HIGHPASS_RESET);
 
 	// BH1750 Config
 	bh1750 = bh1750_create(I2C_NUM_0, BH1750_I2C_ADDRESS_DEFAULT);
@@ -110,8 +164,8 @@ void icarus_init_sensors() {
 	error = bh1750_set_measure_mode(bh1750, BH1750_CONTINUE_1LX_RES);
 
 	// SP04 Config
-	gpio_set_direction(CONFIG_ICARUS_TERRAIN_TRIGGER, GPIO_MODE_INPUT);
-	gpio_set_direction(CONFIG_ICARUS_TERRAIN_ECHO, GPIO_MODE_OUTPUT);
+	gpio_set_direction(CONFIG_ICARUS_SENSOR_SP04_TERRAIN_TRIGGER, GPIO_MODE_INPUT);
+	gpio_set_direction(CONFIG_ICARUS_SENSOR_SP04_TERRAIN_ECHO, GPIO_MODE_OUTPUT);
 
 	// Auxilary Init
 	icarus_gyro_offset_init();
@@ -119,6 +173,9 @@ void icarus_init_sensors() {
 	// Low Pass Filters Init
 	//g_lp_prev_f = icarus_get_rotation();
 	//a_lp_prev_f = icarus_get_acceleration();
+	
+	// Gravity Init
+	gravity = icarus_get_acceleration();
 };
 
 
@@ -213,7 +270,32 @@ vector3d_t icarus_get_linear_acceleration() {
 
 	return linear;
 };*/
+vector3d_t icarus_get_linear_acceleration() {
+	vector3d_t acc;
+	vector3d_t linear;
+	
+	acc = icarus_get_acceleration();
 
+	linear = icarus_subtract(
+		acc,
+		icarus_extract_gravity(acc)
+	);
+
+	return linear;
+};
+
+vector3d_t icarus_extract_gravity(vector3d_t acc) {
+	float rc = 1.0 / (CONFIG_ICARUS_LP_CUTOFF_ACC * 2 * PI);
+	float dt = 1.0 / CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY;
+	float alpha = dt / (dt + rc); // to be calculated
+
+	gravity = icarus_add(
+		icarus_multiply(gravity, alpha),
+		icarus_multiply(acc, (1.0 - alpha))
+	);
+
+	return gravity;
+};
 
 
 
@@ -229,13 +311,13 @@ float icarus_get_proximity() {
 	float delta;
 
 	// Trigger sensor
-	gpio_set_level(CONFIG_ICARUS_TERRAIN_TRIGGER, 1);
+	gpio_set_level(CONFIG_ICARUS_SENSOR_SP04_TERRAIN_TRIGGER, 1);
 	icarus_delay_micros(10);
-	gpio_set_level(CONFIG_ICARUS_TERRAIN_TRIGGER, 0);
+	gpio_set_level(CONFIG_ICARUS_SENSOR_SP04_TERRAIN_TRIGGER, 0);
 	t0 = icarus_micros();
 	
 	// Wait for echo
-	while(gpio_get_level(CONFIG_ICARUS_TERRAIN_ECHO));
+	while(gpio_get_level(CONFIG_ICARUS_SENSOR_SP04_TERRAIN_ECHO));
 
 	// Calculate distance
 	t1 = icarus_micros();

@@ -20,15 +20,31 @@ void* icarus_sensor_worker(void* args) {
 
 	ESP_LOGI(TAG_SENSORS, "LOG START");
 
+	printf("X, Y, Z\r\n%f, %f, %f\r\n", 0.0, 0.0, 0.0);
+
 	while(1) {
 		current_cycle = icarus_millis();
 
 		// ========== START
 		tlm = icarus_get_shared_telemetry();
 		
-		acc = approx(smooth_acc(icarus_get_acceleration()), CONFIG_ICARUS_APPROXIMATION_DIGITS);
+		acc =	approx(
+					smooth_acc(
+						icarus_get_linear_acceleration()
+					),
+					CONFIG_ICARUS_APPROXIMATION_DIGITS
+				);
 		//acc = approx(smooth_acc(icarus_get_linear_acceleration()), CONFIG_ICARUS_APPROXIMATION_DIGITS);
-		gyro = approx(smooth_gyro(icarus_get_rotation()), CONFIG_ICARUS_APPROXIMATION_DIGITS);
+		gyro =	approx(
+					smooth_gyro(
+						icarus_subtract(
+							icarus_get_rotation(),
+							icarus_get_gyro_offset()
+						)
+					),
+					CONFIG_ICARUS_APPROXIMATION_DIGITS
+				);
+
 		//gyro = approx(smooth_gyro(icarus_get_linear_rotation()), CONFIG_ICARUS_APPROXIMATION_DIGITS);
 		now =  icarus_micros(); // microsecons
 
@@ -49,7 +65,7 @@ void* icarus_sensor_worker(void* args) {
 		//acc = icarus_subtract(acc, gravity);
 		
 		// Moto unif. acc.
-		//tlm.velocity =	icarus_add(tlm.velocity, icarus_multiply(acc, delta));
+		tlm.velocity =	icarus_add(tlm.velocity, icarus_multiply(acc, delta));
 		//tlm.position =	icarus_add(tlm.position,		// x(t) = x +
 		//					icarus_add(tlm.velocity,	// V * t +
 		//						icarus_multiply(acc, 0.5 * delta * delta))); // 0.5 * a * t^2
@@ -59,10 +75,13 @@ void* icarus_sensor_worker(void* args) {
 		// LOG
 		if ((i % (CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY * 601)) == 0) // 10m logs (before)
 			ESP_LOGI(TAG_SENSORS, "LOG END");
-		else if ((i % (CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY * 1)) == 0)
-			ESP_LOGE(TAG_SENSORS, "Orientation [%f, %f, %f]", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), rad2deg(tlm.orientation.z));
+		else if ((i % (CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY * 1)) == 0) {
+			//ESP_LOGI(TAG_SENSORS, "Orientation [%f, %f, %f]", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), rad2deg(tlm.orientation.z));
+			//ESP_LOGW(TAG_SENSORS, "Vel [%f, %f, %f]", tlm.velocity.x, tlm.velocity.y, tlm.velocity.z);
 			//ESP_LOGE(TAG_SENSORS, "Acc [%f, %f, %f]", acc.x, acc.y, acc.z);
-		
+			printf("%f, %f, %f\r\n", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), rad2deg(tlm.orientation.z));
+		}
+
 		i++;
 
 		// ========== END
