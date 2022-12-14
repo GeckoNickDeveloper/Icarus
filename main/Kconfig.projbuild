@@ -120,7 +120,7 @@ menu "Icarus Configuration"
 	endmenu
 
 	# Sensors Config
-	menu "Icarus sensors"
+	menu "Icarus Sensors"
 		menu "SP04"
 			config ICARUS_TERRAIN_TRIGGER
 				int "Trigger pin"
@@ -130,6 +130,13 @@ menu "Icarus Configuration"
 				int "Echo pin"
 				default 26
 		endmenu
+
+		config ICARUS_LP_CUTOFF_GYRO
+			int "Gyro cutoff frequency low pass filter"
+			default 10
+		config ICARUS_LP_CUTOFF_ACC
+			int "Accelerometer cutoff frequency low pass filter"
+			default 5
 
 		config ICARUS_SENSOR_SAMPLING_FREQUENCY
 			int "Sampling frequency (Hz)"

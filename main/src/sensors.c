@@ -117,8 +117,8 @@ void icarus_init_sensors() {
 	icarus_gyro_offset_init();
 
 	// Low Pass Filters Init
-	g_lp_prev_f = icarus_get_rotation();
-	a_lp_prev_f = icarus_get_acceleration();
+	//g_lp_prev_f = icarus_get_rotation();
+	//a_lp_prev_f = icarus_get_acceleration();
 };
 
 
