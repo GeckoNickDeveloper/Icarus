@@ -122,11 +122,11 @@ menu "Icarus Configuration"
 	# Sensors Config
 	menu "Icarus Sensors"
 		menu "SP04"
-			config ICARUS_TERRAIN_TRIGGER
+			config ICARUS_SENSOR_SP04_TERRAIN_TRIGGER
 				int "Trigger pin"
 				default 25
 
-			config ICARUS_TERRAIN_ECHO
+			config ICARUS_SENSOR_SP04_TERRAIN_ECHO
 				int "Echo pin"
 				default 26
 		endmenu
@@ -144,24 +144,85 @@ menu "Icarus Configuration"
 			help
 				Broker port for MQTT connection.
 
+		menu "MPU6050"
+			choice ICARUS_SENSOR_MPU6050_ACCELEROMETER_RANGE
+				prompt "MPU6050 Accelerometer range"
+				default ICARUS_SENSOR_MPU6050_ACCELEROMETER_RANGE_4G
+				help
+					Accelerometer config.
+		
+				config ICARUS_SENSOR_MPU6050_ACCELEROMETER_RANGE_8G
+					bool "+-2G"
+				config ICARUS_SENSOR_MPU6050_ACCELEROMETER_RANGE_4G
+					bool "+-4G"
+				config ICARUS_SENSOR_MPU6050_ACCELEROMETER_RANGE_8G
+					bool "+-8G"
+				config ICARUS_SENSOR_MPU6050_ACCELEROMETER_RANGE_16G
+					bool "+-16G"
+			endchoice
+
+			choice ICARUS_SENSOR_MPU6050_GYROSCOPE_RANGE
+				prompt "MPU6050 Gyroscope range"
+				default ICARUS_SENSOR_MPU6050_GYROSCOPE_RANGE_500DEG
+				help
+					Gyroscope config.
+		
+				config ICARUS_SENSOR_MPU6050_GYROSCOPE_RANGE_250DEG
+					bool "250 deg/s"
+				config ICARUS_SENSOR_MPU6050_GYROSCOPE_RANGE_500DEG
+					bool "500 deg/s"
+				config ICARUS_SENSOR_MPU6050_GYROSCOPE_RANGE_1000DEG
+					bool "1000 deg/s"
+				config ICARUS_SENSOR_MPU6050_GYROSCOPE_RANGE_2000DEG
+					bool "2000 deg/s"
+			endchoice
+
+			choice ICARUS_SENSOR_MPU6050_LOWPASS_FILTER
+				prompt "MPU6050 built-in lowpass filter"
+				default ICARUS_SENSOR_MPU6050_LOWPASS_FILTER_21HZ
+				help
+					Low pass filter config.
+		
+				config ICARUS_SENSOR_MPU6050_LOWPASS_FILTER_5HZ
+					bool "5Hz"
+				config ICARUS_SENSOR_MPU6050_LOWPASS_FILTER_10HZ
+					bool "10Hz"
+				config ICARUS_SENSOR_MPU6050_LOWPASS_FILTER_21HZ
+					bool "21Hz"
+					# (acc) / 20Hz (gyro)"
+				config ICARUS_SENSOR_MPU6050_LOWPASS_FILTER_44HZ
+					bool "44Hz"
+					# (acc) / 42Hz (gyro)"
+				config ICARUS_SENSOR_MPU6050_LOWPASS_FILTER_94HZ
+					bool "94Hz"
+					# (acc) / 98Hz (gyro)"
+				config ICARUS_SENSOR_MPU6050_LOWPASS_FILTER_184HZ
+					bool "184Hz"
+					# (acc) / 188Hz (gyro)"
+				config ICARUS_SENSOR_MPU6050_LOWPASS_FILTER_260HZ
+					bool "260Hz"
+					# (acc) / 256Hz (gyro) - [Disable filter]"
+			endchoice
+		endmenu
+
 		menu "Icarus I2C Configuration"
 			config ICARUS_I2C_PORT
-				int "MQTT Broker"
+				int "I2C Port"
 				default 0
 				help
 					Broker for MQTT connection.
 			
 			config ICARUS_I2C_SDA
-				int "Serial Data Address"
+				int "Serial Data"
 				default 21
 				help
-					Broker port for MQTT connection.
+					Serial Data pin.
 			
 			config ICARUS_I2C_SCL
 				int "Serial Clock"
 				default 22
 				help
-					MQTT uses authentication.
+					Serial Clock pin.
 			
 			config ICARUS_I2C_FREQ
 				int "Frequency in bit/s"
