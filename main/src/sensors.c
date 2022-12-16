@@ -205,11 +205,11 @@ vector3d_t icarus_get_rotation() {
 	rot.y = (raw.gyro_y);
 	rot.z = (raw.gyro_z);
 	
-	rot = approx(rot, CONFIG_ICARUS_APPROXIMATION_DIGITS);
-	rot.x = deg2rad(rot.x);
-	rot.y = deg2rad(rot.y);
-	rot.z = deg2rad(rot.z);
-	rot = approx(rot, CONFIG_ICARUS_APPROXIMATION_DIGITS);
+	//rot = approx(rot, CONFIG_ICARUS_APPROXIMATION_DIGITS);
+	//rot.x = deg2rad(rot.x);
+	//rot.y = deg2rad(rot.y);
+	//rot.z = deg2rad(rot.z);
+	//rot = approx(rot, CONFIG_ICARUS_APPROXIMATION_DIGITS);
 
 	return rot;
 };

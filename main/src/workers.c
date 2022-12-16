@@ -79,7 +79,8 @@ void* icarus_sensor_worker(void* args) {
 			//ESP_LOGI(TAG_SENSORS, "Orientation [%f, %f, %f]", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), rad2deg(tlm.orientation.z));
 			//ESP_LOGW(TAG_SENSORS, "Vel [%f, %f, %f]", tlm.velocity.x, tlm.velocity.y, tlm.velocity.z);
 			//ESP_LOGE(TAG_SENSORS, "Acc [%f, %f, %f]", acc.x, acc.y, acc.z);
-			printf("%f, %f, %f\r\n", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), rad2deg(tlm.orientation.z));
+			printf("%f, %f, %f\r\n", (tlm.orientation.x), (tlm.orientation.y), (tlm.orientation.z));
+			//printf("%f, %f, %f\r\n", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), rad2deg(tlm.orientation.z));
 		}
 		//ESP_LOGW(TAG_SENSORS, "Gyro [%f, %f, %f]", gyro.x, gyro.y, gyro.z);
 
