@@ -35,15 +35,15 @@ void* icarus_sensor_worker(void* args) {
 					CONFIG_ICARUS_APPROXIMATION_DIGITS
 				);
 		//acc = approx(smooth_acc(icarus_get_linear_acceleration()), CONFIG_ICARUS_APPROXIMATION_DIGITS);
-		gyro =	//approx(
+		gyro =	approx(
 					smooth_gyro(
 						icarus_subtract(
 							icarus_get_rotation(),
 							icarus_get_gyro_offset()
 						)
-					)//,
-					//CONFIG_ICARUS_APPROXIMATION_DIGITS
-				;//);
+					),
+					CONFIG_ICARUS_APPROXIMATION_DIGITS
+				);
 
 		//gyro = approx(smooth_gyro(icarus_get_linear_rotation()), CONFIG_ICARUS_APPROXIMATION_DIGITS);
 		now =  icarus_micros(); // microsecons
