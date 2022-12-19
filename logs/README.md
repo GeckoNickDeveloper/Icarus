@@ -12,16 +12,16 @@ Date le suddette premesse, i test inerenti al giroscopio saranno svolti unicamen
 
 I cambiamenti di angolo saranno i seguenti:
 
-| Variazione | Valore atteso |
-| :---       |    :----:     |
-| 0          | 0             |
-| +20        | 20            |
-| -10        | 10            |
-| +60        | 70            |
-| -20        | 50            |
-| -30        | 20            |
-| +70        | 90            |
-| -90        | 0             |
+| Tempo  | Variazione | Valore atteso |
+| :---   | :---       |    :----:     |
+| 0'     | 0          | 0             |
+| 30"    | +20        | 20            |
+| 2'3"   | -10        | 10            |
+| 3'40"  | +60        | 70            |
+| 8'30"  | -20        | 50            |
+| 9'30"  | -30        | 20            |
+| 9'50"  | +70        | 90            |
+| 10'    | -90        | 0             |
 
 
 Per ogni test verranno riportati i parametri utilizzati.
@@ -34,5 +34,58 @@ Per ogni test verranno riportati i parametri utilizzati.
 | Approx digits | 3             | Approssimazione pre e post conversione deg-rad                   |
 | Queue size    | 10            | I valori di output dello smoothing sono anch'essi approssimati   |
 | Gyro range    | 500 deg/s     |                                                                  |
+
+#### log_20221216_2352.csv
+| Parametro     | Valore        | Note                                                             |
+| :---          |    :----:     | :---                                                             |
+| Sampling rate | 50 Hz         |                                                                  |
+| DLPF          | 21 Hz         |                                                                  |
+| Approx digits | 3             | Approssimazione valori di lettura del giroscopio                 |
+| Queue size    | 10            | I valori di output dello smoothing sono approssimati             |
+| Gyro range    | 500 deg/s     |                                                                  |
+
+#### log_20221217_0013.csv
+| Parametro     | Valore        | Note                                                             |
+| :---          |    :----:     | :---                                                             |
+| Sampling rate | 50 Hz         |                                                                  |
+| DLPF          | 21 Hz         |                                                                  |
+| Approx digits | 3             | Approssimazione pre e post conversione deg-rad                   |
+| Queue size    | 10            |                                                                  |
+| Gyro range    | 500 deg/s     |                                                                  |
+
+#### log_20221217_0038.csv
+| Parametro     | Valore        | Note                                                             |
+| :---          |    :----:     | :---                                                             |
+| Sampling rate | 50 Hz         |                                                                  |
+| DLPF          | 10 Hz         |                                                                  |
+| Approx digits | 3             | Approssimazione pre e post conversione deg-rad                   |
+| Queue size    | 10            | I valori di output dello smoothing sono anch'essi approssimati   |
+| Gyro range    | 500 deg/s     |                                                                  |
+
+
 #### log_20221219_0218.csv
+| Parametro     | Valore        | Note                                                             |
+| :---          |    :----:     | :---                                                             |
+| Sampling rate | 100 Hz        |                                                                  |
+| DLPF          | 5 Hz          |                                                                  |
+| Approx digits | 3             | Approssimazione pre e post conversione deg-rad                   |
+| Queue size    | 10            | I valori di output dello smoothing sono anch'essi approssimati   |
+| Gyro range    | 500 deg/s     |                                                                  |
+
 #### log_20221219_0253.csv
+| Parametro     | Valore        | Note                                                             |
+| :---          |    :----:     | :---                                                             |
+| Sampling rate | 50 Hz         |                                                                  |
+| DLPF          | 5 Hz          |                                                                  |
+| Approx digits | 3             | Approssimazione pre e post conversione deg-rad                   |
+| Queue size    | 10            | I valori di output dello smoothing sono anch'essi approssimati   |
+| Gyro range    | 500 deg/s     |                                                                  |
+
+#### log_20221219_1615.csv
+| Parametro     | Valore        | Note                                                             |
+| :---          |    :----:     | :---                                                             |
+| Sampling rate | 50 Hz         |                                                                  |
+| DLPF          | 10 Hz         |                                                                  |
+| Approx digits | 3             | Approssimazione pre e post conversione deg-rad                   |
+| Queue size    | 5             | I valori di output dello smoothing sono anch'essi approssimati   |
+| Gyro range    | 500 deg/s     |                                                                  |
