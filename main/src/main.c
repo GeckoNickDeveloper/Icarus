@@ -15,7 +15,8 @@ void app_main() {
 	icarus_init_smoother();
 	icarus_init_sensors();
 	icarus_init_actuator();
-	//icarus_network_setup();
+	icarus_network_setup();
+	icarus_system_time_init();
 	//icarus_mqtt_setup();
 
 	
