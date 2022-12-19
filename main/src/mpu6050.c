@@ -137,7 +137,7 @@ esp_err_t mpu6050_config(mpu6050_handle_t sensor,
 {
 	uint8_t acc_config = (acce_fs << 3) | hp;
 
-    uint8_t config_regs[3] = {bw, gyro_fs << 3, acc_config};
+    uint8_t config_regs[3] = {bw, gyro_fs << 3, acce_fs <<3};//acc_config};
     return mpu6050_write(sensor, MPU6050_CONFIG, config_regs, sizeof(config_regs));
 }
 
