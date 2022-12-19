@@ -35,5 +35,4 @@ Per ogni test verranno riportati i parametri utilizzati.
 | Queue size    | 10            | I valori di output dello smoothing sono anch'essi approssimati   |
 | Gyro range    | 500 deg/s     |                                                                  |
 #### log_20221219_0218.csv
-#### log_20221219_02.csv
-#### log_20221219_02.csv
+#### log_20221219_0253.csv
