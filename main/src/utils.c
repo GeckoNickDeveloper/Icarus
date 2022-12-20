@@ -172,5 +172,5 @@ void icarus_system_time_print_now() {
 
     printf("Now: %d-%02d-%02d %02d:%02d:%02d.%06ld\n",
            timeinfo.tm_year + 1900, timeinfo.tm_mon + 1, timeinfo.tm_mday,
-           timeinfo.tm_hour + 1, timeinfo.tm_min, timeinfo.tm_sec, tv.tv_usec);
+           timeinfo.tm_hour, timeinfo.tm_min, timeinfo.tm_sec, tv.tv_usec);
 };
