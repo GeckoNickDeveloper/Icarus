@@ -164,8 +164,8 @@ void icarus_init_sensors() {
 	error = bh1750_set_measure_mode(bh1750, BH1750_CONTINUE_1LX_RES);
 
 	// SP04 Config
-	gpio_set_direction(CONFIG_ICARUS_SENSOR_SP04_TERRAIN_TRIGGER, GPIO_MODE_INPUT);
-	gpio_set_direction(CONFIG_ICARUS_SENSOR_SP04_TERRAIN_ECHO, GPIO_MODE_OUTPUT);
+	gpio_set_direction(CONFIG_ICARUS_SENSOR_SR04_TERRAIN_TRIGGER, GPIO_MODE_INPUT);
+	gpio_set_direction(CONFIG_ICARUS_SENSOR_SR04_TERRAIN_ECHO, GPIO_MODE_OUTPUT);
 
 	// Auxilary Init
 	icarus_gyro_offset_init();
@@ -311,18 +311,24 @@ float icarus_get_proximity() {
 	float delta;
 
 	// Trigger sensor
-	gpio_set_level(CONFIG_ICARUS_SENSOR_SP04_TERRAIN_TRIGGER, 1);
+	gpio_set_level(CONFIG_ICARUS_SENSOR_SR04_TERRAIN_TRIGGER, 1);
 	icarus_delay_micros(10);
-	gpio_set_level(CONFIG_ICARUS_SENSOR_SP04_TERRAIN_TRIGGER, 0);
+	gpio_set_level(CONFIG_ICARUS_SENSOR_SR04_TERRAIN_TRIGGER, 0);
 	t0 = icarus_micros();
 	
 	// Wait for echo
-	while(gpio_get_level(CONFIG_ICARUS_SENSOR_SP04_TERRAIN_ECHO));
+	while(
+		gpio_get_level(CONFIG_ICARUS_SENSOR_SR04_TERRAIN_ECHO) &&
+		((icarus_micros() - t0) < (CONFIG_ICARUS_SENSOR_SR04_TIMEOUT * 1000))
+	);
 
-	// Calculate distance
 	t1 = icarus_micros();
 	delta = (float) (t1 - t0) / 1000000.0; // us -> s
-	distance = delta * SOUND_SPEED * 0.5;
+	
+	if (delta <= (CONFIG_ICARUS_SENSOR_SP0R_TIMEOUT / 1000)) // Config is in millis, now is in seconds
+		distance = delta * SOUND_SPEED * 0.5;
+	else
+		distance = -1;
 
 	return distance;
 };
