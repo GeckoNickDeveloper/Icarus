@@ -121,14 +121,18 @@ menu "Icarus Configuration"
 
 	# Sensors Config
 	menu "Icarus Sensors"
-		menu "SP04"
-			config ICARUS_SENSOR_SP04_TERRAIN_TRIGGER
+		menu "SR04"
+			config ICARUS_SENSOR_SR04_TERRAIN_TRIGGER
 				int "Trigger pin"
 				default 25
 
-			config ICARUS_SENSOR_SP04_TERRAIN_ECHO
+			config ICARUS_SENSOR_SR04_TERRAIN_ECHO
 				int "Echo pin"
 				default 26
+			
+			config ICARUS_SENSOR_SR04_TIMEOUT
+				int "Sensor timeout (ms)"
+				default 200
 		endmenu
 
 		config ICARUS_LP_CUTOFF_GYRO
