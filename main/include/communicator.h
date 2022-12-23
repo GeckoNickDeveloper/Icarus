@@ -7,11 +7,14 @@
 
 #include "../include/shared.h"
 
+#define TAG_COMMUNICATION "Icarus Communication"
+#define TAG_MQTT "Icarus MQTT"
+
 extern void icarus_mqtt_setup();
 
 extern void icarus_publish_telemetry(telemetry_t current);
 
 // Thread worker
-extern void* icarus_communication_worker(void* args);
+//extern void* icarus_communication_worker(void* args);
 
 #endif //! COMMUNICATOR_H

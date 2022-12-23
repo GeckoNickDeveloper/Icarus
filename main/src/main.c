@@ -6,6 +6,7 @@
 #include "../include/utils.h"
 #include "../include/queue.h"
 #include "../include/smoother.h"
+#include "../include/workers.h"
 
 #include <pthread.h>
 
@@ -14,8 +15,9 @@ void app_main() {
 	icarus_init_smoother();
 	icarus_init_sensors();
 	icarus_init_actuator();
-	//icarus_network_setup();
-	//icarus_mqtt_setup();
+	icarus_network_setup();
+	icarus_system_time_init();
+	icarus_mqtt_setup();
 
 	
 	pthread_t actuator_thread;
@@ -26,8 +28,8 @@ void app_main() {
 
 
 	// Thread creation
-	pthread_create(&actuator_thread, NULL, icarus_actuator_worker, NULL);
-	pthread_create(&sensors_thread, NULL, icarus_sensor_worker, NULL);
+	//pthread_create(&actuator_thread, NULL, icarus_actuator_worker, NULL);
+	//pthread_create(&sensors_thread, NULL, icarus_sensor_worker, NULL);
 	//pthread_create(&proximity_thread, NULL, icarus_proximity_worker, NULL);
 	//pthread_create(&communication_thread, NULL, icarus_communication_worker, NULL);
 	//pthread_create(&pilot_thread, NULL, <placeholder_2>, NULL);

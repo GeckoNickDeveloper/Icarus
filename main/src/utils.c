@@ -5,14 +5,15 @@
 #include <esp_sntp.h>
 #include <sys/time.h>
 #include <esp_timer.h>
+#include <esp_log.h>
 
 
 // Trigonometry
 float rad2deg(float angle) {
-	return (angle * 57.2958);//(angle * (PI / 180.0));
+	return (angle * 57.2958);//(angle * (180.0 / PI));
 };
 float deg2rad(float angle) {
-	return (angle * 0.0174533);//(angle * (180.0 / PI));
+	return (angle * 0.0174533);//(angle * (PI / 180.0));
 };
 
 // Vector3D
@@ -101,23 +102,9 @@ bool icarus_equals_vectors(vector3d_t a, vector3d_t b) {
 
 
 // Timestamp
-void print_timestamp() {
-	struct timeval tv;
-	time_t nowtime;
-	struct tm *nowtm;
-	char tmbuf[64], buf[64];
-
-	//sntp_sync_time(NULL);
-	gettimeofday(&tv, NULL);
-	nowtime = tv.tv_sec;
-	nowtm = localtime(&nowtime);
-	strftime(tmbuf, sizeof tmbuf, "%Y-%m-%d %H:%M:%S", nowtm);
-	printf("[%s.%06ld]", tmbuf, tv.tv_usec);
-	//snprintf(buf, sizeof buf, "[%s%ld]", tmbuf, tv.tv_usec % 1000000);
+unsigned long icarus_millis() {
+	return (unsigned long) esp_log_timestamp();
 };
-
-
-
 
 unsigned long icarus_micros() {
 	return (unsigned long) esp_timer_get_time();
@@ -129,12 +116,65 @@ void icarus_delay(unsigned long ms) {
 };
 
 void icarus_delay_micros(unsigned long us) {
-	unsigned long m = esp_timer_get_time();
-    if(us){
-		unsigned long e = (m + us);
-		if(m > e){ //overflow
-			while(esp_timer_get_time() > e);
-		}
-		while(esp_timer_get_time() < e);
-    }
+	unsigned long start = esp_timer_get_time();
+    
+	while((icarus_micros() - start) < us);
+};
+
+// Math
+long icarus_map(long x, long in_min, long in_max, long out_min, long out_max) {
+	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+};
+
+
+
+// System Time
+void icarus_system_time_init() {
+	sntp_setoperatingmode(SNTP_OPMODE_POLL);
+	//sntp_setservername(0, "pool.ntp.org");
+	sntp_set_sync_mode(SNTP_SYNC_MODE_SMOOTH);
+	sntp_setservername(0, "it.pool.ntp.org");
+
+	sntp_init();
+
+	ESP_LOGW(TAG_UTILS, "Sync Time");
+
+	// Sync
+	time_t now;
+	struct tm timeinfo;
+	//while (timeinfo.tm_year < (2016 - 1900)) {
+	while (sntp_get_sync_status() != SNTP_SYNC_STATUS_COMPLETED) {
+		icarus_delay(500);
+		time(&now);
+		localtime_r(&now, &timeinfo);
+	}
+
+
+	struct timeval tv;
+
+	// TEST
+	//sntp_sync_time();
+
+	gettimeofday(&tv, NULL);
+
+	time(&now);
+    localtime_r(&now, &timeinfo);
+
+    printf("Data corrente: %d-%02d-%02d %02d:%02d:%02d.%06ld\n",
+           timeinfo.tm_year + 1900, timeinfo.tm_mon + 1, timeinfo.tm_mday,
+           timeinfo.tm_hour + 1, timeinfo.tm_min, timeinfo.tm_sec, tv.tv_usec);
+};
+
+void icarus_system_time_print_now() {
+	time_t now;
+	struct tm timeinfo;
+	struct timeval tv;
+
+	time(&now);
+    localtime_r(&now, &timeinfo);
+	gettimeofday(&tv, NULL);
+
+    printf("Now: %d-%02d-%02d %02d:%02d:%02d.%06ld\n",
+           timeinfo.tm_year + 1900, timeinfo.tm_mon + 1, timeinfo.tm_mday,
+           timeinfo.tm_hour, timeinfo.tm_min, timeinfo.tm_sec, tv.tv_usec);
 };

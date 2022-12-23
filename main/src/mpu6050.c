@@ -16,6 +16,7 @@
 #define RAD_TO_DEG                  57.27272727f /*!< Radians to degrees */
 
 /* MPU6050 register */
+#define MPU6050_CONFIG         		0x1Au
 #define MPU6050_GYRO_CONFIG         0x1Bu
 #define MPU6050_ACCEL_CONFIG        0x1Cu
 #define MPU6050_ACCEL_XOUT_H        0x3Bu
@@ -128,10 +129,16 @@ esp_err_t mpu6050_sleep(mpu6050_handle_t sensor)
     return ret;
 }
 
-esp_err_t mpu6050_config(mpu6050_handle_t sensor, const mpu6050_acce_fs_t acce_fs, const mpu6050_gyro_fs_t gyro_fs)
+esp_err_t mpu6050_config(mpu6050_handle_t sensor,
+							const mpu6050_acce_fs_t acce_fs,
+							const mpu6050_gyro_fs_t gyro_fs,
+							const mpu6050_bandwidth_t bw,
+							const mpu6050_highpass_t hp)
 {
-    uint8_t config_regs[2] = {gyro_fs << 3,  acce_fs << 3};
-    return mpu6050_write(sensor, MPU6050_GYRO_CONFIG, config_regs, sizeof(config_regs));
+	uint8_t acc_config = (acce_fs << 3) | hp;
+
+    uint8_t config_regs[3] = {bw, gyro_fs << 3, acce_fs <<3};//acc_config};
+    return mpu6050_write(sensor, MPU6050_CONFIG, config_regs, sizeof(config_regs));
 }
 
 esp_err_t mpu6050_get_acce_sensitivity(mpu6050_handle_t sensor, float *const acce_sensitivity)
@@ -302,3 +309,10 @@ esp_err_t mpu6050_complimentory_filter(mpu6050_handle_t sensor, const mpu6050_ac
 
     return ESP_OK;
 }
+
+
+
+//esp_err_t mpu6050_set_lowpass_filter(mpu6050_handle_t sensor, mpu6050_bandwidth_t bw) {
+//	uint8_t config_regs = bw;
+//    return mpu6050_write(sensor, MPU6050_CONFIG, config_regs, sizeof(config_regs));
+//}

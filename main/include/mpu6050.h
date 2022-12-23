@@ -59,6 +59,28 @@ typedef struct {
 } mpu6050_temp_value_t;
 
 
+// CUSTOM
+typedef enum {
+    LOWPASS_BANDWIDTH_260	= 0, // 260
+    LOWPASS_BANDWIDTH_184	= 1, // 260
+    LOWPASS_BANDWIDTH_94	= 2, // 260
+    LOWPASS_BANDWIDTH_44	= 3, // 260
+    LOWPASS_BANDWIDTH_21	= 4, // 260
+    LOWPASS_BANDWIDTH_10	= 5, // 260
+    LOWPASS_BANDWIDTH_5		= 6, // 260
+} mpu6050_bandwidth_t;
+
+typedef enum {
+  MPU6050_HIGHPASS_RESET = 0,
+  MPU6050_HIGHPASS_5_HZ = 1,
+  MPU6050_HIGHPASS_2_5_HZ = 2,
+  MPU6050_HIGHPASS_1_25_HZ = 3,
+  MPU6050_HIGHPASS_0_63_HZ = 4,
+  //MPU6050_HIGHPASS_UNUSED,
+  MPU6050_HIGHPASS_HOLD = 7,
+} mpu6050_highpass_t;
+//////////////////////////////////////
+
 typedef struct {
     float roll;
     float pitch;
@@ -130,7 +152,11 @@ esp_err_t mpu6050_sleep(mpu6050_handle_t sensor);
  *     - ESP_OK Success
  *     - ESP_FAIL Fail
  */
-esp_err_t mpu6050_config(mpu6050_handle_t sensor, const mpu6050_acce_fs_t acce_fs, const mpu6050_gyro_fs_t gyro_fs);
+esp_err_t mpu6050_config(mpu6050_handle_t sensor,
+							const mpu6050_acce_fs_t acce_fs,
+							const mpu6050_gyro_fs_t gyro_fs,
+							const mpu6050_bandwidth_t bw,
+							const mpu6050_highpass_t hp);
 
 /**
  * @brief Get accelerometer sensitivity
@@ -205,18 +231,6 @@ esp_err_t mpu6050_get_acce(mpu6050_handle_t sensor, mpu6050_acce_value_t *const 
 esp_err_t mpu6050_get_gyro(mpu6050_handle_t sensor, mpu6050_gyro_value_t *const gyro_value);
 
 /**
- * @brief use complimentory filter to caculate roll and pitch
- *
- * @param acce_value accelerometer measurements
- * @param gyro_value gyroscope measurements
- * @param complimentary_angle complimentary angle
- *
- * @return
- *     - ESP_OK Success
- *     - ESP_FAIL Fail
- */
-
-/**
  * @brief Read temperature values
  *
  * @param sensor object handle of mpu6050
@@ -228,6 +242,17 @@ esp_err_t mpu6050_get_gyro(mpu6050_handle_t sensor, mpu6050_gyro_value_t *const 
  */
 esp_err_t mpu6050_get_temp(mpu6050_handle_t sensor, mpu6050_temp_value_t *const temp_value);
 
+/**
+ * @brief use complimentory filter to caculate roll and pitch
+ *
+ * @param acce_value accelerometer measurements
+ * @param gyro_value gyroscope measurements
+ * @param complimentary_angle complimentary angle
+ *
+ * @return
+ *     - ESP_OK Success
+ *     - ESP_FAIL Fail
+ */
 esp_err_t mpu6050_complimentory_filter(mpu6050_handle_t sensor, const mpu6050_acce_value_t *const acce_value,
                                        const mpu6050_gyro_value_t *const gyro_value, complimentary_angle_t *const complimentary_angle);
 

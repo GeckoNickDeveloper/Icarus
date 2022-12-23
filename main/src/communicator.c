@@ -2,25 +2,46 @@
 #include "../include/utils.h"
 #include <string.h>
 
-static const char* TAG = "Icarus MQTT";
-
 static esp_mqtt_client_handle_t client;
 
+void icarus_mqtt_callback_selector(esp_mqtt_event_handle_t event) {
+	// Extract topic from event
+	char* topic = (char*) calloc(event->topic_len + 1, sizeof(char));
+	strncpy(topic, event->topic, event->topic_len);
+
+	// Print the topic
+	ESP_LOGI(TAG_COMMUNICATION, "Topic [%s]", topic);
+
+	// Actual selector
+	if (strcmp(topic, "/icarus/command") == 0) {
+		command_t cmd;
+		memcpy(&cmd, (void*) event->data, sizeof(command_t));
+		icarus_set_shared_command(cmd);
+
+		icarus_system_time_print_now();
+		ESP_LOGW(TAG_COMMUNICATION, "%c%c%c%c%c", cmd.pitch, cmd.roll, cmd.yaw, cmd.throttle, cmd.aux);
+		//ESP_LOGW(TAG_COMMUNICATION, "%d %d %d %d %d", cmd.pitch, cmd.roll, cmd.yaw, cmd.throttle, cmd.aux);
+	}
+
+	free(topic);
+};
+
 void icarus_mqtt_handler(void* args, esp_event_base_t base, int32_t event_id, void *event_data) {
-	ESP_LOGD(TAG, "Event dispatched from event loop base=%s, event_id=%ld", base, event_id);
+	ESP_LOGD(TAG_MQTT, "Event dispatched from event loop base=%s, event_id=%ld", base, event_id);
 	esp_mqtt_event_handle_t event = event_data;
 	//esp_mqtt_client_handle_t client = event->client;
 		
 	int msg_id;
 	switch ((esp_mqtt_event_id_t) event_id) {
 		case MQTT_EVENT_CONNECTED:
-			ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
+			ESP_LOGI(TAG_MQTT, "MQTT_EVENT_CONNECTED");
 			//msg_id = esp_mqtt_client_publish(client, "/topic/qos1", "data_3", 0, 1, 0);
 			//ESP_LOGI(TAG, "sent publish successful, msg_id=%d", msg_id);
 
-			msg_id = esp_mqtt_client_subscribe(client, "/command", 0);
-			msg_id = esp_mqtt_client_subscribe(client, "/icarus/echo", 0);
-			ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
+			msg_id = esp_mqtt_client_subscribe(client, "/icarus/command", 0);
+			msg_id = esp_mqtt_client_subscribe(client, "/icarus/#", 0);
+			//msg_id = esp_mqtt_client_subscribe(client, "/icarus/echo", 0);
+			ESP_LOGI(TAG_MQTT, "sent subscribe successful, msg_id=%d", msg_id);
 
 			//msg_id = esp_mqtt_client_subscribe(client, "/topic/qos1", 1);
 			//ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
@@ -29,37 +50,37 @@ void icarus_mqtt_handler(void* args, esp_event_base_t base, int32_t event_id, vo
 			//ESP_LOGI(TAG, "sent unsubscribe successful, msg_id=%d", msg_id);
 			break;
 		case MQTT_EVENT_DISCONNECTED:
-			ESP_LOGI(TAG, "MQTT_EVENT_DISCONNECTED");
+			ESP_LOGI(TAG_MQTT, "MQTT_EVENT_DISCONNECTED");
 			break;
 
 		case MQTT_EVENT_SUBSCRIBED:
-			ESP_LOGI(TAG, "MQTT_EVENT_SUBSCRIBED, msg_id=%d", event->msg_id);
+			ESP_LOGI(TAG_MQTT, "MQTT_EVENT_SUBSCRIBED, msg_id=%d", event->msg_id);
 
 			msg_id = esp_mqtt_client_publish(client, "/icarus/echo", "data", 0, 0, 0);
 			//ESP_LOGI(TAG, "sent publish successful, msg_id=%d", msg_id);
 			break;
 		case MQTT_EVENT_UNSUBSCRIBED:
-			ESP_LOGI(TAG, "MQTT_EVENT_UNSUBSCRIBED, msg_id=%d", event->msg_id);
+			ESP_LOGI(TAG_MQTT, "MQTT_EVENT_UNSUBSCRIBED, msg_id=%d", event->msg_id);
 			break;
 		case MQTT_EVENT_PUBLISHED:
-			ESP_LOGI(TAG, "MQTT_EVENT_PUBLISHED, msg_id=%d", event->msg_id);
+			ESP_LOGI(TAG_MQTT, "MQTT_EVENT_PUBLISHED, msg_id=%d", event->msg_id);
 			break;
 		case MQTT_EVENT_DATA:
-			ESP_LOGI(TAG, "MQTT_EVENT_DATA");
+			ESP_LOGI(TAG_MQTT, "MQTT_EVENT_DATA");
 
-
-
-			if (strncmp(event->topic, "/icarus/echo", strlen("/icarus/echo")) != 0) {
-				print_timestamp();
-				msg_id = esp_mqtt_client_publish(client, "/icarus/echo", event->data, event->data_len, 0, 0);
-				printf("ECHO\r\n");
-			}
-
-			printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
-			printf("DATA=%.*s\r\n", event->data_len, event->data);
+			icarus_mqtt_callback_selector(event);
+//			 
+// 
+//			 if (strncmp(event->topic, "/icarus/echo", strlen("/icarus/echo")) != 0) {
+//			 	msg_id = esp_mqtt_client_publish(client, "/icarus/echo", event->data, event->data_len, 0, 0);
+//			 	printf("ECHO\r\n");
+//			 }
+// 
+//			 printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
+//			printf("DATA=%.*s\r\n", event->data_len, event->data);
 			break;
 		case MQTT_EVENT_ERROR:
-			ESP_LOGE(TAG, "MQTT_EVENT_ERROR");
+			ESP_LOGE(TAG_MQTT, "MQTT_EVENT_ERROR");
 			//if (event->error_handle->error_type == MQTT_ERROR_TYPE_TCP_TRANSPORT) {
 			//	log_error_if_nonzero("reported from esp-tls", event->error_handle->esp_tls_last_esp_err);
 			//	log_error_if_nonzero("reported from tls stack", event->error_handle->esp_tls_stack_err);
@@ -68,7 +89,7 @@ void icarus_mqtt_handler(void* args, esp_event_base_t base, int32_t event_id, vo
 			//}
 			break;
 		default:
-			ESP_LOGI(TAG, "Other event id:%d", event->event_id);
+			ESP_LOGI(TAG_MQTT, "Other event id:%d", event->event_id);
 			break;
 	}
 };
@@ -94,21 +115,5 @@ void icarus_publish_telemetry(telemetry_t current) {
 	int err = esp_mqtt_client_publish(client, "/icarus/telemetry", (char*) &current, sizeof(telemetry_t), 0, 0);
 
 	if (err == -1)
-		ESP_LOGE(TAG, "Telemetry not send due to disconnected client");	
-};
-
-
-
-// Thread worker
-void* icarus_communication_worker(void* args) {
-	telemetry_t tlm;
-
-	while(1) {
-		tlm = icarus_get_shared_telemetry();
-
-		icarus_publish_telemetry(tlm);
-		icarus_delay(1000);
-	}
-
-	return NULL;
+		ESP_LOGE(TAG_COMMUNICATION, "Telemetry not send due to disconnected client");	
 };
