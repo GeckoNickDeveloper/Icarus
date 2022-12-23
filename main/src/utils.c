@@ -132,6 +132,7 @@ long icarus_map(long x, long in_min, long in_max, long out_min, long out_max) {
 void icarus_system_time_init() {
 	sntp_setoperatingmode(SNTP_OPMODE_POLL);
 	//sntp_setservername(0, "pool.ntp.org");
+	sntp_set_sync_mode(SNTP_SYNC_MODE_SMOOTH);
 	sntp_setservername(0, "it.pool.ntp.org");
 
 	sntp_init();
@@ -150,6 +151,9 @@ void icarus_system_time_init() {
 
 
 	struct timeval tv;
+
+	// TEST
+	//sntp_sync_time();
 
 	gettimeofday(&tv, NULL);
 

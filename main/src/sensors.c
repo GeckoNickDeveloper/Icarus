@@ -325,7 +325,7 @@ float icarus_get_proximity() {
 	t1 = icarus_micros();
 	delta = (float) (t1 - t0) / 1000000.0; // us -> s
 	
-	if (delta <= (CONFIG_ICARUS_SENSOR_SP0R_TIMEOUT / 1000)) // Config is in millis, now is in seconds
+	if (delta <= (CONFIG_ICARUS_SENSOR_SR04_TIMEOUT / 1000)) // Config is in millis, now is in seconds
 		distance = delta * SOUND_SPEED * 0.5;
 	else
 		distance = -1;
