@@ -45,37 +45,79 @@ menu "Icarus Configuration"
 #	endchoice
 
 	# Mobile Network Config
-	config ICARUS_APN
-		string "Mobile APN"
-		default "exmaple.apn.com"
-		help
-			Mobile SIM APN.
+	menu "Icarus Network"
+		config ICARUS_NETWORK_APN
+			string "Mobile APN"
+			default "exmaple.apn.com"
+			help
+				Mobile SIM APN.
+		
+		config ICARUS_NETWORK_PIN_ENABLED
+			bool "PIN enabled"
+			default false
+			help
+		
+		if (ICARUS_NETWORK_PIN_ENABLED)
+			config ICARUS_NETWORK_PIN
+				string "PIN"
+				default ""
+				help
+					PIN to unlock the SIM.
+	endmenu
 	
-	config ICARUS_MOBILE_PIN
-		string "Mobile SIM PIN"
-		default ""
-		help
-			PIN to unlock the SIM.
+	
+#	config ICARUS_APN
+#		string "Mobile APN"
+#		default "exmaple.apn.com"
+#		help
+#			Mobile SIM APN.
+#	
+#	config ICARUS_MOBILE_PIN
+#		string "Mobile SIM PIN"
+#		default ""
+#		help
+#			PIN to unlock the SIM.
 
 	# Smoother Config
-	menu "Icarus Smoother"
-		config ICARUS_QUEUE_SIZE
+	menu "Icarus Smoothing"
+		config ICARUS_SMOOTHING_QUEUE_SIZE
 			int "Queue size"
 			default 5
 			help
 				Smoothing queue size.
 		
-		config ICARUS_THERM_SAMPLES
+		config ICARUS_SMOOTHING_THERM_SAMPLES
 			int "Therm samples"
 			default 10
 			help
 				Smoothing queue size.
 		
-		config ICARUS_APPROXIMATION_DIGITS
+		config ICARUS_SMOOTHING_APPROXIMATION_DIGITS
 			int "Approx digits"
 			default 3
 			help
 				Smoothing queue size.
+
+
+
+
+#		config ICARUS_QUEUE_SIZE
+#			int "Queue size"
+#			default 5
+#			help
+#				Smoothing queue size.
+#		
+#		config ICARUS_THERM_SAMPLES
+#			int "Therm samples"
+#			default 10
+#			help
+#				Smoothing queue size.
+#		
+#		config ICARUS_APPROXIMATION_DIGITS
+#			int "Approx digits"
+#			default 3
+#			help
+#				Smoothing queue size.
 	endmenu
 	
 	# MQTT Config
@@ -121,32 +163,29 @@ menu "Icarus Configuration"
 
 	# Sensors Config
 	menu "Icarus Sensors"
-		menu "SR04"
-			config ICARUS_SENSOR_SR04_TERRAIN_TRIGGER
-				int "Trigger pin"
-				default 25
-
-			config ICARUS_SENSOR_SR04_TERRAIN_ECHO
-				int "Echo pin"
-				default 26
+		menu "Icarus I2C Configuration"
+			config ICARUS_I2C_PORT
+				int "I2C Port"
+				default 0
+				help
+					Broker for MQTT connection.
 			
-			config ICARUS_SENSOR_SR04_TIMEOUT
-				int "Sensor timeout (ms)"
-				default 200
+			config ICARUS_I2C_SDA
+				int "Serial Data"
+				default 21
+				help
+					Serial Data pin.
+			
+			config ICARUS_I2C_SCL
+				int "Serial Clock"
+				default 22
+				help
+					Serial Clock pin.
+			
+			config ICARUS_I2C_FREQ
+				int "Frequency in bit/s"
+				default 400000
 		endmenu
-
-		config ICARUS_LP_CUTOFF_GYRO
-			int "Gyro cutoff frequency low pass filter"
-			default 10
-		config ICARUS_LP_CUTOFF_ACC
-			int "Accelerometer cutoff frequency low pass filter"
-			default 5
-
-		config ICARUS_SENSOR_SAMPLING_FREQUENCY
-			int "Sampling frequency (Hz)"
-			default 50
-			help
-				Broker port for MQTT connection.
 
 		menu "MPU6050"
 			choice ICARUS_SENSOR_MPU6050_ACCELEROMETER_RANGE
@@ -209,51 +248,52 @@ menu "Icarus Configuration"
 			endchoice
 		endmenu
 
-		menu "Icarus I2C Configuration"
-			config ICARUS_I2C_PORT
-				int "I2C Port"
-				default 0
+		menu "BH1750"
+			choice ICARUS_SENSOR_BH1750_RESOLUTION
+				prompt "BH1750 resolution"
+				default ICARUS_SENSOR_BH1750_RESOLUTION_1LX
 				help
-					Broker for MQTT connection.
-			
-			config ICARUS_I2C_SDA
-				int "Serial Data"
-				default 21
-				help
-					Serial Data pin.
-			
-			config ICARUS_I2C_SCL
-				int "Serial Clock"
-				default 22
-				help
-					Serial Clock pin.
-			
-			config ICARUS_I2C_FREQ
-				int "Frequency in bit/s"
-				default 400000
-			
-			#choice ICARUS_I2C_FREQ
-			#	prompt "WiFi Scan auth mode threshold"
-			#	default ICARUS_I2C_FREQ_FM
-			#	help
-			#		The weakest authmode to accept in the scan mode.
-			#		This value defaults to ICARUS_WIFI_AUTH_WPA2_PSK incase password is present and ICARUS_WIFI_AUTH_OPEN is used.
-			#		Please select ICARUS_WIFI_AUTH_WEP/ICARUS_WIFI_AUTH_WPA_PSK incase AP is operating in WEP/WPA mode.
-			#
-			#	config ICARUS_I2C_FREQ_SM
-			#		int "100kbit/s"
-			#		default 100000
-			#		#"100kbit/s"
-			#	config ICARUS_I2C_FREQ_FM
-			#		int "400kbit/s"
-			#		default 400000
-			#		#"400kbit/s"
-			#	#config ICARUS_I2C_MODE_
-			#	#	int "400kbit/s"
-			#	#config ICARUS_I2C_MODE_
-			#	#	int "400kbit/s"
-			#endchoice
+					Resolution of luminosity sensor.
+		
+				config ICARUS_SENSOR_BH1750_RESOLUTION_4LX
+					bool "4 Lx"
+				config ICARUS_SENSOR_BH1750_RESOLUTION_1LX
+					bool "1 Lx"
+				config ICARUS_SENSOR_BH1750_RESOLUTION_0_5LX
+					bool ".5 Lx"
+			endchoice
 		endmenu
+
+		menu "SR04"
+			config ICARUS_SENSOR_SR04_TERRAIN_TRIGGER
+				int "Trigger pin"
+				default 25
+
+			config ICARUS_SENSOR_SR04_TERRAIN_ECHO
+				int "Echo pin"
+				default 26
+			
+			config ICARUS_SENSOR_SR04_TIMEOUT
+				int "Sensor timeout (ms)"
+				default 200
+		endmenu
+
+		config ICARUS_LP_CUTOFF_GYRO
+			int "Gyro cutoff frequency low pass filter"
+			default 10
+		config ICARUS_LP_CUTOFF_ACC
+			int "Accelerometer cutoff frequency low pass filter"
+			default 5
+
+		config ICARUS_SENSOR_SAMPLING_FREQUENCY
+			int "Sampling frequency (Hz)"
+			default 50
+			help
+				Broker port for MQTT connection.
+
+		
+
+		
 	endmenu
 
 	# Actuator Config
