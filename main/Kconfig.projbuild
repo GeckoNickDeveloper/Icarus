@@ -53,28 +53,24 @@ menu "Icarus Configuration"
 				Mobile SIM APN.
 		
 		config ICARUS_NETWORK_PIN_ENABLED
-			bool "PIN enabled"
+			bool "Enable PIN"
 			default false
 			help
+				Check if the pin is enabled
 		
-		if (ICARUS_NETWORK_PIN_ENABLED)
+		if ICARUS_NETWORK_PIN_ENABLED
 			config ICARUS_NETWORK_PIN
 				string "PIN"
-				default ""
+				default "1234"
 				help
 					PIN to unlock the SIM.
+		endif
 	endmenu
-	
-	
-#	config ICARUS_APN
-#		string "Mobile APN"
-#		default "exmaple.apn.com"
-#		help
-#			Mobile SIM APN.
-#	
-#	config ICARUS_MOBILE_PIN
-#		string "Mobile SIM PIN"
-#		default ""
+
+	#Useless
+#	config USLESS
+#		string "PIN"
+#		default "1234"
 #		help
 #			PIN to unlock the SIM.
 
@@ -101,23 +97,6 @@ menu "Icarus Configuration"
 
 
 
-#		config ICARUS_QUEUE_SIZE
-#			int "Queue size"
-#			default 5
-#			help
-#				Smoothing queue size.
-#		
-#		config ICARUS_THERM_SAMPLES
-#			int "Therm samples"
-#			default 10
-#			help
-#				Smoothing queue size.
-#		
-#		config ICARUS_APPROXIMATION_DIGITS
-#			int "Approx digits"
-#			default 3
-#			help
-#				Smoothing queue size.
 	endmenu
 	
 	# MQTT Config
@@ -136,7 +115,7 @@ menu "Icarus Configuration"
 		
 		config ICARUS_MQTT_USES_AUTHENTICATION
 			bool "MQTT uses Authentication"
-			default true
+			default false
 			help
 				MQTT uses authentication.
 		
