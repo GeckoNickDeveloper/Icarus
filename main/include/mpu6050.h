@@ -155,8 +155,8 @@ esp_err_t mpu6050_sleep(mpu6050_handle_t sensor);
 esp_err_t mpu6050_config(mpu6050_handle_t sensor,
 							const mpu6050_acce_fs_t acce_fs,
 							const mpu6050_gyro_fs_t gyro_fs,
-							const mpu6050_bandwidth_t bw,
-							const mpu6050_highpass_t hp);
+							const mpu6050_bandwidth_t bw); //,
+							//const mpu6050_highpass_t hp);
 
 /**
  * @brief Get accelerometer sensitivity

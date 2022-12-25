@@ -149,30 +149,34 @@ void icarus_init_sensors() {
 	bw = LOWPASS_BANDWIDTH_260;
 #endif
 
-	// Log test
-	//ESP_LOGI("CONFIG", "%d, %d, %d", acc_scale, gyro_scale, bw);
+#if CONFIG_ICARUS_SENSOR_BH1750_RESOLUTION_0_5LX
+	lux_resolution = BH1750_CONTINUE_HALFLX_RES;
+#elif CONFIG_ICARUS_SENSOR_BH1750_RESOLUTION_1LX
+	lux_resolution = BH1750_CONTINUE_1LX_RES;
+#elif CONFIG_ICARUS_SENSOR_BH1750_RESOLUTION_4LX
+	lux_resolution = BH1750_CONTINUE_4LX_RES;
+#endif
+
 
 	// MPU6050 Config
 	mpu6050 = mpu6050_create(I2C_NUM_0, MPU6050_I2C_ADDRESS);
 	error = mpu6050_wake_up(mpu6050);
 	//error = mpu6050_config(mpu6050, ACCE_FS_4G, GYRO_FS_500DPS);
-	error = mpu6050_config(mpu6050, acc_scale, gyro_scale, bw, MPU6050_HIGHPASS_RESET);
+	error = mpu6050_config(mpu6050, acc_scale, gyro_scale, bw);
 
 	// BH1750 Config
 	bh1750 = bh1750_create(I2C_NUM_0, BH1750_I2C_ADDRESS_DEFAULT);
 	error = bh1750_power_on(bh1750);
-	error = bh1750_set_measure_mode(bh1750, BH1750_CONTINUE_1LX_RES);
+	error = bh1750_set_measure_mode(bh1750, lux_resolution);
 
 	// SP04 Config
 	gpio_set_direction(CONFIG_ICARUS_SENSOR_SR04_TERRAIN_TRIGGER, GPIO_MODE_INPUT);
 	gpio_set_direction(CONFIG_ICARUS_SENSOR_SR04_TERRAIN_ECHO, GPIO_MODE_OUTPUT);
 
+
+
 	// Auxilary Init
 	icarus_gyro_offset_init();
-
-	// Low Pass Filters Init
-	//g_lp_prev_f = icarus_get_rotation();
-	//a_lp_prev_f = icarus_get_acceleration();
 	
 	// Gravity Init
 	gravity = icarus_get_acceleration();
