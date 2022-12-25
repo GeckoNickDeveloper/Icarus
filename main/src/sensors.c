@@ -68,7 +68,7 @@ static void icarus_gyro_offset_init() {
 	//}
 
 	// Actual evaluation
-	for (i = 0; i < CONFIG_ICARUS_THERM_SAMPLES; ++i) {
+	for (i = 0; i < CONFIG_ICARUS_SMOOTHING_THERM_SAMPLES; ++i) {
 		current_cycle = icarus_millis();
 
 		// Start
@@ -196,7 +196,7 @@ vector3d_t icarus_get_acceleration() {
 	acc.x = raw.acce_x;
 	acc.y = raw.acce_y;
 	acc.z = raw.acce_z;
-	acc = approx(acc, CONFIG_ICARUS_APPROXIMATION_DIGITS);
+	acc = approx(acc, CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS);
 	//ESP_LOGE(TAG_SENSORS, "Acce [%f, %f, %f]", acc.x, acc.y, acc.z);
 
 	acc = icarus_multiply(acc, G);
@@ -213,11 +213,11 @@ vector3d_t icarus_get_rotation() {
 	rot.y = (raw.gyro_y);
 	rot.z = (raw.gyro_z);
 	
-	rot = approx(rot, CONFIG_ICARUS_APPROXIMATION_DIGITS);
+	rot = approx(rot, CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS);
 	rot.x = deg2rad(rot.x);
 	rot.y = deg2rad(rot.y);
 	rot.z = deg2rad(rot.z);
-	rot = approx(rot, CONFIG_ICARUS_APPROXIMATION_DIGITS);
+	rot = approx(rot, CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS);
 
 	return rot;
 };

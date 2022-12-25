@@ -15,7 +15,7 @@ static vector3d_t gyro_sum = {0.0, 0.0, 0.0};
 void icarus_init_smoother() {
 	vector3d_t zero = {0,0,0};
 	int i;
-	for (i = 0; i < CONFIG_ICARUS_QUEUE_SIZE; ++i) {
+	for (i = 0; i < CONFIG_ICARUS_SMOOTHING_QUEUE_SIZE; ++i) {
 		enqueue(&acc_queue, zero);
 		enqueue(&gyro_queue, zero);
 	}
@@ -39,14 +39,14 @@ vector3d_t smooth_acc(vector3d_t src) {
 	node_t* node;
 
 	// Data approximation (to reduce noise)
-	src = approx(src, CONFIG_ICARUS_APPROXIMATION_DIGITS);
+	src = approx(src, CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS);
 
 	enqueue(&acc_queue, src);
 	acc_sum = icarus_add(acc_sum, src);
 	node = dequeue(&acc_queue);
 	acc_sum = icarus_subtract(acc_sum, node->value);
 
-	result = icarus_divide(acc_sum, CONFIG_ICARUS_QUEUE_SIZE);
+	result = icarus_divide(acc_sum, CONFIG_ICARUS_SMOOTHING_QUEUE_SIZE);
 
 	free(node);
 
@@ -58,14 +58,14 @@ vector3d_t smooth_gyro(vector3d_t src) {
 	node_t* node;
 
 	// Data approximation (to reduce noise)
-	src = approx(src, CONFIG_ICARUS_APPROXIMATION_DIGITS);
+	src = approx(src, CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS);
 
 	enqueue(&gyro_queue, src);
 	gyro_sum = icarus_add(gyro_sum, src);
 	node = dequeue(&gyro_queue);
 	gyro_sum = icarus_subtract(gyro_sum, node->value);
 
-	result = icarus_divide(gyro_sum, CONFIG_ICARUS_QUEUE_SIZE);
+	result = icarus_divide(gyro_sum, CONFIG_ICARUS_SMOOTHING_QUEUE_SIZE);
 
 	free(node);
 

@@ -32,9 +32,9 @@ void* icarus_sensor_worker(void* args) {
 					smooth_acc(
 						icarus_get_linear_acceleration()
 					),
-					CONFIG_ICARUS_APPROXIMATION_DIGITS
+					CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS
 				);
-		//acc = approx(smooth_acc(icarus_get_linear_acceleration()), CONFIG_ICARUS_APPROXIMATION_DIGITS);
+		//acc = approx(smooth_acc(icarus_get_linear_acceleration()), CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS);
 		gyro =	approx(
 					smooth_gyro(
 						icarus_subtract(
@@ -42,10 +42,10 @@ void* icarus_sensor_worker(void* args) {
 							icarus_get_gyro_offset()
 						)
 					),
-					CONFIG_ICARUS_APPROXIMATION_DIGITS
+					CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS
 				);
 
-		//gyro = approx(smooth_gyro(icarus_get_linear_rotation()), CONFIG_ICARUS_APPROXIMATION_DIGITS);
+		//gyro = approx(smooth_gyro(icarus_get_linear_rotation()), CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS);
 		now =  icarus_micros(); // microsecons
 
 		if (prev == 0)
