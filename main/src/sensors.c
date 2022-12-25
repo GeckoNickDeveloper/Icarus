@@ -103,6 +103,7 @@ void icarus_init_sensors() {
 	mpu6050_acce_fs_t acc_scale; 
 	mpu6050_gyro_fs_t gyro_scale; 
 	mpu6050_bandwidth_t bw;
+	bh1750_measure_mode_t lux_resolution;
 
 	// acc config
 #if CONFIG_ICARUS_SENSOR_MPU6050_ACCELEROMETER_RANGE_2G
@@ -149,12 +150,15 @@ void icarus_init_sensors() {
 	bw = LOWPASS_BANDWIDTH_260;
 #endif
 
+	// BH1750 Config
 #if CONFIG_ICARUS_SENSOR_BH1750_RESOLUTION_0_5LX
 	lux_resolution = BH1750_CONTINUE_HALFLX_RES;
 #elif CONFIG_ICARUS_SENSOR_BH1750_RESOLUTION_1LX
 	lux_resolution = BH1750_CONTINUE_1LX_RES;
 #elif CONFIG_ICARUS_SENSOR_BH1750_RESOLUTION_4LX
 	lux_resolution = BH1750_CONTINUE_4LX_RES;
+#else
+	lux_resolution = BH1750_CONTINUE_1LX_RES;
 #endif
 
 
