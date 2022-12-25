@@ -297,7 +297,20 @@ vector3d_t icarus_extract_gravity(vector3d_t acc) {
 	return gravity;
 };
 
+vector3d_t icarus_get_orientation(vector3d_t orientation) {
+	vector3d_t res;
+	
+	res.x = acos(gravity.y / (sqrt(pow(gravity.y, 2) + pow(gravity.z, 2)))) - (PI/2);
+	res.y = acos(gravity.x / (sqrt(pow(gravity.x, 2) + pow(gravity.z, 2)))) - (PI/2);
+	res.z = orientation.z;
 
+	return res;
+};
+
+void icarus__get_orientation(vector3d_t* orientation) {
+	orientation->x = acos(gravity.y / (sqrt(pow(gravity.y, 2) + pow(gravity.z, 2)))) - (PI/2);
+	orientation->y = acos(gravity.x / (sqrt(pow(gravity.x, 2) + pow(gravity.z, 2)))) - (PI/2);
+};
 
 
 

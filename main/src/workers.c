@@ -54,12 +54,11 @@ void* icarus_sensor_worker(void* args) {
 			delta = (float) (now - prev) / 1000000.0; // micros to sec
 		prev = now;
 
-		// error free gyro/acc
 		
-
 		// Orientation update
 		tlm.orientation = icarus_add(tlm.orientation, icarus_multiply(gyro, delta));
-		
+		tlm.orientation = icarus_get_orientation(tlm.orientation);
+
 		// Linear acceleration
 		//acc = icarus_rotate(acc, tlm.orientation.x, tlm.orientation.y, tlm.orientation.z);
 		//acc = icarus_subtract(acc, gravity);

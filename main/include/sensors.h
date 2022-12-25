@@ -21,6 +21,8 @@ extern float icarus_get_temperature();
 //extern vector3d_t icarus_get_linear_rotation();
 extern vector3d_t icarus_get_linear_acceleration();
 extern vector3d_t icarus_extract_gravity(vector3d_t acc);
+extern vector3d_t icarus_get_orientation(vector3d_t orientation);
+extern void icarus__get_orientation(vector3d_t* orientation);
 
 // MPU6050 Aux
 extern vector3d_t icarus_get_gyro_offset();
