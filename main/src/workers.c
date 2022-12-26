@@ -5,7 +5,7 @@
 #define TAG "Icarus Workers"
 
 // Sensors
-void* icarus_sensor_worker(void* args) {
+void* icarus_mpu6050_worker(void* args) {
 	int dt = 1000 / CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY;
 	unsigned long current_cycle;
 
@@ -95,8 +95,33 @@ void* icarus_sensor_worker(void* args) {
 	return NULL;
 };
 
+void* icarus_bh1750_worker(void* args) {
+	unsigned long dt = 1000 / 1; // Temporary
+	unsigned long current_cycle;
+
+	float lux;
+	long long prev = 0;
+	float delta;
+
+	while(1) {
+		current_cycle = icarus_millis();
+
+		// ========== START
+		lux = icarus_get_luminosity();
+		icarus_set_shared_luminosity(lux);
+
+		ESP_LOGI(TAG_SENSORS, "Luminosity [%f]", lux);
+		// ========== END
+		
+		// Speed limiter to stick with sample rate
+		icarus_delay(dt - (icarus_millis() - current_cycle));
+	}
+	
+	return NULL;
+};
+
 // TODO handle timeout
-void* icarus_proximity_worker(void* args) {
+void* icarus_sr04_worker(void* args) {
 	unsigned long dt = 1000 / 1; // Temporary
 	unsigned long current_cycle;
 
@@ -109,6 +134,7 @@ void* icarus_proximity_worker(void* args) {
 
 		// ========== START
 		distance = icarus_get_proximity();
+		icarus_set_shared_terrain(distance);
 
 		ESP_LOGI(TAG_SENSORS, "Distance [%f]", distance);
 		// ========== END

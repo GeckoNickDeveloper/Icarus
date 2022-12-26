@@ -23,16 +23,18 @@ void app_main() {
 
 	
 	pthread_t actuator_thread;
-	pthread_t sensors_thread;
-	pthread_t proximity_thread;
+	pthread_t mpu6050_thread;
+	pthread_t bh1750_thread;
+	pthread_t sr04_thread;
 	pthread_t communication_thread;
 	pthread_t pilot_thread;
 
 
 	// Thread creation
 	//pthread_create(&actuator_thread, NULL, icarus_actuator_worker, NULL);
-	//pthread_create(&sensors_thread, NULL, icarus_sensor_worker, NULL);
-	//pthread_create(&proximity_thread, NULL, icarus_proximity_worker, NULL);
+	//pthread_create(&mpu6050_thread, NULL, icarus_mpu6050_worker, NULL);
+	//pthread_create(&bh1750_thread, NULL, icarus_bh1750_worker, NULL);
+	//pthread_create(&sr04_thread, NULL, icarus_sr04_worker, NULL);
 	//pthread_create(&communication_thread, NULL, icarus_communication_worker, NULL);
 	//pthread_create(&pilot_thread, NULL, <placeholder_2>, NULL);
 	
