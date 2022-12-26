@@ -52,7 +52,7 @@ vector3d_t extract_orientation(vector3d_t vec) {
 
 
 static void icarus_gyro_offset_init() {
-	int dt = 1000 / CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY;
+	int dt = 1000 / CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY;
 	unsigned long current_cycle;
 
 	vector3d_t raw;
@@ -294,7 +294,7 @@ vector3d_t icarus_get_linear_acceleration() {
 
 vector3d_t icarus_extract_gravity(vector3d_t acc) {
 	float rc = 1.0 / (CONFIG_ICARUS_LP_CUTOFF_ACC * 2 * PI);
-	float dt = 1.0 / CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY;
+	float dt = 1.0 / CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY;
 	float alpha = dt / (dt + rc); // to be calculated
 
 	gravity = icarus_add(

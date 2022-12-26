@@ -6,7 +6,7 @@
 
 // Sensors
 void* icarus_mpu6050_worker(void* args) {
-	int dt = 1000 / CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY;
+	int dt = 1000 / CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY;
 	unsigned long current_cycle;
 
 	int i=0;
@@ -72,9 +72,9 @@ void* icarus_mpu6050_worker(void* args) {
 		icarus_set_shared_telemetry(tlm);
 
 		// LOG
-		if (((i % (CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY * 609)) == 0) && (i != 0)) // 10m logs (before)
+		if (((i % (CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY * 609)) == 0) && (i != 0)) // 10m logs (before)
 			ESP_LOGI(TAG_SENSORS, "LOG END");
-		else if ((i % (CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY * 1)) == 0) {
+		else if ((i % (CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY * 1)) == 0) {
 			//ESP_LOGI(TAG_SENSORS, "Orientation [%f, %f, %f]", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), rad2deg(tlm.orientation.z));
 			//ESP_LOGW(TAG_SENSORS, "Vel [%f, %f, %f]", tlm.velocity.x, tlm.velocity.y, tlm.velocity.z);
 			//ESP_LOGE(TAG_SENSORS, "Acc [%f, %f, %f]", acc.x, acc.y, acc.z);
@@ -96,7 +96,7 @@ void* icarus_mpu6050_worker(void* args) {
 };
 
 void* icarus_bh1750_worker(void* args) {
-	unsigned long dt = 1000 / 1; // Temporary
+	unsigned long dt = 1000 / CONFIG_ICARUS_SENSOR_BH1750_SAMPLING_FREQUENCY; // Temporary
 	unsigned long current_cycle;
 
 	float lux;
@@ -122,7 +122,7 @@ void* icarus_bh1750_worker(void* args) {
 
 // TODO handle timeout
 void* icarus_sr04_worker(void* args) {
-	unsigned long dt = 1000 / 1; // Temporary
+	unsigned long dt = 1000 / CONFIG_ICARUS_SENSOR_SR04_SAMPLING_FREQUENCY; // Temporary
 	unsigned long current_cycle;
 
 	float distance;
