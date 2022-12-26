@@ -225,6 +225,10 @@ menu "Icarus Configuration"
 					bool "260Hz"
 					# (acc) / 256Hz (gyro) - [Disable filter]"
 			endchoice
+
+			config ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY
+				int "Sampling frequency (Hz)"
+				default 50
 		endmenu
 
 		menu "BH1750"
@@ -241,6 +245,10 @@ menu "Icarus Configuration"
 				config ICARUS_SENSOR_BH1750_RESOLUTION_0_5LX
 					bool ".5 Lx"
 			endchoice
+
+			config ICARUS_SENSOR_BH1750_SAMPLING_FREQUENCY
+				int "Sampling frequency (Hz)"
+				default 5
 		endmenu
 
 		menu "SR04"
@@ -255,6 +263,10 @@ menu "Icarus Configuration"
 			config ICARUS_SENSOR_SR04_TIMEOUT
 				int "Sensor timeout (ms)"
 				default 200
+			
+			config ICARUS_SENSOR_SR04_SAMPLING_FREQUENCY
+				int "Sampling frequency (Hz)"
+				default 1
 		endmenu
 
 		config ICARUS_LP_CUTOFF_GYRO
