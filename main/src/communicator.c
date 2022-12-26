@@ -18,7 +18,9 @@ void icarus_mqtt_callback_selector(esp_mqtt_event_handle_t event) {
 		memcpy(&cmd, (void*) event->data, sizeof(command_t));
 		icarus_set_shared_command(cmd);
 
+#if CONFIG_ICARUS_TESTING_ENABLE_SYSTEM_TIME_SYNC
 		icarus_system_time_print_now();
+#endif
 		ESP_LOGW(TAG_COMMUNICATION, "%c%c%c%c%c", cmd.pitch, cmd.roll, cmd.yaw, cmd.throttle, cmd.aux);
 		//ESP_LOGW(TAG_COMMUNICATION, "%d %d %d %d %d", cmd.pitch, cmd.roll, cmd.yaw, cmd.throttle, cmd.aux);
 	}

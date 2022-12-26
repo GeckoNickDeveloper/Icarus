@@ -16,7 +16,9 @@ void app_main() {
 	icarus_init_sensors();
 	icarus_init_actuator();
 	icarus_network_setup();
+#if CONFIG_ICARUS_TESTING_ENABLE_SYSTEM_TIME_SYNC
 	icarus_system_time_init();
+#endif
 	icarus_mqtt_setup();
 
 	
