@@ -13,7 +13,7 @@ static servo_config_t servo_cfg = {
 	.channels = {
 		.servo_pin = {
 			18,//SERVO_CH0_PIN,
-			//SERVO_CH1_PIN,
+			19,//SERVO_CH1_PIN,
 			//SERVO_CH2_PIN,
 			//SERVO_CH3_PIN,
 			//SERVO_CH4_PIN,
@@ -23,7 +23,7 @@ static servo_config_t servo_cfg = {
 		},
 		.ch = {
 			LEDC_CHANNEL_0,
-			//LEDC_CHANNEL_1,
+			LEDC_CHANNEL_1,
 			//LEDC_CHANNEL_2,
 			//LEDC_CHANNEL_3,
 			//LEDC_CHANNEL_4,
@@ -32,7 +32,7 @@ static servo_config_t servo_cfg = {
 			//LEDC_CHANNEL_7,
 		},
 	},
-	.channel_number = 1,//8
+	.channel_number = 2,//8
 };
 
 void icarus_init_actuator() {
@@ -48,4 +48,10 @@ void icarus_init_actuator() {
 void icarus_apply_command(command_t cmd) {
 	// TODO
 	ESP_LOGI(TAG_ACTUATOR, "Applying command: [%x %x %x %x %x]", cmd.pitch, cmd.roll, cmd.yaw, cmd.throttle, cmd.aux);
+
+	int roll_sx = icarus_map(cmd.roll, 0, 255, 0, 180);
+	int roll_dx = icarus_map(255 - cmd.roll, 0, 255, 0, 180);
+	
+	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 0, roll_sx);
+	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 1, roll_dx);
 };
