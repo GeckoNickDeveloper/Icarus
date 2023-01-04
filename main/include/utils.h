@@ -41,7 +41,9 @@ extern void icarus_delay(unsigned long ms);
 extern void icarus_delay_micros(unsigned long us);
 
 // Math
-long icarus_map(long x, long in_min, long in_max, long out_min, long out_max);
+extern long icarus_map(long x, long in_min, long in_max, long out_min, long out_max);
+extern float icarus_millis_to_sec(unsigned long ms);
+extern unsigned long icarus_sec_to_millis(float s);
 
 // Time
 extern void icarus_system_time_init();

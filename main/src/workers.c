@@ -6,14 +6,15 @@
 
 // Sensors
 void* icarus_mpu6050_worker(void* args) {
-	int dt = 1000 / CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY;
+	float dt = 1 / CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY;
+	unsigned long dt_ms = icarus_sec_to_millis(dt);
 	unsigned long current_cycle;
 
 	int i=0;
 
-	unsigned long prev = 0;
-	unsigned long now;
-	float delta;
+	//unsigned long prev = 0;
+	//unsigned long now;
+
 	vector3d_t acc;
 	vector3d_t gyro;
 	telemetry_t tlm;
@@ -46,17 +47,17 @@ void* icarus_mpu6050_worker(void* args) {
 				);
 
 		//gyro = approx(smooth_gyro(icarus_get_linear_rotation()), CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS);
-		now =  icarus_micros(); // microsecons
+		//now =  icarus_micros(); // microsecons
 
-		if (prev == 0)
+		/*if (prev == 0)
 			delta = 0.0;
 		else
 			delta = (float) (now - prev) / 1000000.0; // micros to sec
-		prev = now;
+		prev = now;*/
 
 		
 		// Orientation update
-		tlm.orientation = icarus_add(tlm.orientation, icarus_multiply(gyro, delta));
+		tlm.orientation = icarus_add(tlm.orientation, icarus_multiply(gyro, dt));
 		tlm.orientation = icarus_get_orientation(tlm.orientation);
 
 		// Linear acceleration
@@ -64,7 +65,7 @@ void* icarus_mpu6050_worker(void* args) {
 		//acc = icarus_subtract(acc, gravity);
 		
 		// Moto unif. acc.
-		tlm.velocity =	icarus_add(tlm.velocity, icarus_multiply(acc, delta));
+		tlm.velocity =	icarus_add(tlm.velocity, icarus_multiply(acc, dt));
 		//tlm.position =	icarus_add(tlm.position,		// x(t) = x +
 		//					icarus_add(tlm.velocity,	// V * t +
 		//						icarus_multiply(acc, 0.5 * delta * delta))); // 0.5 * a * t^2
@@ -89,14 +90,15 @@ void* icarus_mpu6050_worker(void* args) {
 		// ========== END
 
 		// Speed limiter to stick with sample rate
-		icarus_delay(dt - (icarus_millis() - current_cycle));
+		icarus_delay(dt_ms - (icarus_millis() - current_cycle));
 	}
 	
 	return NULL;
 };
 
 void* icarus_bh1750_worker(void* args) {
-	unsigned long dt = 1000 / CONFIG_ICARUS_SENSOR_BH1750_SAMPLING_FREQUENCY; // Temporary
+	float dt = 1000 / CONFIG_ICARUS_SENSOR_BH1750_SAMPLING_FREQUENCY; // Temporary
+	unsigned long dt_ms = icarus_sec_to_millis(dt);
 	unsigned long current_cycle;
 
 	float lux;
@@ -114,7 +116,7 @@ void* icarus_bh1750_worker(void* args) {
 		// ========== END
 		
 		// Speed limiter to stick with sample rate
-		icarus_delay(dt - (icarus_millis() - current_cycle));
+		icarus_delay(dt_ms - (icarus_millis() - current_cycle));
 	}
 	
 	return NULL;
@@ -122,7 +124,8 @@ void* icarus_bh1750_worker(void* args) {
 
 // TODO handle timeout
 void* icarus_sr04_worker(void* args) {
-	unsigned long dt = 1000 / CONFIG_ICARUS_SENSOR_SR04_SAMPLING_FREQUENCY; // Temporary
+	float dt = 1000 / CONFIG_ICARUS_SENSOR_SR04_SAMPLING_FREQUENCY; // Temporary
+	unsigned long dt_ms = icarus_sec_to_millis(dt);
 	unsigned long current_cycle;
 
 	float distance;
@@ -149,7 +152,8 @@ void* icarus_sr04_worker(void* args) {
 
 // Communication
 void* icarus_communication_worker(void* args) {
-	unsigned long dt = 1000 / CONFIG_ICARUS_COMMUNICATION_FREQUENCY;
+	float dt = 1000 / CONFIG_ICARUS_COMMUNICATION_FREQUENCY;
+	unsigned long dt_ms = icarus_sec_to_millis(dt);
 	unsigned long current_cycle;
 
 	telemetry_t tlm;
@@ -164,7 +168,7 @@ void* icarus_communication_worker(void* args) {
 		// ========== END
 		
 		// Speed limiter to stick with sample rate
-		icarus_delay(dt - (icarus_millis() - current_cycle));
+		icarus_delay(dt_ms - (icarus_millis() - current_cycle));
 	}
 
 	return NULL;
@@ -172,7 +176,8 @@ void* icarus_communication_worker(void* args) {
 
 // Actuator
 void* icarus_actuator_worker(void* args) {
-	unsigned long dt = 1000 / CONFIG_ICARUS_ACTUATOR_FREQUENCY;
+	float dt = 1000 / CONFIG_ICARUS_ACTUATOR_FREQUENCY;
+	unsigned long dt_ms = icarus_sec_to_millis(dt);
 	unsigned long current_cycle;
 
 	command_t cmd;
@@ -191,7 +196,7 @@ void* icarus_actuator_worker(void* args) {
 		// ========== END
 		
 		// Speed limiter to stick with sample rate
-		icarus_delay(dt - (icarus_millis() - current_cycle));
+		icarus_delay(dt_ms - (icarus_millis() - current_cycle));
 	}
 	
 	return NULL;
