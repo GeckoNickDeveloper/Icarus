@@ -128,7 +128,7 @@ long icarus_map(long x, long in_min, long in_max, long out_min, long out_max) {
 
 float icarus_millis_to_sec(unsigned long ms) { return ((float) ms / 1000.0); };
 
-unsigned long icarus_sec_to_millis(float s) { return (s * 1000.0); };
+unsigned long icarus_sec_to_millis(float s) { return ((unsigned long) (s * 1000)); };
 
 
 // System Time

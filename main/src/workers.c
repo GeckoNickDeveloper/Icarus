@@ -97,7 +97,7 @@ void* icarus_mpu6050_worker(void* args) {
 };
 
 void* icarus_bh1750_worker(void* args) {
-	float dt = 1000 / CONFIG_ICARUS_SENSOR_BH1750_SAMPLING_FREQUENCY; // Temporary
+	float dt = 1.0 / CONFIG_ICARUS_SENSOR_BH1750_SAMPLING_FREQUENCY; // Temporary
 	unsigned long dt_ms = icarus_sec_to_millis(dt);
 	unsigned long current_cycle;
 
@@ -124,7 +124,7 @@ void* icarus_bh1750_worker(void* args) {
 
 // TODO handle timeout
 void* icarus_sr04_worker(void* args) {
-	float dt = 1000 / CONFIG_ICARUS_SENSOR_SR04_SAMPLING_FREQUENCY; // Temporary
+	float dt = 1.0 / CONFIG_ICARUS_SENSOR_SR04_SAMPLING_FREQUENCY; // Temporary
 	unsigned long dt_ms = icarus_sec_to_millis(dt);
 	unsigned long current_cycle;
 
@@ -143,7 +143,7 @@ void* icarus_sr04_worker(void* args) {
 		// ========== END
 		
 		// Speed limiter to stick with sample rate
-		icarus_delay(dt - (icarus_millis() - current_cycle));
+		icarus_delay(dt_ms - (icarus_millis() - current_cycle));
 	}
 	
 	return NULL;
@@ -152,7 +152,7 @@ void* icarus_sr04_worker(void* args) {
 
 // Communication
 void* icarus_communication_worker(void* args) {
-	float dt = 1000 / CONFIG_ICARUS_COMMUNICATION_FREQUENCY;
+	float dt = 1.0 / CONFIG_ICARUS_COMMUNICATION_FREQUENCY;
 	unsigned long dt_ms = icarus_sec_to_millis(dt);
 	unsigned long current_cycle;
 
@@ -176,7 +176,7 @@ void* icarus_communication_worker(void* args) {
 
 // Actuator
 void* icarus_actuator_worker(void* args) {
-	float dt = 1000 / CONFIG_ICARUS_ACTUATOR_FREQUENCY;
+	float dt = 1.0 / CONFIG_ICARUS_ACTUATOR_FREQUENCY;
 	unsigned long dt_ms = icarus_sec_to_millis(dt);
 	unsigned long current_cycle;
 
