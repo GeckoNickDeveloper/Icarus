@@ -369,6 +369,44 @@ menu "Icarus Configuration"
 				UAV rudder pin.
 	endmenu
 
+
+	menu "Icarus Debug"
+		#config ICARUS_DEBUG_ENABLED
+		#	bool "Enable icarus debug"
+		#	default true
+		#
+		#if ICARUS_DEBUG_ENABLED
+		#	config ICARUS_TESTING_ENABLE_LOGS
+		#		bool "Enable LOGS"
+		#		default true
+		#	
+		#	config ICARUS_DEBUG_ENABLE_SYSTEM_TIME_SYNC
+		#		bool "Enable Time Sync"
+		#		default true
+		#endif
+
+		config ICARUS_DEBUG_SYNC_TIME_ENABLED
+			bool "Enable Time Sync"
+			default false
+
+		config ICARUS_DEBUG_MPU6050_MQTT_MONITORING_ENABLED
+			bool "Enable MPU6050 remote monitoring"
+			default false
+		
+		config ICARUS_DEBUG_BH175050_MQTT_MONITORING_ENABLED
+			bool "Enable BH1750 remote monitoring"
+			default false
+		
+		config ICARUS_DEBUG_SERVOS_MQTT_MONITORING_ENABLED
+			bool "Enable servos remote monitoring"
+			default false
+
+		
+		
+	endmenu
+
+
+
 	config ICARUS_TESTING_ENABLED
 		bool "Enable icarus testing"
 		default false
