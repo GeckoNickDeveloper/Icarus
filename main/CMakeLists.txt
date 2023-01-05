@@ -8,7 +8,7 @@ set(srcs ${platform_srcs}
 	"src/queue.c"
 	"src/smoother.c"
 	"src/workers.c"
-	"src/dsp.c"
+	#"src/dsp.c"
 	"src/main.c"
 
 	# Rubatissimo a causa di problemi di import

@@ -1,6 +1,5 @@
 #include "../include/sensors.h"
 #include "../include/smoother.h"
-#include "../include/dsp.h"
 #include "../include/utils.h"
 #include <math.h>
 #include <esp_log.h>

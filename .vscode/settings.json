@@ -81,7 +81,8 @@
 		"utils.h": "c",
 		"actuator.h": "c",
 		"esp_timer.h": "c",
-		"sntp.h": "c"
+		"sntp.h": "c",
+		"dsp.h": "c"
 	},
 	"idf.portWin": "COM3",
 	"idf.flashType": "UART"
