@@ -6,7 +6,7 @@
 
 // Sensors
 void* icarus_mpu6050_worker(void* args) {
-	float dt = 1 / CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY;
+	float dt = 1.0 / CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY;
 	unsigned long dt_ms = icarus_sec_to_millis(dt);
 	unsigned long current_cycle;
 
@@ -61,19 +61,19 @@ void* icarus_mpu6050_worker(void* args) {
 		tlm.orientation = icarus_get_orientation(tlm.orientation);
 
 		// Linear acceleration
-		//acc = icarus_rotate(acc, tlm.orientation.x, tlm.orientation.y, tlm.orientation.z);
+		acc = icarus_rotate(acc, tlm.orientation.x, tlm.orientation.y, tlm.orientation.z);
 		//acc = icarus_subtract(acc, gravity);
 		
 		// Moto unif. acc.
 		tlm.velocity =	icarus_add(tlm.velocity, icarus_multiply(acc, dt));
-		//tlm.position =	icarus_add(tlm.position,		// x(t) = x +
-		//					icarus_add(tlm.velocity,	// V * t +
-		//						icarus_multiply(acc, 0.5 * delta * delta))); // 0.5 * a * t^2
+		tlm.position =	icarus_add(tlm.position,		// x(t) = x +
+							icarus_add(tlm.velocity,	// V * t +
+								icarus_multiply(acc, 0.5 * dt * dt))); // 0.5 * a * t^2
 
 		icarus_set_shared_telemetry(tlm);
 
 		// LOG
-		if (((i % (CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY * 609)) == 0) && (i != 0)) // 10m logs (before)
+		/*if (((i % (CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY * 609)) == 0) && (i != 0)) // 10m logs (before)
 			ESP_LOGI(TAG_SENSORS, "LOG END");
 		else if ((i % (CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY * 1)) == 0) {
 			//ESP_LOGI(TAG_SENSORS, "Orientation [%f, %f, %f]", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), rad2deg(tlm.orientation.z));
@@ -83,7 +83,7 @@ void* icarus_mpu6050_worker(void* args) {
 			//printf("%f, %f, %f\r\n", (tlm.orientation.x), (tlm.orientation.y), (tlm.orientation.z));
 			printf("%f, %f, %f\r\n", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), rad2deg(tlm.orientation.z));
 		}
-		//ESP_LOGW(TAG_SENSORS, "Gyro [%f, %f, %f]", gyro.x, gyro.y, gyro.z);
+		//ESP_LOGW(TAG_SENSORS, "Gyro [%f, %f, %f]", gyro.x, gyro.y, gyro.z);*/
 
 		i++;
 
@@ -164,11 +164,19 @@ void* icarus_communication_worker(void* args) {
 		// ========== START
 		tlm = icarus_get_shared_telemetry();
 
+		ESP_LOGW("COMM WORK", "Sending");
+		//ESP_LOGW("TLM", "%f, %f, %f, %f, %f, %f, %f, %f, %f", tlm.position.x);
+		ESP_LOGE("TELEM", "\n[%f, %f, %f],\n[%f, %f, %f],\n[%f, %f, %f]",
+														tlm.position.x, tlm.position.y, tlm.position.z,
+														tlm.velocity.x, tlm.velocity.y, tlm.velocity.z,
+														tlm.orientation.x, tlm.orientation.y, tlm.orientation.z);
+
 		icarus_publish_telemetry(tlm);
 		// ========== END
 		
 		// Speed limiter to stick with sample rate
-		icarus_delay(dt_ms - (icarus_millis() - current_cycle));
+		//icarus_delay(dt_ms - (icarus_millis() - current_cycle));
+		icarus_delay(10000);
 	}
 
 	return NULL;
