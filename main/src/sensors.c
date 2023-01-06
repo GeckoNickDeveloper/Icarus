@@ -11,11 +11,6 @@
 static mpu6050_handle_t mpu6050;
 static bh1750_handle_t bh1750;
 
-// Gyro filter support
-//static vector3d_t g_lp_prev_f; // (LP)
-
-// Acc filter support
-//static vector3d_t a_lp_prev_f; // (LP)
 static vector3d_t gravity;
 
 // Offsets
@@ -196,7 +191,6 @@ vector3d_t icarus_get_acceleration() {
 	acc.y = raw.acce_y;
 	acc.z = raw.acce_z;
 	acc = approx(acc, CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS);
-	//ESP_LOGE(TAG_SENSORS, "Acce [%f, %f, %f]", acc.x, acc.y, acc.z);
 
 	acc = icarus_multiply(acc, G);
 
@@ -247,36 +241,10 @@ vector3d_t icarus_get_gyro_offset() {
 
 
 // MPU6050 filtered
-/*vector3d_t icarus_get_linear_rotation() {
-	vector3d_t linear;
-	
-	vector3d_t filtered;
-	vector3d_t raw;
-
-	raw = icarus_get_rotation(); // get rotation
-	
-	// filter with low pass
-	filtered = icarus_lp_filter(&g_lp_prev_f, raw, CONFIG_ICARUS_LP_CUTOFF_GYRO);
-	
-	linear = icarus_subtract(raw, gyro_offset);// remove offset
-	return linear; 
+vector3d_t icarus_get_gravity() {
+	return gravity;
 };
 
-vector3d_t icarus_get_linear_acceleration() {
-	vector3d_t linear;
-	
-	vector3d_t gravity;
-	vector3d_t raw;
-
-	raw = icarus_get_acceleration();
-
-	// filter with low pass
-	gravity = icarus_lp_filter(&a_lp_prev_f, raw, CONFIG_ICARUS_LP_CUTOFF_GYRO);
-	
-	linear = icarus_subtract(raw, gravity);
-
-	return linear;
-};*/
 vector3d_t icarus_get_linear_acceleration() {
 	vector3d_t acc;
 	vector3d_t linear;
@@ -294,7 +262,7 @@ vector3d_t icarus_get_linear_acceleration() {
 vector3d_t icarus_extract_gravity(vector3d_t acc) {
 	float rc = 1.0 / (CONFIG_ICARUS_LP_CUTOFF_ACC * 2 * PI);
 	float dt = 1.0 / CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY;
-	float alpha = dt / (dt + rc); // to be calculated
+	float alpha = dt / (dt + rc);
 
 	gravity = icarus_add(
 		icarus_multiply(gravity, alpha),
@@ -314,15 +282,9 @@ vector3d_t icarus_get_orientation(vector3d_t orientation) {
 	return res;
 };
 
-void icarus__get_orientation(vector3d_t* orientation) {
-	orientation->x = acos(gravity.y / (sqrt(pow(gravity.y, 2) + pow(gravity.z, 2)))) - (PI/2);
-	orientation->y = acos(gravity.x / (sqrt(pow(gravity.x, 2) + pow(gravity.z, 2)))) - (PI/2);
-};
 
 
 
-// TODO add timeout
-// if timeout return -1
 float icarus_get_proximity() {
 	float distance;
 
