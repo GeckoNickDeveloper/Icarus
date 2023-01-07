@@ -43,15 +43,6 @@ void* icarus_mpu6050_worker(void* args) {
 					CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS
 				);
 
-		//gyro = approx(smooth_gyro(icarus_get_linear_rotation()), CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS);
-		//now =  icarus_micros(); // microsecons
-
-		/*if (prev == 0)
-			delta = 0.0;
-		else
-			delta = (float) (now - prev) / 1000000.0; // micros to sec
-		prev = now;*/
-
 		
 		// Orientation update
 		tlm.orientation = icarus_add(tlm.orientation, icarus_multiply(gyro, dt));
@@ -62,7 +53,8 @@ void* icarus_mpu6050_worker(void* args) {
 		//acc = icarus_subtract(acc, gravity);
 		
 		// Moto unif. acc.
-		tlm.velocity =	icarus_add(tlm.velocity, icarus_multiply(acc, dt)); // V(t) = V + a * dt
+		tlm.velocity =	icarus_add(tlm.velocity,
+							icarus_multiply(acc, dt)); // V(t) = V + a * dt
 		tlm.position =	icarus_add(tlm.position,		// x(t) = x +
 							icarus_add(tlm.velocity,	// V * t +
 								icarus_multiply(acc, 0.5 * dt * dt))); // 0.5 * a * t^2
