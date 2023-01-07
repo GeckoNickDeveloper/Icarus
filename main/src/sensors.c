@@ -43,6 +43,17 @@ vector3d_t extract_orientation(vector3d_t vec) {
 	return orientation;
 };
 
+vector3d_t init_orientation(vector3d_t vec) {
+	vector3d_t orientation = {0.0, 0.0, 0.0};
+
+	orientation.x = atan2(vec.y, vec.z);		// X-axis angle
+	orientation.y = atan2(-vec.x, sqrt((vec.y * vec.y) + (vec.z * vec.z)));// Y-axis angle
+	orientation.z = 0.0;
+
+	return orientation;
+};
+
+
 
 
 static void icarus_gyro_offset_init() {
@@ -177,7 +188,11 @@ void icarus_init_sensors() {
 	icarus_gyro_offset_init();
 	
 	// Gravity Init
-	gravity = icarus_get_acceleration();
+	//gravity = icarus_get_acceleration();
+	telemetry_t tlm = icarus_get_shared_telemetry();
+	tlm.orientation = init_orientation(icarus_get_acceleration());
+	icarus_set_shared_telemetry(tlm);
+
 };
 
 

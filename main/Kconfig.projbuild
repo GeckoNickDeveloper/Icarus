@@ -133,11 +133,10 @@ menu "Icarus Configuration"
 					Specify if the connection is secure.
 		endif
 
-		config ICARUS_COMMUNICATION_FREQUENCY
-			int "Update telemetry frequency (Hz)"
+		config ICARUS_COMMUNICATION_TRANSMITION_RATE
+			int "Communication rate (s)"
+			range 1 10
 			default 1
-			help
-				Communication worker publish frequency.
 	endmenu
 
 	# Sensors Config
@@ -267,6 +266,8 @@ menu "Icarus Configuration"
 			config ICARUS_SENSOR_SR04_SAMPLING_FREQUENCY
 				int "Sampling frequency (Hz)"
 				default 1
+			
+			
 		endmenu
 
 		config ICARUS_LP_CUTOFF_GYRO
@@ -281,8 +282,6 @@ menu "Icarus Configuration"
 			default 50
 			help
 				Broker port for MQTT connection.
-
-		
 
 		
 	endmenu
@@ -387,23 +386,23 @@ menu "Icarus Configuration"
 
 		
 
-		config ICARUS_DEBUG_WORKER_ENABLED
-			bool "Enable debug worker"
-			default false
-		
-		if ICARUS_DEBUG_WORKER_ENABLED
-			config ICARUS_DEBUG_MPU6050_MQTT_MONITORING_ENABLED
-				bool "Enable MPU6050 remote monitoring"
-				default false
-			
-			config ICARUS_DEBUG_BH175050_MQTT_MONITORING_ENABLED
-				bool "Enable BH1750 remote monitoring"
-				default false
-			
-			config ICARUS_DEBUG_SERVOS_MQTT_MONITORING_ENABLED
-				bool "Enable servos remote monitoring"
-				default false
-		endif
+#		config ICARUS_DEBUG_WORKER_ENABLED
+#			bool "Enable debug worker"
+#			default false
+#		
+#		if ICARUS_DEBUG_WORKER_ENABLED
+#			config ICARUS_DEBUG_MPU6050_MQTT_MONITORING_ENABLED
+#				bool "Enable MPU6050 remote monitoring"
+#				default false
+#			
+#			config ICARUS_DEBUG_BH175050_MQTT_MONITORING_ENABLED
+#				bool "Enable BH1750 remote monitoring"
+#				default false
+#			
+#			config ICARUS_DEBUG_SERVOS_MQTT_MONITORING_ENABLED
+#				bool "Enable servos remote monitoring"
+#				default false
+#		endif
 
 		config ICARUS_DEBUG_SYNC_TIME_ENABLED
 			bool "Enable Time Sync"
