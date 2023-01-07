@@ -143,7 +143,7 @@ void* icarus_sr04_worker(void* args) {
 
 // Communication
 void* icarus_communication_worker(void* args) {
-	float dt = 1.0 / CONFIG_ICARUS_COMMUNICATION_FREQUENCY;
+	float dt = CONFIG_ICARUS_COMMUNICATION_TRANSMITION_RATE;
 	unsigned long dt_ms = icarus_sec_to_millis(dt);
 	unsigned long current_cycle;
 
@@ -154,20 +154,12 @@ void* icarus_communication_worker(void* args) {
 
 		// ========== START
 		tlm = icarus_get_shared_telemetry();
-
-		/*ESP_LOGW("COMM WORK", "Sending");
-		//ESP_LOGW("TLM", "%f, %f, %f, %f, %f, %f, %f, %f, %f", tlm.position.x);
-		ESP_LOGE("TELEM", "\n[%f, %f, %f],\n[%f, %f, %f],\n[%f, %f, %f]",
-														tlm.position.x, tlm.position.y, tlm.position.z,
-														tlm.velocity.x, tlm.velocity.y, tlm.velocity.z,
-														tlm.orientation.x, tlm.orientation.y, tlm.orientation.z);*/
-
 		icarus_publish_telemetry(tlm);
 		// ========== END
 		
 		// Speed limiter to stick with sample rate
 		//icarus_delay(dt_ms - (icarus_millis() - current_cycle));
-		icarus_delay(10000);
+		icarus_delay(dt_ms);
 	}
 
 	return NULL;
