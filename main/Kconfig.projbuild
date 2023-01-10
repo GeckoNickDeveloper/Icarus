@@ -52,18 +52,18 @@ menu "Icarus Configuration"
 			help
 				Mobile SIM APN.
 		
-		config ICARUS_NETWORK_PIN_ENABLED
-			bool "Enable PIN"
-			default false
-			help
-				Check if the pin is enabled
-		
-		if ICARUS_NETWORK_PIN_ENABLED
-			config ICARUS_NETWORK_PIN
-				string "PIN"
-				default "1234"
-				help
-					PIN to unlock the SIM.
+		#config ICARUS_NETWORK_PIN_ENABLED
+		#	bool "Enable PIN"
+		#	default false
+		#	help
+		#		Check if the pin is enabled
+		#
+		#if ICARUS_NETWORK_PIN_ENABLED
+		#	config ICARUS_NETWORK_PIN
+		#		string "PIN"
+		#		default "1234"
+		#		help
+		#			PIN to unlock the SIM.
 		endif
 	endmenu
 
@@ -270,18 +270,18 @@ menu "Icarus Configuration"
 			
 		endmenu
 
-		config ICARUS_LP_CUTOFF_GYRO
-			int "Gyro cutoff frequency low pass filter"
-			default 10
-		config ICARUS_LP_CUTOFF_ACC
-			int "Accelerometer cutoff frequency low pass filter"
-			default 5
-
-		config ICARUS_SENSOR_SAMPLING_FREQUENCY
-			int "Sampling frequency (Hz)"
-			default 50
-			help
-				Broker port for MQTT connection.
+		#config ICARUS_LP_CUTOFF_GYRO
+		#	int "Gyro cutoff frequency low pass filter"
+		#	default 10
+		#config ICARUS_LP_CUTOFF_ACC
+		#	int "Accelerometer cutoff frequency low pass filter"
+		#	default 5
+#
+		#config ICARUS_SENSOR_SAMPLING_FREQUENCY
+		#	int "Sampling frequency (Hz)"
+		#	default 50
+		#	help
+		#		Broker port for MQTT connection.
 
 		
 	endmenu
@@ -294,78 +294,108 @@ menu "Icarus Configuration"
 			help
 				Communication worker publish frequency.
 
-		config ICARUS_UAV_USE_FLAPS
-			bool "Use flaps"
-			default true
-			help
-				Smoothing queue size.
 
-		if (ICARUS_UAV_USE_FLAPS)
-			config ICARUS_UAV_FLAP_RX_PIN
-				int "Flap Rx pin"
-				default 1
-				help
-					UAV flap rx pin.
-			
-			config ICARUS_UAV_FLAP_SX_PIN
-				int "Flap Sx pin"
-				default 2
-				help
-					UAV flap sx pin.
-		endif
 
-		#config ICARUS_UAV_TWO_TAILS
-		#	bool "UAV tails"
-		#	default false
-		#	help
-		#		UAV Tails (true = 2, false = 1).
-		
-		# Ailerons Config
-		config ICARUS_UAV_AILERON_RX_PIN
-			int "Aileron Rx pin"
-			default 3
+		config ICARUS_ACTUATOR_ENGINE_PIN
+			int "Engine pin"
+			default 2
 			help
-				UAV Aileron rx pin.
+				Engine pin.
 		
-		config ICARUS_UAV_AILERON_SX_PIN
-			int "Aileron Sx pin"
-			default 4
-			help
-				UAV Aileron sx pin.
-		
-		# Elevators Config
-		config ICARUS_UAV_HAS_ELEVATORS
-			bool "Has elevators"
-			default true
-			help
-				Smoothing queue size.
-
-		if (ICARUS_UAV_HAS_ELEVATORS)
-			config ICARUS_UAV_FLAP_RX_PIN
-				int "Flap Rx pin"
-				default 5
-				help
-					UAV flap rx pin.
-			
-			config ICARUS_UAV_FLAP_SX_PIN
-				int "Flap Sx pin"
-				default 6
-				help
-					UAV flap sx pin.
-			
-			config ICARUS_UAV_SYMMETRICAL_ELEVATORS
-				bool "Elevators movement si symmetrical"
-				default true
-				help
-					Smoothing queue size.
-		endif
-		
-		# Rudders config
-		config ICARUS_UAV_RUDDER_PIN
+		config ICARUS_ACTUATOR_RUDDER_PIN
 			int "Rudder pin"
-			default 7
+			default 2
 			help
-				UAV rudder pin.
+				Engine pin.
+		
+		config ICARUS_ACTUATOR_AILERON_SX_PIN
+			int "Aileron pin (sx)"
+			default 2
+		
+		config ICARUS_ACTUATOR_AILERON_DX_PIN
+			int "Aileron pin (dx)"
+			default 2
+		
+		config ICARUS_ACTUATOR_ELEVATOR_SX_PIN
+			int "Elevator pin (sx)"
+			default 2
+		
+		config ICARUS_ACTUATOR_ELEVATOR_PIN
+			int "Elevator pin (dx)"
+			default 2
+		
+#		config ICARUS_UAV_USE_FLAPS
+#			bool "Use flaps"
+#			default true
+#			help
+#				Smoothing queue size.
+#
+#		if (ICARUS_UAV_USE_FLAPS)
+#			config ICARUS_UAV_FLAP_RX_PIN
+#				int "Flap Rx pin"
+#				default 1
+#				help
+#					UAV flap rx pin.
+#			
+#			config ICARUS_UAV_FLAP_SX_PIN
+#				int "Flap Sx pin"
+#				default 2
+#				help
+#					UAV flap sx pin.
+#		endif
+#
+#		#config ICARUS_UAV_TWO_TAILS
+#		#	bool "UAV tails"
+#		#	default false
+#		#	help
+#		#		UAV Tails (true = 2, false = 1).
+#		
+#		# Ailerons Config
+#		config ICARUS_UAV_AILERON_RX_PIN
+#			int "Aileron Rx pin"
+#			default 3
+#			help
+#				UAV Aileron rx pin.
+#		
+#		config ICARUS_UAV_AILERON_SX_PIN
+#			int "Aileron Sx pin"
+#			default 4
+#			help
+#				UAV Aileron sx pin.
+#		
+#		# Elevators Config
+#		config ICARUS_UAV_HAS_ELEVATORS
+#			bool "Has elevators"
+#			default true
+#			help
+#				Smoothing queue size.
+#
+#		if (ICARUS_UAV_HAS_ELEVATORS)
+#			config ICARUS_UAV_FLAP_RX_PIN
+#				int "Flap Rx pin"
+#				default 5
+#				help
+#					UAV flap rx pin.
+#			
+#			config ICARUS_UAV_FLAP_SX_PIN
+#				int "Flap Sx pin"
+#				default 6
+#				help
+#					UAV flap sx pin.
+#			
+#			config ICARUS_UAV_SYMMETRICAL_ELEVATORS
+#				bool "Elevators movement si symmetrical"
+#				default true
+#				help
+#					Smoothing queue size.
+#		endif
+#		
+#		# Rudders config
+#		config ICARUS_UAV_RUDDER_PIN
+#			int "Rudder pin"
+#			default 7
+#			help
+#				UAV rudder pin.
 	endmenu
 
 
