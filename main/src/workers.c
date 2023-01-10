@@ -103,7 +103,7 @@ void* icarus_bh1750_worker(void* args) {
 		lux = icarus_get_luminosity();
 		icarus_set_shared_luminosity(lux);
 
-		ESP_LOGI(TAG_SENSORS, "Luminosity [%f]", lux);
+		//ESP_LOGI(TAG_SENSORS, "Luminosity [%f]", lux);
 		// ========== END
 		
 		// Speed limiter to stick with sample rate
@@ -148,13 +148,21 @@ void* icarus_communication_worker(void* args) {
 	unsigned long current_cycle;
 
 	telemetry_t tlm;
+	float luminosity;
+	float terrain;
 
 	while(1) {
-		current_cycle = icarus_millis();
 
 		// ========== START
 		tlm = icarus_get_shared_telemetry();
+		luminosity = icarus_get_shared_luminosity();
+		terrain = icarus_get_shared_terrain();
+		
 		icarus_publish_telemetry(tlm);
+		icarus_publish_luminosity(luminosity);
+
+		if (terrain != -1)
+			icarus_publish_terrain(terrain);
 		// ========== END
 		
 		// Speed limiter to stick with sample rate

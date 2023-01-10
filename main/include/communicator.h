@@ -13,6 +13,8 @@
 extern void icarus_mqtt_setup();
 
 extern void icarus_publish_telemetry(telemetry_t current);
+extern void icarus_publish_luminosity(float current);
+extern void icarus_publish_terrain(float current);
 
 // Thread worker
 //extern void* icarus_communication_worker(void* args);

@@ -275,7 +275,7 @@ vector3d_t icarus_get_linear_acceleration() {
 };
 
 vector3d_t icarus_extract_gravity(vector3d_t acc) {
-	float rc = 1.0 / (CONFIG_ICARUS_LP_CUTOFF_ACC * 2 * PI);
+	float rc = 1.0 / (0.5 * 2 * PI);
 	float dt = 1.0 / CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY;
 	float alpha = dt / (dt + rc);
 

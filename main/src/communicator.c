@@ -112,10 +112,26 @@ void icarus_mqtt_setup() {
     esp_mqtt_client_start(client);
 };
 
+
+
 void icarus_publish_telemetry(telemetry_t current) {
 	//int esp_mqtt_client_publish(esp_mqtt_client_handle_t client, const char *topic, const char *data, int len, int qos, int retain)
 	int err = esp_mqtt_client_publish(client, "/icarus/telemetry", (char*) &current, sizeof(telemetry_t), 0, 0);
 
 	if (err == -1)
 		ESP_LOGE(TAG_COMMUNICATION, "Telemetry not send due to disconnected client");	
+};
+
+void icarus_publish_luminosity(float current) {
+	int err = esp_mqtt_client_publish(client, "/icarus/luminosity", (char*) &current, sizeof(float), 0, 0);
+
+	if (err == -1)
+		ESP_LOGE(TAG_COMMUNICATION, "Luminosity not send due to disconnected client");	
+};
+
+void icarus_publish_terrain(float current) {
+	int err = esp_mqtt_client_publish(client, "/icarus/terrain", (char*) &current, sizeof(float), 0, 0);
+
+	if (err == -1)
+		ESP_LOGE(TAG_COMMUNICATION, "Terrain not send due to disconnected client");	
 };
