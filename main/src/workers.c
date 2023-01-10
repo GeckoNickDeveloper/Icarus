@@ -32,7 +32,7 @@ void* icarus_mpu6050_worker(void* args) {
 					),
 					CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS
 				);
-		//acc = approx(smooth_acc(icarus_get_linear_acceleration()), CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS);
+		
 		gyro =	approx(
 					smooth_gyro(
 						icarus_subtract(
