@@ -3,10 +3,8 @@
 typedef struct shared {
 	command_t cmd;
 	telemetry_t tlm;
-	float trn;
-	float lux;
-//	network_status_t netstatus;
-//	mqtt_status_t mqttstatus;
+	float trn;			// Terrain distance, if greater of 4m returns 1
+	float lux;			// Luminosity percepted by the UAV
 } shared_t;
 
 

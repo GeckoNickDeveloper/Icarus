@@ -158,7 +158,6 @@ void* icarus_communication_worker(void* args) {
 		// ========== END
 		
 		// Speed limiter to stick with sample rate
-		//icarus_delay(dt_ms - (icarus_millis() - current_cycle));
 		icarus_delay(dt_ms);
 	}
 
