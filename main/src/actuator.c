@@ -35,23 +35,49 @@ static servo_config_t servo_cfg = {
 	.channel_number = 2,//8
 };
 
+
+
 void icarus_init_actuator() {
 	ESP_LOGW(TAG_ACTUATOR, "TODO: EDIT INIT ACTUATOR");
 
 	iot_servo_init(LEDC_LOW_SPEED_MODE, &servo_cfg);
 
-	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 0, 90);
+	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 0, 90); // Engine
+	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 1, 90); // Rudder
+	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 2, 90); // Aileron Sx 
+	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 3, 90); // Aileron Dx
+	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 4, 90); // Elevator 
+	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 5, 90); // Elevator 
 };
 
 
 
 void icarus_apply_command(command_t cmd) {
-	// TODO
 	ESP_LOGI(TAG_ACTUATOR, "Applying command: [%x %x %x %x %x]", cmd.pitch, cmd.roll, cmd.yaw, cmd.throttle, cmd.aux);
+
+	int throttle = icarus_map(cmd.throttle, 0, 255, 0, 180);
+	int yaw = icarus_map(cmd.yaw, 0, 255, 0, 180);
 
 	int roll_sx = icarus_map(cmd.roll, 0, 255, 0, 180);
 	int roll_dx = icarus_map(255 - cmd.roll, 0, 255, 0, 180);
+
+	int pitch_sx = icarus_map(cmd.pitch, 0, 255, 0, 180);
+	int pitch_dx = icarus_map(255 - cmd.pitch, 0, 255, 0, 180);
 	
+	
+
+	// Engine
 	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 0, roll_sx);
-	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 1, roll_dx);
+
+	// Rudder
+	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 1, yaw);
+	
+	// Ailerons
+	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 2, roll_sx);
+	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 3, roll_dx);
+	
+	// Elevators
+	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 4, pitch_sx);
+	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 5, pitch_dx);
+
 };
