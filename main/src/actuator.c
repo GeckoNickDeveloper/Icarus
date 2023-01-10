@@ -12,22 +12,22 @@ static servo_config_t servo_cfg = {
 	.timer_number = LEDC_TIMER_0,
 	.channels = {
 		.servo_pin = {
-			18,//SERVO_CH0_PIN,
-			19,//SERVO_CH1_PIN,
-			//SERVO_CH2_PIN,
-			//SERVO_CH3_PIN,
-			//SERVO_CH4_PIN,
-			//SERVO_CH5_PIN,
+			CONFIG_ICARUS_ACTUATOR_ENGINE_PIN,//18,//SERVO_CH0_PIN,
+			CONFIG_ICARUS_ACTUATOR_RUDDER_PIN,//19,//SERVO_CH1_PIN,
+			CONFIG_ICARUS_ACTUATOR_AILERON_SX_PIN,//10,//SERVO_CH2_PIN,		// TODO SELECT
+			CONFIG_ICARUS_ACTUATOR_AILERON_DX_PIN,//10,//SERVO_CH3_PIN,		// TODO SELECT
+			CONFIG_ICARUS_ACTUATOR_ELEVATOR_SX_PIN,//10,//SERVO_CH4_PIN,		// TODO SELECT
+			CONFIG_ICARUS_ACTUATOR_ELEVATOR_DX_PIN,//10,//SERVO_CH5_PIN,		// TODO SELECT
 			//SERVO_CH6_PIN,
 			//SERVO_CH7_PIN,
 		},
 		.ch = {
 			LEDC_CHANNEL_0,
 			LEDC_CHANNEL_1,
-			//LEDC_CHANNEL_2,
-			//LEDC_CHANNEL_3,
-			//LEDC_CHANNEL_4,
-			//LEDC_CHANNEL_5,
+			LEDC_CHANNEL_2,
+			LEDC_CHANNEL_3,
+			LEDC_CHANNEL_4,
+			LEDC_CHANNEL_5,
 			//LEDC_CHANNEL_6,
 			//LEDC_CHANNEL_7,
 		},
@@ -42,12 +42,12 @@ void icarus_init_actuator() {
 
 	iot_servo_init(LEDC_LOW_SPEED_MODE, &servo_cfg);
 
-	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 0, 90); // Engine
+	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 0, 0); // Engine
 	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 1, 90); // Rudder
 	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 2, 90); // Aileron Sx 
 	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 3, 90); // Aileron Dx
-	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 4, 90); // Elevator 
-	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 5, 90); // Elevator 
+	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 4, 90); // Elevator Sx
+	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 5, 90); // Elevator Dx
 };
 
 
