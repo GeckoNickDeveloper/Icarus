@@ -52,27 +52,20 @@ menu "Icarus Configuration"
 			help
 				Mobile SIM APN.
 		
-		#config ICARUS_NETWORK_PIN_ENABLED
-		#	bool "Enable PIN"
-		#	default false
-		#	help
-		#		Check if the pin is enabled
-		#
-		#if ICARUS_NETWORK_PIN_ENABLED
-		#	config ICARUS_NETWORK_PIN
-		#		string "PIN"
-		#		default "1234"
-		#		help
-		#			PIN to unlock the SIM.
+		config ICARUS_NETWORK_PIN_ENABLED
+			bool "Enable PIN"
+			default false
+			help
+				Check if the pin is enabled
+		
+		if ICARUS_NETWORK_PIN_ENABLED
+			config ICARUS_NETWORK_PIN
+				string "PIN"
+				default "1234"
+				help
+					PIN to unlock the SIM.
 		endif
 	endmenu
-
-	#Useless
-#	config USLESS
-#		string "PIN"
-#		default "1234"
-#		help
-#			PIN to unlock the SIM.
 
 	# Smoother Config
 	menu "Icarus Smoothing"
@@ -320,7 +313,7 @@ menu "Icarus Configuration"
 			int "Elevator pin (sx)"
 			default 2
 		
-		config ICARUS_ACTUATOR_ELEVATOR_PIN
+		config ICARUS_ACTUATOR_ELEVATOR_DX_PIN
 			int "Elevator pin (dx)"
 			default 2
 		
