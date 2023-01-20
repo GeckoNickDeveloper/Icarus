@@ -53,11 +53,36 @@ vector3d_t init_orientation(vector3d_t vec) {
 	return orientation;
 };
 
+void init_gravity() {
+	int dt = 1.0 / CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY;
+	int dt_ms = icarus_sec_to_millis(dt);
+	unsigned long current_cycle;
+	
+	vector3d_t acc;
+	float sum = 0.0;
+	float grav;
 
+	int i;
+	
+	for (i = 0; i < CONFIG_ICARUS_SMOOTHING_THERM_SAMPLES; ++i) {
+		current_cycle = icarus_millis();
+		
+		// Start
+		sum += icarus_length(icarus_get_acceleration());
+		// End
+
+		icarus_delay(dt_ms - (icarus_millis() - current_cycle));
+	}
+
+	grav = sum / CONFIG_ICARUS_SMOOTHING_THERM_SAMPLES;
+
+	gravity = (vector3d_t) {0.0, 0.0, grav};
+};
 
 
 static void icarus_gyro_offset_init() {
-	int dt = 1000 / CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY;
+	int dt = 1.0 / CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY;
+	int dt_ms = icarus_sec_to_millis(dt);
 	unsigned long current_cycle;
 
 	vector3d_t raw;
@@ -77,13 +102,12 @@ static void icarus_gyro_offset_init() {
 		current_cycle = icarus_millis();
 
 		// Start
-		
 		raw = icarus_get_rotation();
 		sum = icarus_add(sum, raw);
 		//ESP_LOGW(TAG_SENSORS, "Vec [%f, %f, %f]", vec.x, vec.y, vec.z);
-		
 		// End
-		icarus_delay(dt - (icarus_millis() - current_cycle));
+
+		icarus_delay(dt_ms - (icarus_millis() - current_cycle));
 	}
 
 	// orientation
@@ -186,6 +210,7 @@ void icarus_init_sensors() {
 
 	// Auxilary Init
 	icarus_gyro_offset_init();
+	init_gravity();
 	
 	// Gravity Init
 	//gravity = icarus_get_acceleration();

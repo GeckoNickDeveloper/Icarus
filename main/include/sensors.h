@@ -2,7 +2,6 @@
 #define SENSORS_H
 
 #include "mpu6050.h"
-//#include <mpu6050.h>
 #include <bh1750.h>
 #include <driver/i2c.h>
 

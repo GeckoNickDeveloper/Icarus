@@ -28,7 +28,7 @@ void* icarus_mpu6050_worker(void* args) {
 		
 		acc =	approx(
 					smooth_acc(
-						icarus_get_linear_acceleration()
+						icarus_get_acceleration()
 					),
 					CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS
 				);
@@ -50,11 +50,12 @@ void* icarus_mpu6050_worker(void* args) {
 
 		// Linear acceleration
 		acc = icarus_rotate(acc, tlm.orientation.x, tlm.orientation.y, tlm.orientation.z);
-		//acc = icarus_subtract(acc, gravity);
+		acc = icarus_subtract(acc, icarus_get_gravity());
 		
 		// Moto unif. acc.
 		tlm.velocity =	icarus_add(tlm.velocity,
-							icarus_multiply(acc, dt)); // V(t) = V + a * dt
+							icarus_multiply(acc, dt));	// V(t) = V + a * dt
+							
 		tlm.position =	icarus_add(tlm.position,		// x(t) = x +
 							icarus_add(tlm.velocity,	// V * t +
 								icarus_multiply(acc, 0.5 * dt * dt))); // 0.5 * a * t^2
@@ -180,12 +181,17 @@ void* icarus_actuator_worker(void* args) {
 
 	command_t cmd;
 	command_t prev_cmd;
+	float lux;
 
 	while(1) {
 		current_cycle = icarus_millis();
 
 		// ========== START
 		cmd = icarus_get_shared_command();
+		lux = icarus_get_shared_luminosity();
+
+		if (lux < placeholder)
+			cmd.aux |= 0x80; // LEDs flag override
 
 		if (!icarus_equals_commands(cmd, prev_cmd))
 			icarus_apply_command(cmd);
