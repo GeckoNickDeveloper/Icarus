@@ -316,6 +316,47 @@ menu "Icarus Configuration"
 		config ICARUS_ACTUATOR_ELEVATOR_DX_PIN
 			int "Elevator pin (dx)"
 			default 2
+
+		
+
+		# Angles config
+		config ICARUS_ACTUATOR_PITCH_MIN_ANGLE
+			int "Elevators min angle"
+			range 30 60
+			default 45
+		
+		config ICARUS_ACTUATOR_PITCH_MAX_ANGLE
+			range  "Elevators max angle"
+			range 120 150
+			default 135
+
+		config ICARUS_ACTUATOR_ROLL_MIN_ANGLE
+			int "Ailerons min angle"
+			range 30 60
+			default 45
+		
+		config ICARUS_ACTUATOR_ROLL_MAX_ANGLE
+			range  "Ailerons max angle"
+			range 120 150
+			default 135
+
+		config ICARUS_ACTUATOR_YAW_MIN_ANGLE
+			int "Rudder min angle"
+			range 30 60
+			default 45
+		
+		config ICARUS_ACTUATOR_YAW_MAX_ANGLE
+			range  "Rudder max angle"
+			range 120 150
+			default 135
+		
+
+
+
+		# Aux pins
+		config ICARUS_ACTUATOR_LEDS_PIN
+			int "LEDs pin"
+			default 7
 		
 #		config ICARUS_UAV_USE_FLAPS
 #			bool "Use flaps"
