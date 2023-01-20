@@ -1,48 +1,4 @@
 menu "Icarus Configuration"
-#	# WiFi Newtork Config
-#	config ICARUS_WIFI_SSID
-#		string "WiFi SSID"
-#		default "Example SSID"
-#		help
-#			SSID (network name) to connect to.
-#
-#	config ICARUS_WIFI_PASSWORD
-#		string "WiFi Password"
-#		default "Example Password"
-#		help
-#			WiFi password (WPA or WPA2) for the example to use.
-#
-#	config ICARUS_MAXIMUM_RETRY
-#		int "Maximum retry"
-#		default 5
-#		help
-#			Set the Maximum retry to avoid station reconnecting to the AP unlimited when the AP is really inexistent.
-#
-#	choice ICARUS_WIFI_SCAN_AUTH_MODE_THRESHOLD
-#		prompt "WiFi Scan auth mode threshold"
-#		default ICARUS_WIFI_AUTH_WPA2_PSK
-#		help
-#			The weakest authmode to accept in the scan mode.
-#			This value defaults to ICARUS_WIFI_AUTH_WPA2_PSK incase password is present and ICARUS_WIFI_AUTH_OPEN is used.
-#			Please select ICARUS_WIFI_AUTH_WEP/ICARUS_WIFI_AUTH_WPA_PSK incase AP is operating in WEP/WPA mode.
-#
-#		config ICARUS_WIFI_AUTH_OPEN
-#			bool "OPEN"
-#		config ICARUS_WIFI_AUTH_WEP
-#			bool "WEP"
-#		config ICARUS_WIFI_AUTH_WPA_PSK
-#			bool "WPA PSK"
-#		config ICARUS_WIFI_AUTH_WPA2_PSK
-#			bool "WPA2 PSK"
-#		config ICARUS_WIFI_AUTH_WPA_WPA2_PSK
-#			bool "WPA/WPA2 PSK"
-#		config ICARUS_WIFI_AUTH_WPA3_PSK
-#			bool "WPA3 PSK"
-#		config ICARUS_WIFI_AUTH_WPA2_WPA3_PSK
-#			bool "WPA2/WPA3 PSK"
-#		config ICARUS_WIFI_AUTH_WAPI_PSK
-#			bool "WAPI PSK"
-#	endchoice
 
 	# Mobile Network Config
 	menu "Icarus Network"
@@ -357,6 +313,11 @@ menu "Icarus Configuration"
 		config ICARUS_ACTUATOR_LEDS_PIN
 			int "LEDs pin"
 			default 7
+		
+
+		config ICARUS_ACTUATOR_LIGHT_OVERRIDE_VALUE
+			int "LED Override luminosity (lx)"
+			default 100
 		
 	endmenu
 
