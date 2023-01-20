@@ -9,6 +9,6 @@
 
 extern void icarus_init_actuator();
 
-extern void icarus_apply_command(command_t cmd);
+extern void icarus_apply_command(const command_t prev, command_t cmd);
 
 #endif //! ACTUATOR_H

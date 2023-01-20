@@ -52,32 +52,43 @@ void icarus_init_actuator() {
 
 
 
-void icarus_apply_command(command_t cmd) {
+void icarus_apply_command(const command_t prev, command_t cmd) {
 	ESP_LOGI(TAG_ACTUATOR, "Applying command: [%x %x %x %x %x]", cmd.pitch, cmd.roll, cmd.yaw, cmd.throttle, cmd.aux);
 
 	int throttle = icarus_map(cmd.throttle, 0, 255, 0, 180);
-	int yaw = icarus_map(cmd.yaw, 0, 255, 0, 180);
+	int yaw = icarus_map(cmd.yaw, 0, 255, CONFIG_ICARUS_ACTUATOR_YAW_MIN_ANGLE, CONFIG_ICARUS_ACTUATOR_YAW_MAX_ANGLE);
 
-	int roll_sx = icarus_map(cmd.roll, 0, 255, 0, 180);
-	int roll_dx = icarus_map(255 - cmd.roll, 0, 255, 0, 180);
+	int roll_sx = icarus_map(cmd.roll, 0, 255, CONFIG_ICARUS_ACTUATOR_ROLL_MIN_ANGLE, CONFIG_ICARUS_ACTUATOR_ROLL_MAX_ANGLE);
+	int roll_dx = icarus_map(255 - cmd.roll, 0, 255, CONFIG_ICARUS_ACTUATOR_ROLL_MIN_ANGLE, CONFIG_ICARUS_ACTUATOR_ROLL_MAX_ANGLE);
 
-	int pitch_sx = icarus_map(cmd.pitch, 0, 255, 0, 180);
-	int pitch_dx = icarus_map(255 - cmd.pitch, 0, 255, 0, 180);
+	int pitch_sx = icarus_map(cmd.pitch, 0, 255, CONFIG_ICARUS_ACTUATOR_PITCH_MIN_ANGLE, CONFIG_ICARUS_ACTUATOR_PITCH_MAX_ANGLE);
+	int pitch_dx = icarus_map(255 - cmd.pitch, 0, 255, CONFIG_ICARUS_ACTUATOR_PITCH_MIN_ANGLE, CONFIG_ICARUS_ACTUATOR_PITCH_MAX_ANGLE);
 	
-	
+	// Aux
+	int led_flag = (cmd.aux >> 7) & 0x01;
 
 	// Engine
-	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 0, roll_sx);
+	if (cmd.throttle != prev.throttle)
+		iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 0, roll_sx);
 
 	// Rudder
-	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 1, yaw);
+	if (cmd.yaw != prev.yaw)
+		iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 1, yaw);
 	
 	// Ailerons
-	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 2, roll_sx);
-	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 3, roll_dx);
+	if (cmd.roll != prev.roll) {
+		iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 2, roll_sx);
+		iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 3, roll_dx);
+	}
 	
 	// Elevators
-	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 4, pitch_sx);
-	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 5, pitch_dx);
+	if (cmd.pitch != prev.pitch) {
+		iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 4, pitch_sx);
+		iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 5, pitch_dx);
+	}
 
+	// Aux
+	if (cmd.pitch != prev.pitch) {
+		gpio_set_level(CONFIG_ICARUS_ACTUATOR_LEDS_PIN, led_flag);
+	}
 };

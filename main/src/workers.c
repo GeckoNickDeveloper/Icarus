@@ -190,11 +190,11 @@ void* icarus_actuator_worker(void* args) {
 		cmd = icarus_get_shared_command();
 		lux = icarus_get_shared_luminosity();
 
-		if (lux < placeholder)
+		if (lux < 1)
 			cmd.aux |= 0x80; // LEDs flag override
 
 		if (!icarus_equals_commands(cmd, prev_cmd))
-			icarus_apply_command(cmd);
+			icarus_apply_command(prev_cmd, cmd);
 	
 		prev_cmd = cmd;
 		// ========== END
