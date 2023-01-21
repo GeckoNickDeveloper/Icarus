@@ -13,8 +13,9 @@
 #define TAG_WORKERS "Icarus Workers"
 
 // Sensors
-extern void* icarus_sensor_worker(void* args);
-extern void* icarus_proximity_worker(void* args);
+extern void* icarus_mpu6050_worker(void* args);
+extern void* icarus_bh1750_worker(void* args);
+extern void* icarus_sr04_worker(void* args);
 
 // Communication
 extern void* icarus_communication_worker(void* args);

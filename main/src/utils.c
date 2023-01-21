@@ -90,6 +90,18 @@ vector3d_t icarus_rotate(vector3d_t source, float alpha, float beta, float gamma
 
 
 
+vector3d_t icarus_bound(vector3d_t vec, float min, float max) {
+	float step = max - min;
+	
+	while (vec.x < min || vec.x >= max) { vec.x += (vec.x < min) ? step : (-step); }
+	while (vec.y < min || vec.y >= max) { vec.y += (vec.y < min) ? step : (-step); }
+	while (vec.z < min || vec.z >= max) { vec.z += (vec.z < min) ? step : (-step); }
+	
+	return vec;
+};
+
+
+
 // Compare
 bool icarus_equals_commands(command_t a, command_t b) {
 	return ((a.pitch == b.pitch) && (a.roll == b.roll) && (a.yaw == b.yaw) && (a.throttle == b.throttle) && (a.aux == b.aux));
@@ -126,6 +138,9 @@ long icarus_map(long x, long in_min, long in_max, long out_min, long out_max) {
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 };
 
+float icarus_millis_to_sec(unsigned long ms) { return ((float) ms / 1000.0); };
+
+unsigned long icarus_sec_to_millis(float s) { return ((unsigned long) (s * 1000)); };
 
 
 // System Time

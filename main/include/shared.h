@@ -41,9 +41,14 @@ extern void icarus_init_shared();
 
 extern telemetry_t icarus_get_shared_telemetry();
 extern void icarus_set_shared_telemetry(telemetry_t new);
+
 extern command_t icarus_get_shared_command();
 extern void icarus_set_shared_command(command_t new);
+
 extern float icarus_get_shared_terrain();
 extern void icarus_set_shared_terrain(float new);
+
+extern float icarus_get_shared_luminosity();
+extern void icarus_set_shared_luminosity(float new);
 
 #endif //! SHARED_H

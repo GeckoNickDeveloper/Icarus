@@ -2,7 +2,6 @@
 #define SENSORS_H
 
 #include "mpu6050.h"
-//#include <mpu6050.h>
 #include <bh1750.h>
 #include <driver/i2c.h>
 
@@ -24,6 +23,8 @@ extern vector3d_t icarus_extract_gravity(vector3d_t acc);
 
 // MPU6050 Aux
 extern vector3d_t icarus_get_gyro_offset();
+extern vector3d_t icarus_get_orientation(vector3d_t orientation);
+extern vector3d_t icarus_get_gravity();
 
 // BH1750 wrapped
 extern float icarus_get_luminosity();

@@ -26,7 +26,7 @@ extern vector3d_t icarus_divide(vector3d_t a, float b);
 extern float icarus_length(vector3d_t src);
 extern vector3d_t icarus_rotate(vector3d_t source, float alpha, float beta, float gamma);
 
-//extern const vector3d_t VECTOR_ZERO = {0.0, 0.0, 0.0};
+extern vector3d_t icarus_bound(vector3d_t vec, float min, float max);
 
 // Compare
 extern bool icarus_equals_commands(command_t a, command_t b);
@@ -41,7 +41,9 @@ extern void icarus_delay(unsigned long ms);
 extern void icarus_delay_micros(unsigned long us);
 
 // Math
-long icarus_map(long x, long in_min, long in_max, long out_min, long out_max);
+extern long icarus_map(long x, long in_min, long in_max, long out_min, long out_max);
+extern float icarus_millis_to_sec(unsigned long ms);
+extern unsigned long icarus_sec_to_millis(float s);
 
 // Time
 extern void icarus_system_time_init();

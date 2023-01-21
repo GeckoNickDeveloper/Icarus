@@ -1,6 +1,5 @@
 #include "../include/sensors.h"
 #include "../include/smoother.h"
-#include "../include/dsp.h"
 #include "../include/utils.h"
 #include <math.h>
 #include <esp_log.h>
@@ -12,11 +11,6 @@
 static mpu6050_handle_t mpu6050;
 static bh1750_handle_t bh1750;
 
-// Gyro filter support
-//static vector3d_t g_lp_prev_f; // (LP)
-
-// Acc filter support
-//static vector3d_t a_lp_prev_f; // (LP)
 static vector3d_t gravity;
 
 // Offsets
@@ -49,10 +43,46 @@ vector3d_t extract_orientation(vector3d_t vec) {
 	return orientation;
 };
 
+vector3d_t init_orientation(vector3d_t vec) {
+	vector3d_t orientation = {0.0, 0.0, 0.0};
+
+	orientation.x = atan2(vec.y, vec.z);		// X-axis angle
+	orientation.y = atan2(-vec.x, sqrt((vec.y * vec.y) + (vec.z * vec.z)));// Y-axis angle
+	orientation.z = 0.0;
+
+	return orientation;
+};
+
+void init_gravity() {
+	int dt = 1.0 / CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY;
+	int dt_ms = icarus_sec_to_millis(dt);
+	unsigned long current_cycle;
+	
+	vector3d_t acc;
+	float sum = 0.0;
+	float grav;
+
+	int i;
+	
+	for (i = 0; i < CONFIG_ICARUS_SMOOTHING_THERM_SAMPLES; ++i) {
+		current_cycle = icarus_millis();
+		
+		// Start
+		sum += icarus_length(icarus_get_acceleration());
+		// End
+
+		icarus_delay(dt_ms - (icarus_millis() - current_cycle));
+	}
+
+	grav = sum / CONFIG_ICARUS_SMOOTHING_THERM_SAMPLES;
+
+	gravity = (vector3d_t) {0.0, 0.0, grav};
+};
 
 
 static void icarus_gyro_offset_init() {
-	int dt = 1000 / CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY;
+	int dt = 1.0 / CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY;
+	int dt_ms = icarus_sec_to_millis(dt);
 	unsigned long current_cycle;
 
 	vector3d_t raw;
@@ -68,17 +98,16 @@ static void icarus_gyro_offset_init() {
 	//}
 
 	// Actual evaluation
-	for (i = 0; i < CONFIG_ICARUS_THERM_SAMPLES; ++i) {
+	for (i = 0; i < CONFIG_ICARUS_SMOOTHING_THERM_SAMPLES; ++i) {
 		current_cycle = icarus_millis();
 
 		// Start
-		
 		raw = icarus_get_rotation();
 		sum = icarus_add(sum, raw);
 		//ESP_LOGW(TAG_SENSORS, "Vec [%f, %f, %f]", vec.x, vec.y, vec.z);
-		
 		// End
-		icarus_delay(dt - (icarus_millis() - current_cycle));
+
+		icarus_delay(dt_ms - (icarus_millis() - current_cycle));
 	}
 
 	// orientation
@@ -103,6 +132,7 @@ void icarus_init_sensors() {
 	mpu6050_acce_fs_t acc_scale; 
 	mpu6050_gyro_fs_t gyro_scale; 
 	mpu6050_bandwidth_t bw;
+	bh1750_measure_mode_t lux_resolution;
 
 	// acc config
 #if CONFIG_ICARUS_SENSOR_MPU6050_ACCELEROMETER_RANGE_2G
@@ -149,33 +179,45 @@ void icarus_init_sensors() {
 	bw = LOWPASS_BANDWIDTH_260;
 #endif
 
-	// Log test
-	//ESP_LOGI("CONFIG", "%d, %d, %d", acc_scale, gyro_scale, bw);
+	// BH1750 Config
+#if CONFIG_ICARUS_SENSOR_BH1750_RESOLUTION_0_5LX
+	lux_resolution = BH1750_CONTINUE_HALFLX_RES;
+#elif CONFIG_ICARUS_SENSOR_BH1750_RESOLUTION_1LX
+	lux_resolution = BH1750_CONTINUE_1LX_RES;
+#elif CONFIG_ICARUS_SENSOR_BH1750_RESOLUTION_4LX
+	lux_resolution = BH1750_CONTINUE_4LX_RES;
+#else
+	lux_resolution = BH1750_CONTINUE_1LX_RES;
+#endif
+
 
 	// MPU6050 Config
 	mpu6050 = mpu6050_create(I2C_NUM_0, MPU6050_I2C_ADDRESS);
 	error = mpu6050_wake_up(mpu6050);
 	//error = mpu6050_config(mpu6050, ACCE_FS_4G, GYRO_FS_500DPS);
-	error = mpu6050_config(mpu6050, acc_scale, gyro_scale, bw, MPU6050_HIGHPASS_RESET);
+	error = mpu6050_config(mpu6050, acc_scale, gyro_scale, bw);
 
 	// BH1750 Config
 	bh1750 = bh1750_create(I2C_NUM_0, BH1750_I2C_ADDRESS_DEFAULT);
 	error = bh1750_power_on(bh1750);
-	error = bh1750_set_measure_mode(bh1750, BH1750_CONTINUE_1LX_RES);
+	error = bh1750_set_measure_mode(bh1750, lux_resolution);
 
 	// SP04 Config
 	gpio_set_direction(CONFIG_ICARUS_SENSOR_SR04_TERRAIN_TRIGGER, GPIO_MODE_INPUT);
 	gpio_set_direction(CONFIG_ICARUS_SENSOR_SR04_TERRAIN_ECHO, GPIO_MODE_OUTPUT);
 
+
+
 	// Auxilary Init
 	icarus_gyro_offset_init();
-
-	// Low Pass Filters Init
-	//g_lp_prev_f = icarus_get_rotation();
-	//a_lp_prev_f = icarus_get_acceleration();
+	init_gravity();
 	
 	// Gravity Init
-	gravity = icarus_get_acceleration();
+	//gravity = icarus_get_acceleration();
+	telemetry_t tlm = icarus_get_shared_telemetry();
+	tlm.orientation = init_orientation(icarus_get_acceleration());
+	icarus_set_shared_telemetry(tlm);
+
 };
 
 
@@ -188,8 +230,7 @@ vector3d_t icarus_get_acceleration() {
 	acc.x = raw.acce_x;
 	acc.y = raw.acce_y;
 	acc.z = raw.acce_z;
-	acc = approx(acc, CONFIG_ICARUS_APPROXIMATION_DIGITS);
-	//ESP_LOGE(TAG_SENSORS, "Acce [%f, %f, %f]", acc.x, acc.y, acc.z);
+	acc = approx(acc, CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS);
 
 	acc = icarus_multiply(acc, G);
 
@@ -205,11 +246,11 @@ vector3d_t icarus_get_rotation() {
 	rot.y = (raw.gyro_y);
 	rot.z = (raw.gyro_z);
 	
-	rot = approx(rot, CONFIG_ICARUS_APPROXIMATION_DIGITS);
+	rot = approx(rot, CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS);
 	rot.x = deg2rad(rot.x);
 	rot.y = deg2rad(rot.y);
 	rot.z = deg2rad(rot.z);
-	rot = approx(rot, CONFIG_ICARUS_APPROXIMATION_DIGITS);
+	rot = approx(rot, CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS);
 
 	return rot;
 };
@@ -240,36 +281,10 @@ vector3d_t icarus_get_gyro_offset() {
 
 
 // MPU6050 filtered
-/*vector3d_t icarus_get_linear_rotation() {
-	vector3d_t linear;
-	
-	vector3d_t filtered;
-	vector3d_t raw;
-
-	raw = icarus_get_rotation(); // get rotation
-	
-	// filter with low pass
-	filtered = icarus_lp_filter(&g_lp_prev_f, raw, CONFIG_ICARUS_LP_CUTOFF_GYRO);
-	
-	linear = icarus_subtract(raw, gyro_offset);// remove offset
-	return linear; 
+vector3d_t icarus_get_gravity() {
+	return gravity;
 };
 
-vector3d_t icarus_get_linear_acceleration() {
-	vector3d_t linear;
-	
-	vector3d_t gravity;
-	vector3d_t raw;
-
-	raw = icarus_get_acceleration();
-
-	// filter with low pass
-	gravity = icarus_lp_filter(&a_lp_prev_f, raw, CONFIG_ICARUS_LP_CUTOFF_GYRO);
-	
-	linear = icarus_subtract(raw, gravity);
-
-	return linear;
-};*/
 vector3d_t icarus_get_linear_acceleration() {
 	vector3d_t acc;
 	vector3d_t linear;
@@ -285,9 +300,9 @@ vector3d_t icarus_get_linear_acceleration() {
 };
 
 vector3d_t icarus_extract_gravity(vector3d_t acc) {
-	float rc = 1.0 / (CONFIG_ICARUS_LP_CUTOFF_ACC * 2 * PI);
-	float dt = 1.0 / CONFIG_ICARUS_SENSOR_SAMPLING_FREQUENCY;
-	float alpha = dt / (dt + rc); // to be calculated
+	float rc = 1.0 / (0.5 * 2 * PI);
+	float dt = 1.0 / CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY;
+	float alpha = dt / (dt + rc);
 
 	gravity = icarus_add(
 		icarus_multiply(gravity, alpha),
@@ -297,12 +312,19 @@ vector3d_t icarus_extract_gravity(vector3d_t acc) {
 	return gravity;
 };
 
+vector3d_t icarus_get_orientation(vector3d_t orientation) {
+	vector3d_t res;
+	
+	res.x = acos(gravity.y / (sqrt(pow(gravity.y, 2) + pow(gravity.z, 2)))) - (PI/2);
+	res.y = acos(gravity.x / (sqrt(pow(gravity.x, 2) + pow(gravity.z, 2)))) - (PI/2);
+	res.z = orientation.z;
+
+	return res;
+};
 
 
 
 
-// TODO add timeout
-// if timeout return -1
 float icarus_get_proximity() {
 	float distance;
 

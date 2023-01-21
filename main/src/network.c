@@ -132,7 +132,7 @@ void icarus_network_setup() {
 	dte_config.uart_config.flow_control = UART_HW_FLOWCTRL_DISABLE;
 
 	// DCE Config
-	esp_modem_dce_config_t dce_config = ESP_MODEM_DCE_DEFAULT_CONFIG(CONFIG_ICARUS_APN);
+	esp_modem_dce_config_t dce_config = ESP_MODEM_DCE_DEFAULT_CONFIG(CONFIG_ICARUS_NETWORK_APN);
 
 	esp_netif_config_t netif_ppp_config = ESP_NETIF_DEFAULT_PPP();
 	esp_netif_t *esp_netif = esp_netif_new(&netif_ppp_config);

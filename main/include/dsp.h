@@ -1,11 +1,15 @@
-#ifndef DPS_H
-#define DPS_H
+#ifndef DSP_H
+#define DSP_H
 
 #include "shared.h"
-//extern float icarus_lp_filter(const float prev, const float next, const float cutoff);
-//extern float icarus_hp_filter(const float prev, const float next, const float cutoff);
+#include "utils.h"
 
-extern vector3d_t icarus_lp_filter(vector3d_t* prev, const vector3d_t next, const float cutoff);
-extern vector3d_t icarus_hp_filter(vector3d_t* prev_f, vector3d_t* prev_r, const vector3d_t next, const float cutoff);
+typedef struct {
+	vector3d_t signal;
+	float alpha;
+} dlpf_t;
 
-#endif //! DPS_H
+extern void dlpf_init(dlpf_t* lp, vector3d_t start, float cutoff, float dt);
+extern void dlpf(dlpf_t* lp, vector3d_t sample);
+
+#endif //! DSP_H
