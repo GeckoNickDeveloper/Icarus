@@ -21,8 +21,8 @@ void icarus_mqtt_callback_selector(esp_mqtt_event_handle_t event) {
 #if CONFIG_ICARUS_DEBUG_SYNC_TIME_ENABLED
 		icarus_system_time_print_now();
 #endif
-		ESP_LOGW(TAG_COMMUNICATION, "%c%c%c%c%c", cmd.pitch, cmd.roll, cmd.yaw, cmd.throttle, cmd.aux);
-		//ESP_LOGW(TAG_COMMUNICATION, "%d %d %d %d %d", cmd.pitch, cmd.roll, cmd.yaw, cmd.throttle, cmd.aux);
+		//ESP_LOGW(TAG_COMMUNICATION, "%c%c%c%c%c", cmd.pitch, cmd.roll, cmd.yaw, cmd.throttle, cmd.aux);
+		ESP_LOGW(TAG_COMMUNICATION, "%d %d %d %d %d", cmd.pitch, cmd.roll, cmd.yaw, cmd.throttle, cmd.aux);
 	}
 
 	free(topic);

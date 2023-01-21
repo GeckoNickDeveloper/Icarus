@@ -18,6 +18,7 @@ static servo_config_t servo_cfg = {
 			CONFIG_ICARUS_ACTUATOR_AILERON_DX_PIN,		// Aileron Dx	=> Roll
 			CONFIG_ICARUS_ACTUATOR_ELEVATOR_SX_PIN,		// Elevator Sx
 			CONFIG_ICARUS_ACTUATOR_ELEVATOR_DX_PIN,		// Elevator Dx	=> Pitch
+			
 			//SERVO_CH6_PIN,
 			//SERVO_CH7_PIN,
 		},
@@ -28,6 +29,7 @@ static servo_config_t servo_cfg = {
 			LEDC_CHANNEL_3,
 			LEDC_CHANNEL_4,
 			LEDC_CHANNEL_5,
+
 			//LEDC_CHANNEL_6,
 			//LEDC_CHANNEL_7,
 		},
@@ -64,12 +66,14 @@ void icarus_apply_command(const command_t prev, command_t cmd) {
 	int pitch_sx = icarus_map(cmd.pitch, 0, 255, CONFIG_ICARUS_ACTUATOR_PITCH_MIN_ANGLE, CONFIG_ICARUS_ACTUATOR_PITCH_MAX_ANGLE);
 	int pitch_dx = icarus_map(255 - cmd.pitch, 0, 255, CONFIG_ICARUS_ACTUATOR_PITCH_MIN_ANGLE, CONFIG_ICARUS_ACTUATOR_PITCH_MAX_ANGLE);
 	
+	//ESP_LOGI(TAG_ACTUATOR, "Roll angle [%d %d]", roll_sx, roll_dx);
+
 	// Aux
 	int led_flag = (cmd.aux >> 7) & 0x01;
 
 	// Engine
 	if (cmd.throttle != prev.throttle)
-		iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 0, roll_sx);
+		iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 0, throttle);
 
 	// Rudder
 	if (cmd.yaw != prev.yaw)
@@ -88,7 +92,7 @@ void icarus_apply_command(const command_t prev, command_t cmd) {
 	}
 
 	// Aux
-	if (cmd.pitch != prev.pitch) {
+	if (cmd.aux != prev.aux) {
 		gpio_set_level(CONFIG_ICARUS_ACTUATOR_LEDS_PIN, led_flag);
 	}
 };

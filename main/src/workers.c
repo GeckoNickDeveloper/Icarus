@@ -195,12 +195,13 @@ void* icarus_actuator_worker(void* args) {
 
 		if (!icarus_equals_commands(cmd, prev_cmd))
 			icarus_apply_command(prev_cmd, cmd);
-	
+
 		prev_cmd = cmd;
 		// ========== END
 		
 		// Speed limiter to stick with sample rate
 		icarus_delay(dt_ms - (icarus_millis() - current_cycle));
+		//icarus_delay(100);
 	}
 	
 	return NULL;
