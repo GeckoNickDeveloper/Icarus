@@ -16,7 +16,7 @@ void* icarus_mpu6050_worker(void* args) {
 	vector3d_t gyro;
 	telemetry_t tlm;
 
-	//ESP_LOGI(TAG_SENSORS, "LOG START");
+	ESP_LOGI(TAG_SENSORS, "LOG START");
 
 	printf("X, Y, Z\r\n%f, %f, %f\r\n", 0.0, 0.0, 0.0);
 
@@ -71,8 +71,9 @@ void* icarus_mpu6050_worker(void* args) {
 		if (((i % (CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY * 609)) == 0) && (i != 0)) // 10m logs (before)
 			ESP_LOGI(TAG_SENSORS, "LOG END");
 		else if ((i % (CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY)) == 0) { // every second
-			//ESP_LOGI(TAG_SENSORS, "Orientation [%f, %f, %f]", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), rad2deg(tlm.orientation.z));
-			//ESP_LOGW(TAG_SENSORS, "Vel [%f, %f, %f]", tlm.velocity.x, tlm.velocity.y, tlm.velocity.z);
+			ESP_LOGI(TAG_SENSORS, "Orientation [%f, %f, %f]", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), rad2deg(tlm.orientation.z));
+			ESP_LOGW(TAG_SENSORS, "Vel [%f, %f, %f]", tlm.velocity.x, tlm.velocity.y, tlm.velocity.z);
+			ESP_LOGW(TAG_SENSORS, "Pos [%f, %f, %f]", tlm.position.x, tlm.position.y, tlm.position.z);
 			//ESP_LOGE(TAG_SENSORS, "Acc [%f, %f, %f]", acc.x, acc.y, acc.z);
 			//ESP_LOGE(TAG_SENSORS, "Gravity [%f]", icarus_length(icarus_get_gravity()));
 			//vector3d_t g = icarus_get_gravity();

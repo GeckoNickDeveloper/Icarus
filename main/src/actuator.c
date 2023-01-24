@@ -40,10 +40,8 @@ static servo_config_t servo_cfg = {
 
 
 void icarus_init_actuator() {
-	ESP_LOGW(TAG_ACTUATOR, "TODO: EDIT INIT ACTUATOR");
-
 	iot_servo_init(LEDC_LOW_SPEED_MODE, &servo_cfg);
-	gpio_set_direction(CONFIG_ICARUS_ACTUATOR_LEDS_PIN, GPIO_MODE_OUTPUT);
+	gpio_set_direction(CONFIG_ICARUS_ACTUATOR_LEDS_PIN, GPIO_MODE_OUTPUT); // LEDs
 
 	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 0, 0); // Engine
 	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 1, 90); // Rudder

@@ -32,10 +32,10 @@ void app_main() {
 
 	// Thread creation
 	pthread_create(&actuator_thread, NULL, icarus_actuator_worker, NULL);
-	//pthread_create(&mpu6050_thread, NULL, icarus_mpu6050_worker, NULL);
+	pthread_create(&mpu6050_thread, NULL, icarus_mpu6050_worker, NULL);
 	pthread_create(&bh1750_thread, NULL, icarus_bh1750_worker, NULL);
-	//pthread_create(&sr04_thread, NULL, icarus_sr04_worker, NULL);
-	//pthread_create(&communication_thread, NULL, icarus_communication_worker, NULL);
+	pthread_create(&sr04_thread, NULL, icarus_sr04_worker, NULL);
+	pthread_create(&communication_thread, NULL, icarus_communication_worker, NULL);
 	//pthread_create(&pilot_thread, NULL, <placeholder_2>, NULL);
 	
 	// JOIN THREADS ?
