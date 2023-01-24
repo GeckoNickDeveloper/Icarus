@@ -43,6 +43,7 @@ void icarus_init_actuator() {
 	ESP_LOGW(TAG_ACTUATOR, "TODO: EDIT INIT ACTUATOR");
 
 	iot_servo_init(LEDC_LOW_SPEED_MODE, &servo_cfg);
+	gpio_set_direction(CONFIG_ICARUS_ACTUATOR_LEDS_PIN, GPIO_MODE_OUTPUT);
 
 	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 0, 0); // Engine
 	iot_servo_write_angle(LEDC_LOW_SPEED_MODE, 1, 90); // Rudder
@@ -57,7 +58,7 @@ void icarus_init_actuator() {
 void icarus_apply_command(const command_t prev, command_t cmd) {
 	ESP_LOGI(TAG_ACTUATOR, "Applying command: [%x %x %x %x %x]", cmd.pitch, cmd.roll, cmd.yaw, cmd.throttle, cmd.aux);
 
-	int throttle = icarus_map(cmd.throttle, 0, 255, 0, 180);
+	int throttle = icarus_map(cmd.throttle, 0, 255, 30, 180);
 	int yaw = icarus_map(cmd.yaw, 0, 255, CONFIG_ICARUS_ACTUATOR_YAW_MIN_ANGLE, CONFIG_ICARUS_ACTUATOR_YAW_MAX_ANGLE);
 
 	int roll_sx = icarus_map(cmd.roll, 0, 255, CONFIG_ICARUS_ACTUATOR_ROLL_MIN_ANGLE, CONFIG_ICARUS_ACTUATOR_ROLL_MAX_ANGLE);

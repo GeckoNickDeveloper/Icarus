@@ -37,7 +37,7 @@ void* icarus_mpu6050_worker(void* args) {
 					smooth_gyro(
 						icarus_subtract(
 							icarus_get_rotation(),
-							icarus_get_gyro_offset()
+							icarus_get_gyro_bias()
 						)
 					),
 					CONFIG_ICARUS_SMOOTHING_APPROXIMATION_DIGITS
@@ -46,6 +46,7 @@ void* icarus_mpu6050_worker(void* args) {
 		
 		// Orientation update
 		tlm.orientation = icarus_add(tlm.orientation, icarus_multiply(gyro, dt));
+		tlm.orientation = icarus_bound(tlm.orientation, 0, 2 * PI);
 		//tlm.orientation = icarus_get_orientation(tlm.orientation);
 
 		// Linear acceleration
@@ -53,29 +54,31 @@ void* icarus_mpu6050_worker(void* args) {
 		acc = icarus_subtract(acc, icarus_get_gravity());
 		
 		// Moto unif. acc.
-		tlm.velocity =	icarus_add(tlm.velocity,
-							icarus_multiply(acc, dt));	// V(t) = V + a * dt
+		tlm.position =
+			icarus_add(tlm.position,		// x(t) = x +
+				icarus_add(			
+					icarus_multiply(tlm.velocity, dt),	// V * t +
+					icarus_multiply(acc, 0.5 * dt * dt))	// 0.5 * a * t^2
+				);
 							
-		tlm.position =	icarus_add(tlm.position,		// x(t) = x +
-							icarus_add(tlm.velocity,	// V * t +
-								icarus_multiply(acc, 0.5 * dt * dt))); // 0.5 * a * t^2
+		tlm.velocity =	
+			icarus_add(tlm.velocity,
+				icarus_multiply(acc, dt));	// V(t) = V + a * dt
 
 		icarus_set_shared_telemetry(tlm);
 
 		// LOG
-		/*if (((i % (CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY * 609)) == 0) && (i != 0)) // 10m logs (before)
+		if (((i % (CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY * 609)) == 0) && (i != 0)) // 10m logs (before)
 			ESP_LOGI(TAG_SENSORS, "LOG END");
-		else*/ if ((i % (CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY)) == 0) { // every second
+		else if ((i % (CONFIG_ICARUS_SENSOR_MPU6050_SAMPLING_FREQUENCY)) == 0) { // every second
 			//ESP_LOGI(TAG_SENSORS, "Orientation [%f, %f, %f]", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), rad2deg(tlm.orientation.z));
 			//ESP_LOGW(TAG_SENSORS, "Vel [%f, %f, %f]", tlm.velocity.x, tlm.velocity.y, tlm.velocity.z);
 			//ESP_LOGE(TAG_SENSORS, "Acc [%f, %f, %f]", acc.x, acc.y, acc.z);
 			//ESP_LOGE(TAG_SENSORS, "Gravity [%f]", icarus_length(icarus_get_gravity()));
-			vector3d_t g = icarus_get_gravity();
+			//vector3d_t g = icarus_get_gravity();
 			//printf("%f, %f, %f\r\n", (tlm.orientation.x), (tlm.orientation.y), (tlm.orientation.z));
 			//printf("%f, %f, %f\r\n", rad2deg(tlm.orientation.x), rad2deg(tlm.orientation.y), rad2deg(tlm.orientation.z));
-			printf("%f, %f, %f\r\n", g.x, g.y, g.z);
 		}
-		//ESP_LOGW(TAG_SENSORS, "Gyro [%f, %f, %f]", gyro.x, gyro.y, gyro.z);*/
 
 		i++;
 
@@ -201,7 +204,6 @@ void* icarus_actuator_worker(void* args) {
 		
 		// Speed limiter to stick with sample rate
 		icarus_delay(dt_ms - (icarus_millis() - current_cycle));
-		//icarus_delay(100);
 	}
 	
 	return NULL;
