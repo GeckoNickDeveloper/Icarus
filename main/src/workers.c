@@ -187,6 +187,9 @@ void* icarus_actuator_worker(void* args) {
 	command_t prev_cmd;
 	float lux;
 
+	unsigned long t0, t1;
+	unsigned long u0, u1;
+
 	while(1) {
 		current_cycle = icarus_millis();
 
@@ -197,8 +200,12 @@ void* icarus_actuator_worker(void* args) {
 		if (lux < CONFIG_ICARUS_ACTUATOR_LIGHT_OVERRIDE_VALUE)
 			cmd.aux |= 0x80; // LEDs flag override
 
-		if (!icarus_equals_commands(cmd, prev_cmd))
+		if (!icarus_equals_commands(cmd, prev_cmd)) {
+			u0 = icarus_micros();
 			icarus_apply_command(prev_cmd, cmd);
+			u1 = icarus_micros();
+			printf("AT - %ld\r\n", u1 - u0);
+		}
 
 		prev_cmd = cmd;
 		// ========== END

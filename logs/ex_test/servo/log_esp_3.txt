@@ -1,0 +1,598 @@
+I (51520) Icarus MQTT: MQTT_EVENT_DATA
+I (51520) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:27:30.607688
+W (51520) Icarus Communication:
+I (52560) Icarus MQTT: MQTT_EVENT_DATA
+I (52560) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:27:31.651815
+I (52570) Icarus Actuator: Applying command: [0 0 ff 0 80]
+W (52570) Icarus Communication: �
+AT - 10150
+I (54700) Icarus MQTT: MQTT_EVENT_DATA
+I (54700) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:27:33.787927
+W (54700) Icarus Communication:
+I (54770) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 767
+I (56840) Icarus MQTT: MQTT_EVENT_DATA
+I (56840) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:27:35.928829
+W (56840) Icarus Communication: �
+I (56870) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 808
+I (58960) Icarus MQTT: MQTT_EVENT_DATA
+I (58960) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:27:38.047489
+W (58960) Icarus Communication:
+I (58970) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 7638
+I (61080) Icarus MQTT: MQTT_EVENT_DATA
+I (61080) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:27:40.170514
+W (61090) Icarus Communication: �
+I (61170) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 808
+I (63180) Icarus MQTT: MQTT_EVENT_DATA
+I (63180) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:27:42.271041
+W (63190) Icarus Communication:
+I (63270) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 796
+I (65320) Icarus MQTT: MQTT_EVENT_DATA
+I (65320) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:27:44.407624
+W (65320) Icarus Communication: �
+I (65370) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 696
+I (67440) Icarus MQTT: MQTT_EVENT_DATA
+I (67440) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:27:46.530796
+W (67450) Icarus Communication: 
+I (67470) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 799
+I (69640) Icarus MQTT: MQTT_EVENT_DATA
+I (69640) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:27:48.727448
+W (69640) Icarus Communication: �
+I (69670) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 784
+I (71680) Icarus MQTT: MQTT_EVENT_DATA
+I (71680) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:27:50.767674
+W (71680) Icarus Communication:
+I (71770) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 796
+I (73820) Icarus MQTT: MQTT_EVENT_DATA
+I (73820) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:27:52.909038
+W (73820) Icarus Communication: �
+I (73870) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 696
+I (75940) Icarus MQTT: MQTT_EVENT_DATA
+I (75940) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:27:55.027645
+W (75940) Icarus Communication:
+I (75970) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 799
+I (78080) Icarus MQTT: MQTT_EVENT_DATA
+I (78080) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:27:57.169089
+W (78080) Icarus Communication: �
+I (78170) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 784
+I (80180) Icarus MQTT: MQTT_EVENT_DATA
+I (80180) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:27:59.269210
+W (80180) Icarus Communication:
+I (80270) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 796
+I (82380) Icarus MQTT: MQTT_EVENT_DATA
+I (82380) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:01.470634
+W (82390) Icarus Communication: �
+I (82470) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 741
+I (87860) Icarus MQTT: MQTT_EVENT_DATA
+I (87860) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:06.950978
+I (87870) Icarus Actuator: Applying command: [0 0 0 0 80]
+W (87870) Icarus Communication:
+AT - 10138
+I (87880) Icarus MQTT: MQTT_EVENT_DATA
+I (87880) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:06.974823
+W (87890) Icarus Communication: �
+I (87970) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 526
+I (88800) Icarus MQTT: MQTT_EVENT_DATA
+I (88800) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:07.892249
+W (88810) Icarus Communication:
+I (88870) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 596
+I (90940) Icarus MQTT: MQTT_EVENT_DATA
+I (90940) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:10.027433
+W (90940) Icarus Communication: �
+I (90970) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 804
+I (93100) Icarus MQTT: MQTT_EVENT_DATA
+I (93100) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:12.188101
+W (93100) Icarus Communication:
+I (93170) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 759
+I (95200) Icarus MQTT: MQTT_EVENT_DATA
+I (95200) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:14.287852
+W (95200) Icarus Communication: �
+I (95270) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 804
+I (97300) Icarus MQTT: MQTT_EVENT_DATA
+I (97300) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:16.388990
+W (97300) Icarus Communication:
+I (97370) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 903
+I (99420) Icarus MQTT: MQTT_EVENT_DATA
+I (99430) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:18.512420
+W (99430) Icarus Communication: �
+I (99470) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 808
+I (101540) Icarus MQTT: MQTT_EVENT_DATA
+I (101540) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:20.629523
+W (101540) Icarus Communication:
+I (101570) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 697
+I (103700) Icarus MQTT: MQTT_EVENT_DATA
+I (103700) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:22.789780
+W (103700) Icarus Communication: �
+I (103770) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 810
+I (105800) Icarus MQTT: MQTT_EVENT_DATA
+I (105800) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:24.889527
+W (105800) Icarus Communication:
+I (105870) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 793
+I (107900) Icarus MQTT: MQTT_EVENT_DATA
+I (107900) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:26.989893
+W (107900) Icarus Communication: �
+I (107970) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 806
+I (110020) Icarus MQTT: MQTT_EVENT_DATA
+I (110020) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:29.107997
+W (110020) Icarus Communication: 
+I (110070) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 697
+I (112160) Icarus MQTT: MQTT_EVENT_DATA
+I (112160) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:31.249527
+W (112160) Icarus Communication: �
+I (112170) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 10098
+I (114280) Icarus MQTT: MQTT_EVENT_DATA
+I (114280) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:33.368020
+W (114280) Icarus Communication:
+I (114370) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 793
+I (116420) Icarus MQTT: MQTT_EVENT_DATA
+I (116420) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:35.509597
+W (116420) Icarus Communication: �
+I (116470) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 806
+I (118540) Icarus MQTT: MQTT_EVENT_DATA
+I (118540) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:37.628059
+W (118540) Icarus Communication:
+I (118570) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 697
+I (120660) Icarus MQTT: MQTT_EVENT_DATA
+I (120670) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:39.752524
+W (120670) Icarus Communication: �
+I (120770) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 802
+I (122780) Icarus MQTT: MQTT_EVENT_DATA
+I (122780) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:41.869760
+W (122780) Icarus Communication:
+I (122870) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 697
+I (124900) Icarus MQTT: MQTT_EVENT_DATA
+I (124900) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:43.988523
+W (124900) Icarus Communication: �
+I (124970) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 806
+I (127040) Icarus MQTT: MQTT_EVENT_DATA
+I (127040) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:46.129753
+W (127040) Icarus Communication:
+I (127070) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 697
+I (129200) Icarus MQTT: MQTT_EVENT_DATA
+I (129200) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:48.289816
+W (129200) Icarus Communication: �
+I (129270) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 810
+I (131290) Icarus MQTT: MQTT_EVENT_DATA
+I (131290) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:50.372755
+W (131290) Icarus Communication:
+I (131370) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 793
+I (133400) Icarus MQTT: MQTT_EVENT_DATA
+I (133400) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:52.489686
+W (133400) Icarus Communication: �
+I (133470) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 806
+I (135560) Icarus MQTT: MQTT_EVENT_DATA
+I (135560) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:54.649833
+W (135560) Icarus Communication:
+I (135570) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 10318
+I (137660) Icarus MQTT: MQTT_EVENT_DATA
+I (137660) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:56.749727
+W (137660) Icarus Communication: �
+I (137670) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 10294
+I (139860) Icarus MQTT: MQTT_EVENT_DATA
+I (139870) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:28:58.952773
+W (139870) Icarus Communication:
+I (139870) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 5367
+I (141920) Icarus MQTT: MQTT_EVENT_DATA
+I (141920) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:01.010284
+W (141930) Icarus Communication: �
+I (141970) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 818
+I (144020) Icarus MQTT: MQTT_EVENT_DATA
+I (144020) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:03.109843
+W (144020) Icarus Communication:
+I (144070) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 701
+I (146180) Icarus MQTT: MQTT_EVENT_DATA
+I (146180) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:05.269919
+W (146180) Icarus Communication: �
+I (146270) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 802
+I (148280) Icarus MQTT: MQTT_EVENT_DATA
+I (148280) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:07.369800
+W (148280) Icarus Communication:
+I (148370) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 701
+I (150460) Icarus MQTT: MQTT_EVENT_DATA
+I (150460) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:09.548375
+W (150460) Icarus Communication: �
+I (150470) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 8954
+I (152660) Icarus MQTT: MQTT_EVENT_DATA
+I (152660) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:11.749746
+W (152660) Icarus Communication:
+I (152670) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 10238
+I (154690) Icarus MQTT: MQTT_EVENT_DATA
+I (154690) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:13.773128
+W (154690) Icarus Communication: �
+I (154770) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 802
+I (156780) Icarus MQTT: MQTT_EVENT_DATA
+I (156780) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:15.871999
+W (156790) Icarus Communication:
+I (156870) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 889
+I (158900) Icarus MQTT: MQTT_EVENT_DATA
+I (158900) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:17.989790
+W (158900) Icarus Communication: �
+I (158970) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 830
+I (161040) Icarus MQTT: MQTT_EVENT_DATA
+I (161040) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:20.131532
+W (161050) Icarus Communication:
+I (161070) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 697
+I (163160) Icarus MQTT: MQTT_EVENT_DATA
+I (163160) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:22.250093
+W (163160) Icarus Communication: �
+I (163170) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 10664
+I (165310) Icarus MQTT: MQTT_EVENT_DATA
+I (165310) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:24.393380
+W (165310) Icarus Communication:
+I (165370) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 503
+I (167440) Icarus MQTT: MQTT_EVENT_DATA
+I (167440) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:26.528217
+W (167440) Icarus Communication: �
+I (167470) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 822
+I (169640) Icarus MQTT: MQTT_EVENT_DATA
+I (169640) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:28.729900
+W (169640) Icarus Communication:
+I (169670) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 693
+I (171800) Icarus MQTT: MQTT_EVENT_DATA
+I (171800) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:30.891680
+W (171810) Icarus Communication: �
+I (171870) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 814
+I (173830) Icarus MQTT: MQTT_EVENT_DATA
+I (173830) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:32.914168
+W (173830) Icarus Communication:
+I (173870) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 793
+I (175940) Icarus MQTT: MQTT_EVENT_DATA
+I (175940) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:35.031242
+W (175950) Icarus Communication: �
+I (175970) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 810
+I (178060) Icarus MQTT: MQTT_EVENT_DATA
+I (178060) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:37.149769
+W (178060) Icarus Communication:
+I (178070) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 10249
+I (180310) Icarus MQTT: MQTT_EVENT_DATA
+I (180310) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:39.394549
+W (180310) Icarus Communication: �
+I (180370) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 814
+I (182420) Icarus MQTT: MQTT_EVENT_DATA
+I (182420) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:41.511275
+W (182430) Icarus Communication:
+I (182470) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 797
+I (184520) Icarus MQTT: MQTT_EVENT_DATA
+I (184520) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:43.611272
+W (184530) Icarus Communication: �
+I (184570) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 706
+I (186640) Icarus MQTT: MQTT_EVENT_DATA
+I (186640) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:45.729799
+W (186640) Icarus Communication:
+I (186670) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 801
+I (188740) Icarus MQTT: MQTT_EVENT_DATA
+I (188740) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:47.829847
+W (188740) Icarus Communication: �
+I (188770) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 806
+I (190900) Icarus MQTT: MQTT_EVENT_DATA
+I (190900) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:49.990222
+W (190910) Icarus Communication:
+I (190970) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 797
+I (193060) Icarus MQTT: MQTT_EVENT_DATA
+I (193060) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:52.149850
+W (193060) Icarus Communication: �
+I (193070) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 10413
+I (195140) Icarus MQTT: MQTT_EVENT_DATA
+I (195140) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:54.231434
+W (195150) Icarus Communication:
+I (195170) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 801
+I (197260) Icarus MQTT: MQTT_EVENT_DATA
+I (197260) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:56.349850
+W (197260) Icarus Communication: �
+I (197270) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 10433
+I (199460) Icarus MQTT: MQTT_EVENT_DATA
+I (199460) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:29:58.551370
+I (199470) Icarus Actuator: Applying command: [0 0 0 0 80]
+W (199470) Icarus Communication:
+AT - 10118
+I (201500) Icarus MQTT: MQTT_EVENT_DATA
+I (201500) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:00.592340
+W (201510) Icarus Communication: �
+I (201570) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 449
+I (203620) Icarus MQTT: MQTT_EVENT_DATA
+I (203620) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:02.710240
+W (203620) Icarus Communication:
+I (203670) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 805
+I (205750) Icarus MQTT: MQTT_EVENT_DATA
+I (205750) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:04.834989
+W (205750) Icarus Communication: �
+I (205770) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 507
+I (207860) Icarus MQTT: MQTT_EVENT_DATA
+I (207860) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:06.951445
+I (207870) Icarus Actuator: Applying command: [0 0 0 0 80]
+W (207870) Icarus Communication:
+AT - 10126
+I (210010) Icarus MQTT: MQTT_EVENT_DATA
+I (210010) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:09.093162
+W (210010) Icarus Communication: �
+I (210070) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 802
+I (212120) Icarus MQTT: MQTT_EVENT_DATA
+I (212120) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:11.211467
+W (212130) Icarus Communication:
+I (212170) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 797
+I (214280) Icarus MQTT: MQTT_EVENT_DATA
+I (214280) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:13.371576
+W (214290) Icarus Communication: �
+I (214370) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 810
+I (216520) Icarus MQTT: MQTT_EVENT_DATA
+I (216520) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:15.610292
+W (216530) Icarus Communication:
+I (216570) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 797
+I (218520) Icarus MQTT: MQTT_EVENT_DATA
+I (218530) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:17.612555
+W (218530) Icarus Communication: �
+I (218570) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 917
+I (220660) Icarus MQTT: MQTT_EVENT_DATA
+I (220660) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:19.750109
+W (220660) Icarus Communication:
+I (220670) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 10582
+I (222800) Icarus MQTT: MQTT_EVENT_DATA
+I (222800) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:21.891674
+W (222810) Icarus Communication: �
+I (222870) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 826
+I (224960) Icarus MQTT: MQTT_EVENT_DATA
+I (224960) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:24.052194
+W (224970) Icarus Communication:
+I (224970) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 5388
+I (227120) Icarus MQTT: MQTT_EVENT_DATA
+I (227120) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:26.212083
+W (227130) Icarus Communication: �
+I (227170) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 814
+I (229220) Icarus MQTT: MQTT_EVENT_DATA
+I (229220) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:28.312118
+W (229230) Icarus Communication:
+I (229270) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 428
+I (231380) Icarus MQTT: MQTT_EVENT_DATA
+I (231380) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:30.472338
+W (231390) Icarus Communication: �
+I (231470) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 814
+I (233470) Icarus MQTT: MQTT_EVENT_DATA
+I (233470) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:32.553375
+W (233470) Icarus Communication:
+I (233570) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 698
+I (235630) Icarus MQTT: MQTT_EVENT_DATA
+I (235630) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:34.713586
+W (235630) Icarus Communication: �
+I (235670) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 806
+I (237760) Icarus MQTT: MQTT_EVENT_DATA
+I (237760) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:36.850289
+W (237770) Icarus Communication:
+I (237770) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 10788
+I (239890) Icarus MQTT: MQTT_EVENT_DATA
+I (239890) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:38.974778
+W (239890) Icarus Communication: �
+I (239970) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 802
+I (242000) Icarus MQTT: MQTT_EVENT_DATA
+I (242000) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:41.091916
+W (242010) Icarus Communication:
+I (242070) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 701
+I (244120) Icarus MQTT: MQTT_EVENT_DATA
+I (244120) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:43.210573
+W (244130) Icarus Communication: �
+I (244170) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 806
+I (246220) Icarus MQTT: MQTT_EVENT_DATA
+I (246220) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:45.310352
+W (246230) Icarus Communication:
+I (246270) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 805
+I (248360) Icarus MQTT: MQTT_EVENT_DATA
+I (248360) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:47.451949
+I (248370) Icarus Actuator: Applying command: [0 0 ff 0 80]
+W (248370) Icarus Communication: �
+AT - 10097
+I (250480) Icarus MQTT: MQTT_EVENT_DATA
+I (250480) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:49.570506
+W (250490) Icarus Communication:
+I (250570) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 801
+I (252670) Icarus MQTT: MQTT_EVENT_DATA
+I (252670) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:51.753524
+W (252670) Icarus Communication: �
+I (252770) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 798
+I (254770) Icarus MQTT: MQTT_EVENT_DATA
+I (254770) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:53.854915
+W (254770) Icarus Communication: 
+I (254870) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 698
+I (256930) Icarus MQTT: MQTT_EVENT_DATA
+I (256930) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:56.014153
+W (256930) Icarus Communication: �
+I (256970) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 802
+I (259030) Icarus MQTT: MQTT_EVENT_DATA
+I (259030) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:30:58.113504
+W (259030) Icarus Communication:
+I (259070) Icarus Actuator: Applying command: [0 0 0 0 80]
+AT - 701
+I (261140) Icarus MQTT: MQTT_EVENT_DATA
+I (261140) Icarus Communication: Topic [/icarus/command]
+Now: 2023-01-25 19:31:00.231928
+W (261150) Icarus Communication: �
+I (261170) Icarus Actuator: Applying command: [0 0 ff 0 80]
+AT - 806
